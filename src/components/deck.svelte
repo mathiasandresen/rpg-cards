@@ -3,7 +3,8 @@
   import type Card from '../model/card';
   import { currentCard, deck } from '../stores';
 
-  const cards: Card[] = $deck;
+  let cards: Card[];
+  $: cards = $deck;
 
   const handleClick = (index: number) => {
     currentCard.set(index);

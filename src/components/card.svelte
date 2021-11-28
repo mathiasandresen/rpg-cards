@@ -32,8 +32,6 @@
 	}
 
 	.rpg-card {
-		// background-color: rgb(230, 114, 114);
-
 		display: flex;
 		flex-direction: column;
 		// gap: 0.2rem;
