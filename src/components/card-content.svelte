@@ -41,7 +41,7 @@
   }
 
   .section {
-    background-color: red;
+    background-color: var(--card-color);
     display: flex;
     place-content: center;
     place-items: center;
@@ -65,17 +65,14 @@
       display: inline;
       padding: unset;
       line-height: 2px;
+      margin-left: 0.3em;
     }
 
     h4 {
+      font-weight: bold;
       display: inline;
       font-size: 1em;
       margin: 0;
-    }
-
-    :first-child {
-      font-weight: bold;
-      margin-right: 0.3em;
     }
 
     :global + .property {
@@ -84,7 +81,7 @@
   }
 
   .rule {
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid var(--card-color);
     margin-bottom: 0.2em;
     margin-left: -2px;
     margin-right: -2px;
