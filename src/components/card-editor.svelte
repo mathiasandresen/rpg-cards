@@ -1,28 +1,45 @@
 <script lang="ts">
-  import { Form, FormGroup, Input, InputGroup, InputGroupText, Label, Row } from 'sveltestrap';
+  import {
+    Button,
+    Form,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupText,
+    Label,
+    Row
+  } from 'sveltestrap';
   import type { InputType } from 'sveltestrap/src/Input';
+  import { parseCardContents } from '../lib/card-json-parser';
   import type { CardContentType } from '../model/card';
   import type Card from '../model/card';
   import { currentCard, deck } from '../stores';
   import CardEditorContentInput from './card-editor-content-input.svelte';
 
   let card = $deck[$currentCard];
-  $: card = $deck[$currentCard];
 
   const updateDeck = (card: Card) => {
     $deck[$currentCard] = card;
+
+    textFieldContent = card?.contents
+      ?.map((content) => [content.type, content.content]?.join(' | '))
+      ?.join('\n');
   };
 
+  let contentEditorMode: 'individual' | 'textfield' = 'individual';
+  let textFieldContent: string;
+
+  const updateCardContents = (cardContentsString: string) => {
+    try {
+      card.contents = parseCardContents(cardContentsString?.split('\n')) ?? card.contents;
+    } catch (error) {}
+  };
+
+  $: updateCardContents(textFieldContent);
+  $: card = $deck[$currentCard];
   $: updateDeck(card);
 
-  const getContentInputType = (type: CardContentType): InputType => {
-    switch (type) {
-      case 'text':
-        return 'textarea';
-      default:
-        return 'text';
-    }
-  };
+  // $: console.log(contentEditorMode);
 </script>
 
 <Form>
@@ -76,11 +93,30 @@
   </FormGroup>
 
   <FormGroup row>
-    <Label class="col-sm-3 col-form-label" for="contents">Contents</Label>
+    <Label class="col-sm-3 col-form-label" for="content-editor-type">Contents</Label>
     <div class="col">
-      {#each card.contents as content}
-        <CardEditorContentInput {content} />
-      {/each}
+      <Input
+        type="select"
+        id="content-editor-type"
+        name="content-editor-type"
+        bind:value={contentEditorMode}
+        on:change={() => console.log(contentEditorMode)}
+      >
+        <option value="individual">Individual mode</option>
+        <option value="textfield">Textfield mode</option>
+      </Input>
+    </div>
+  </FormGroup>
+  <FormGroup row>
+    <span class="col-sm-3" />
+    <div class="col">
+      {#if contentEditorMode === 'individual'}
+        {#each card.contents as content}
+          <CardEditorContentInput bind:content />
+        {/each}
+      {:else}
+        <Input type="textarea" class="content-editor-textarea" bind:value={textFieldContent} />
+      {/if}
     </div>
   </FormGroup>
 </Form>
@@ -95,5 +131,9 @@
   .input-group-text-content {
     min-width: 4em;
     text-align: start;
+  }
+
+  :global(.content-editor-textarea) {
+    height: 20em;
   }
 </style>

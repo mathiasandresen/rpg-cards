@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Input, InputGroup, InputGroupText } from 'sveltestrap';
+  import { Button, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
 
   import type { CardContent } from '../model/card';
 
@@ -36,6 +36,7 @@
       bind:value={content.content}
       placeholder=""
     />
+
   </InputGroup>
 {/if}
 
