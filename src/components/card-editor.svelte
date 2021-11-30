@@ -118,10 +118,10 @@
   </FormGroup>
   <FormGroup row>
     {#if contentEditorMode === 'individual'}
-      {#each card.contents as content, index}
+      {#each card.contents as content}
         <span class="content-list-item" draggable="true">
           <div class="input-wrapper">
-            <CardEditorContentInput bind:content {index} />
+            <CardEditorContentInput bind:content />
           </div>
         </span>
       {/each}
