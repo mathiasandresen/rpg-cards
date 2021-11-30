@@ -8,6 +8,7 @@ export default interface Card {
     icon_back: string;
     contents: CardContent[];
     tags: string[];
+    layout?: CardLayout;
 }
 
 export interface CardContent {
@@ -31,7 +32,21 @@ const cardContentTypes = [
 
 export type CardContentType = typeof cardContentTypes[number];
 
+export function getCardContentType(content: string): CardContentType {
+    const [type] = content.split(' | ');
+
+    if (isCardContentType(type)) {
+        return type;
+    }
+
+    return undefined;
+}
 
 export function isCardContentType(x: string): x is CardContentType {
     return cardContentTypes.some(t => t === x);
+}
+
+export interface CardLayout {
+    base_font_size?: string;
+    text_font_size?: string;
 }

@@ -1,17 +1,23 @@
 <script lang="ts">
-  import { Button, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
+  import { Button, ButtonGroup, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
+  import { SPLIT_REGEX } from '../lib/constants';
 
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
 
-  let splitContent = content.content.split(' | ');
+  let splitContent = content.content.split(SPLIT_REGEX);
 </script>
 
-{#if content.type === 'rule'}
-  <Input class="mb-1" disabled value="rule" />
+{#if content.type === 'rule' || content.type === 'fill'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input disabled />
+  </InputGroup>
 {:else if content.type === 'property'}
-  <InputGroup class="mb-1">
+  <InputGroup>
     <InputGroupText>
       <span class="input-group-text-content">{content.type}</span>
     </InputGroupText>
@@ -25,7 +31,7 @@
     {/each}
   </InputGroup>
 {:else}
-  <InputGroup class="mb-1">
+  <InputGroup>
     <InputGroupText>
       <span class="input-group-text-content">{content.type}</span>
     </InputGroupText>
@@ -36,9 +42,13 @@
       bind:value={content.content}
       placeholder=""
     />
-
   </InputGroup>
 {/if}
+<ButtonGroup>
+  <Button size="sm" color="danger">
+    <Icon name="trash" />
+  </Button>
+</ButtonGroup>
 
 <style lang="scss">
   .input-group-text-content {

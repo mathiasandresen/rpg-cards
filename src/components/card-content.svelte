@@ -1,29 +1,60 @@
 <script lang="ts">
+  import { SPLIT_REGEX } from '../lib/constants';
+
   import type { CardContent } from '../model/card';
+  import Dndstats from './dndstats.svelte';
 
   export let content: CardContent;
+
+  const getBoxSize = (content: CardContent): number => {
+    return Number.parseFloat(content.content.split(SPLIT_REGEX)[1]) || 1;
+  };
+
+  const getBoxAmount = (content: CardContent): number => {
+    return Number.parseInt(content.content.split(SPLIT_REGEX)[0], 10) || 1;
+  };
 </script>
 
 {#if content?.type === 'subtitle'}
-  <h2>{content.content}</h2>
+  <h2>{@html content.content}</h2>
 {:else if content?.type === 'rule'}
   <div class="rule" />
+{:else if content?.type === 'fill'}
+  <div class="fill" />
+{:else if content?.type === 'boxes'}
+  <div class="boxes">
+    {#each Array(getBoxAmount(content)) as _}
+      <div class="box" style="width: {getBoxSize(content)}em; height: {getBoxSize(content)}em;" />
+    {/each}
+  </div>
 {:else if content?.type === 'section'}
-  <h3 class="section">{content.content}</h3>
+  <h3 class="section">{@html content.content}</h3>
 {:else if content?.type === 'property'}
   <span class="property">
     {#each content.content.split(' | ') as element, index}
       {#if index === 0}
-        <h4>{element}</h4>
+        <h4>{@html element}</h4>
       {:else}
-        <p>{element}</p>
+        <p>{@html element}</p>
       {/if}
     {/each}
   </span>
+{:else if content?.type === 'description'}
+  <span class="description">
+    {#each content.content.split(' | ') as element, index}
+      {#if index === 0}
+        <h4>{@html element}</h4>
+      {:else}
+        <p>{@html element}</p>
+      {/if}
+    {/each}
+  </span>
+{:else if content?.type === 'dndstats'}
+  <Dndstats {content} />
 {:else if content?.type === 'text'}
-  <p class="text">{content.content}</p>
+  <p class="text">{@html content.content}</p>
 {:else}
-  <p>{content.content}</p>
+  <p>{@html content.content}</p>
 {/if}
 
 <style lang="scss">
@@ -75,7 +106,33 @@
       margin: 0;
     }
 
-    :global + .property {
+    :global + .property,
+    :global + .description {
+      margin-top: -0.25em;
+    }
+  }
+  .description {
+    display: block;
+    margin-bottom: 0.2em;
+    padding: 0 0.5em;
+    line-height: 1em;
+
+    p {
+      display: inline;
+      padding: unset;
+      line-height: 2px;
+      margin-left: 0.3em;
+    }
+
+    h4 {
+      font-weight: bold;
+      font-style: italic;
+      display: inline;
+      font-size: 1em;
+      margin: 0;
+    }
+    :global + .property,
+    :global + .description {
       margin-top: -0.25em;
     }
   }
@@ -88,6 +145,21 @@
   }
 
   .text {
-    font-size: 1em;
+    font-size: var(--card-text-size);
+  }
+
+  .fill {
+    flex: 1;
+  }
+
+  .boxes {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 0.5em;
+    gap: 0.5em;
+
+    .box {
+      border: 0.35em solid var(--card-color);
+    }
   }
 </style>

@@ -5,7 +5,10 @@
   export let card: Card;
 </script>
 
-<div class="rpg-card-wrapper" style="--card-color: {card.color}">
+<div
+  class="rpg-card-wrapper"
+  style="--card-color: {card.color}; --card-text-size: {card.layout?.text_font_size ?? '10px'}"
+>
   <div class="rpg-card">
     <h1>{card.title}</h1>
     {#each card.contents as content}

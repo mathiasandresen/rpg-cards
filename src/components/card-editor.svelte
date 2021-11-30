@@ -1,33 +1,26 @@
 <script lang="ts">
-  import {
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupText,
-    Label,
-    Row
-  } from 'sveltestrap';
-  import type { InputType } from 'sveltestrap/src/Input';
+  import { Form, FormGroup, Input, InputGroup, InputGroupText, Label } from 'sveltestrap';
   import { parseCardContents } from '../lib/card-json-parser';
-  import type { CardContentType } from '../model/card';
+  import type { CardContent } from '../model/card';
   import type Card from '../model/card';
   import { currentCard, deck } from '../stores';
   import CardEditorContentInput from './card-editor-content-input.svelte';
 
-  let card = $deck[$currentCard];
+  const getContentAsString = (contents: CardContent[]): string => {
+    return contents
+      ?.map((content) =>
+        (content.content ? [content.type, content.content] : [content.type])?.join(' | ')
+      )
+      ?.join('\n');
+  };
 
   const updateDeck = (card: Card) => {
     $deck[$currentCard] = card;
 
-    textFieldContent = card?.contents
-      ?.map((content) => [content.type, content.content]?.join(' | '))
-      ?.join('\n');
+    if (contentEditorMode !== 'textfield') {
+      textFieldContent = getContentAsString(card.contents);
+    }
   };
-
-  let contentEditorMode: 'individual' | 'textfield' = 'individual';
-  let textFieldContent: string;
 
   const updateCardContents = (cardContentsString: string) => {
     try {
@@ -35,11 +28,15 @@
     } catch (error) {}
   };
 
-  $: updateCardContents(textFieldContent);
-  $: card = $deck[$currentCard];
-  $: updateDeck(card);
+  let card: Card = $deck[$currentCard];
+  let contentEditorMode: 'individual' | 'textfield' = 'textfield';
+  let textFieldContent: string = getContentAsString(card?.contents);
 
-  // $: console.log(contentEditorMode);
+  $: updateCardContents(textFieldContent);
+  $: {
+    card = $deck[$currentCard];
+  }
+  $: updateDeck(card);
 </script>
 
 <Form>
@@ -93,6 +90,19 @@
   </FormGroup>
 
   <FormGroup row>
+    <Label class="col-sm-3 col-form-label" for="text-font-size">Text font size</Label>
+    <div class="col">
+      <Input
+        type="text"
+        name="text-font-size"
+        id="text-font-size"
+        bind:value={card.layout.text_font_size}
+        placeholder="10px"
+      />
+    </div>
+  </FormGroup>
+
+  <FormGroup row>
     <Label class="col-sm-3 col-form-label" for="content-editor-type">Contents</Label>
     <div class="col">
       <Input
@@ -100,7 +110,6 @@
         id="content-editor-type"
         name="content-editor-type"
         bind:value={contentEditorMode}
-        on:change={() => console.log(contentEditorMode)}
       >
         <option value="individual">Individual mode</option>
         <option value="textfield">Textfield mode</option>
@@ -108,16 +117,19 @@
     </div>
   </FormGroup>
   <FormGroup row>
-    <span class="col-sm-3" />
-    <div class="col">
-      {#if contentEditorMode === 'individual'}
-        {#each card.contents as content}
-          <CardEditorContentInput bind:content />
-        {/each}
-      {:else}
+    {#if contentEditorMode === 'individual'}
+      {#each card.contents as content, index}
+        <span class="content-list-item" draggable="true">
+          <div class="input-wrapper">
+            <CardEditorContentInput bind:content {index} />
+          </div>
+        </span>
+      {/each}
+    {:else}
+      <div>
         <Input type="textarea" class="content-editor-textarea" bind:value={textFieldContent} />
-      {/if}
-    </div>
+      </div>
+    {/if}
   </FormGroup>
 </Form>
 
@@ -127,13 +139,14 @@
     height: 1.5rem;
     cursor: pointer;
   }
-
-  .input-group-text-content {
-    min-width: 4em;
-    text-align: start;
-  }
-
   :global(.content-editor-textarea) {
     height: 20em;
+  }
+
+  .input-wrapper {
+    display: flex;
+    margin-bottom: 0.25em;
+    gap: 0.5em;
+    align-items: center;
   }
 </style>

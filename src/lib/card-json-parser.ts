@@ -1,9 +1,16 @@
 import { isCardContentType } from "../model/card";
 import type Card from "../model/card";
 import type { CardContent } from "../model/card";
+import { SPLIT_REGEX } from "./constants";
 
 export function parseCard(json: string): Card {
-    return JSON.parse(json, transformer);
+    const card = JSON.parse(json, transformer) as Card;
+
+    if (!card.layout) {
+        card.layout = {};
+    }
+
+    return card;
 }
 
 function transformer(key: string, value: any) {
@@ -19,10 +26,12 @@ export function parseCardContents(value: string[]): CardContent[] {
     const subtitleToSectionList: number[] = [];
 
     const mapped: CardContent[] = value?.map((element: string, index: number) => {
-        const [type, ...content] = element.split(" | ");
+        // eslint-disable-next-line prefer-const
+        let [type, ...content] = element.split(SPLIT_REGEX);
 
         if (!isCardContentType(type)) {
-            throw new CardContentError(`'${type}' is not a valid content type`)
+            // throw new CardContentError(`'${type}' is not a valid content type`)
+            type = 'text';
         }
 
         if (type === "subtitle") {
