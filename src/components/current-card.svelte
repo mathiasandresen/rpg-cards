@@ -8,4 +8,6 @@
   $: card = $deck[$currentCard];
 </script>
 
-<CardComponent {card} />
+{#if card}
+  <CardComponent {card} />
+{/if}

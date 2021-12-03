@@ -6,11 +6,15 @@ function createDeck() {
 
   return {
     subscribe,
-    addCard: (card: Card) => update(deck => {
-      deck.push(card)
-      return deck;
-    }),
-    removeCard: (index: number) => update(deck => deck.splice(index, 1)),
+    addCard: (card: Card) => {
+      let index = -1;
+      update(deck => {
+        index = deck.length;
+        return [...deck, card];
+      })
+      return index;
+    },
+    removeCard: (index: number) => update(deck => deck.filter((_, i) => i !== index)),
     set,
   }
 }

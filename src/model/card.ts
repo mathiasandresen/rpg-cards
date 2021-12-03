@@ -11,6 +11,19 @@ export default interface Card {
     layout?: CardLayout;
 }
 
+export const createNewCard = (): Card => {
+    return {
+        color: "#4a6898",
+        contents: [],
+        count: 1, 
+        icon: "magic-swirl",
+        icon_back: "magic-swirl",
+        tags: [],
+        title: "New Card",
+        layout: {},
+    };
+}
+
 export interface CardContent {
     type: CardContentType;
     content: string;
