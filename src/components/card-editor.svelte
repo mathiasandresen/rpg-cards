@@ -22,6 +22,16 @@
     }
   };
 
+  const onCurrentCardChanged = () => {
+    if ($currentCard === -1) {
+      card = undefined;
+      return 
+    }
+
+    card = $deck[$currentCard];
+    textFieldContent = getContentAsString(card.contents);
+  }
+
   const updateCardContents = (cardContentsString: string) => {
     try {
       card.contents = parseCardContents(cardContentsString?.split('\n')) ?? card.contents;
@@ -33,13 +43,7 @@
   let textFieldContent: string = getContentAsString(card?.contents);
 
   $: updateCardContents(textFieldContent);
-  $: {
-    if ($currentCard === -1) {
-      card = undefined;
-    } else {
-      card = $deck[$currentCard];
-    }
-  }
+  $: onCurrentCardChanged($currentCard);
   $: updateDeck(card);
 </script>
 

@@ -47,14 +47,23 @@
   };
 </script>
 
-<ConfirmationDialog let:confirm={confirmThis}>
+<ConfirmationDialog let:confirm={confirmThis} danger>
   <div class="deck-wrapper">
     <div class="deck-list-buttons">
       <Button color="primary" on:click={handleAddCard}>
         <Icon name="file-plus-fill" />
         Add card
       </Button>
-      <Button color="danger" on:click={handleClearDeck}>
+      <Button
+        color="danger"
+        disabled={!cards || cards.length === 0}
+        on:click={() =>
+          confirmThis({
+            func: () => handleClearDeck(),
+            title: 'Clear deck',
+            body: 'Are you sure you want to clear the deck?'
+          })}
+      >
         <Icon name="trash-fill" />
         Clear deck
       </Button>
@@ -75,7 +84,12 @@
                 color="link"
                 size="sm"
                 class="link-danger"
-                on:click={(e) => confirmThis(handleDeleteCard(e, index))}
+                on:click={(e) =>
+                  confirmThis({
+                    func: () => handleDeleteCard(e, index),
+                    title: `Delete ${card.title}`,
+                    body: `Are you sure you want to delete ${card.title}?`
+                  })}
               >
                 <Icon name="trash-fill" />
               </Button>

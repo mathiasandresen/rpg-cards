@@ -1,14 +1,51 @@
 <script lang="ts">
   import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
+  import type { ButtonColor } from 'sveltestrap/src/Button';
 
   export let open = false;
   export const toggle = () => (open = !open);
   export let modalConfirm: () => void = () => {};
-  let modalTitle = 'Confirm';
-  let modalBody = 'Are you sure?';
+  export let danger: boolean = false;
 
-  export const confirm = (func: () => void) => {
+  let modalTitle: string;
+  let modalBody: string;
+  let modalCancelButtonText = 'No';
+  let modalConfirmButtonText = 'Yes';
+  let modalConfirmButtonColor: ButtonColor = danger ? 'danger' : 'primary';
+  let modalCancelButtonColor: ButtonColor = 'secondary';
+
+  type ConfirmOptions = {
+    func: () => void;
+    title?: string;
+    body?: string;
+    confirmButtonText?: string;
+    cancelButtonText?: string;
+    confirmButtonColor?: ButtonColor;
+    cancelButtonColor?: ButtonColor;
+  };
+  const confirm = (options: ConfirmOptions) => {
+    const {
+      func,
+      title,
+      body,
+      cancelButtonText,
+      confirmButtonText,
+      cancelButtonColor,
+      confirmButtonColor
+    } = options;
+
     modalConfirm = func;
+    modalTitle = title;
+    modalBody = body;
+    modalCancelButtonText ??= cancelButtonText;
+    modalConfirmButtonText ??= confirmButtonText;
+    modalCancelButtonColor ??= cancelButtonColor;
+    modalConfirmButtonColor ??= confirmButtonColor;
+
+    if (!modalBody || !modalTitle) {
+      modalBody = 'Are you sure?';
+    }
+
     toggle();
   };
 
@@ -24,15 +61,29 @@
   };
 </script>
 
-<slot />
+<slot {confirm} />
+
 <Modal isOpen={open} {toggle}>
-  <ModalHeader>Modal title</ModalHeader>
-  <ModalBody>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua.
-  </ModalBody>
+  {#if modalTitle}
+    <ModalHeader>{modalTitle}</ModalHeader>
+  {/if}
+  {#if modalBody || !modalTitle}
+    <ModalBody class="confirmation-dialog-body">
+      {modalBody}
+    </ModalBody>
+  {/if}
   <ModalFooter>
-    <Button color="primary" on:click={handleConfirm}>Do Something</Button>
-    <Button color="secondary" on:click={handleModalCancel}>Cancel</Button>
+    <Button color={modalConfirmButtonColor} on:click={handleConfirm}>
+      {modalConfirmButtonText}</Button
+    >
+    <Button color={modalCancelButtonColor} on:click={handleModalCancel}
+      >{modalCancelButtonText}</Button
+    >
   </ModalFooter>
 </Modal>
+
+<style lang="scss">
+  :global(.confirmation-dialog-body) {
+    white-space: pre;
+  }
+</style>
