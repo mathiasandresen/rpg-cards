@@ -62,8 +62,4 @@
     gap: 0.5em;
     align-items: center;
   }
-
-  :global(.add-new-selector) {
-    /* max-width: 20em; */
-  }
 </style>
