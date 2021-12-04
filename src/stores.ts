@@ -6,11 +6,11 @@ function createDeck() {
 
   return {
     subscribe,
-    addCard: (card: Card) => {
+    addCards: (...card: Card[]) => {
       let index = -1;
       update(deck => {
         index = deck.length;
-        return [...deck, card];
+        return [...deck, ...card];
       })
       return index;
     },

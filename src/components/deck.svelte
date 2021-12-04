@@ -1,15 +1,5 @@
 <script lang="ts">
-  import {
-    Button,
-    ButtonToolbar,
-    Icon,
-    ListGroup,
-    ListGroupItem,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader
-  } from 'sveltestrap';
+  import { Button, Icon, ListGroup, ListGroupItem } from 'sveltestrap';
   import type Card from '../model/card';
   import { createNewCard } from '../model/card';
   import { currentCard, deck } from '../stores';
@@ -28,7 +18,7 @@
   };
 
   const handleAddCard = () => {
-    const index = deck.addCard(createNewCard());
+    const index = deck.addCards(createNewCard());
     currentCard.set(index);
   };
 
@@ -37,9 +27,7 @@
     deck.set([]);
   };
 
-  const handleDeleteCard = (e: MouseEvent, index: number) => {
-    e.stopPropagation();
-
+  const handleDeleteCard = (index: number) => {
     deck.removeCard(index);
     if ($currentCard > $deck.length - 1) {
       currentCard.set($deck.length - 1);
@@ -78,18 +66,21 @@
               action
               on:click={() => handleClick(index)}
               class="list-item-w-buttons"
+              color="light"
             >
               {card.title}
               <Button
                 color="link"
                 size="sm"
                 class="link-danger"
-                on:click={(e) =>
+                on:click={(e) => {
+                  e.stopPropagation();
                   confirmThis({
-                    func: () => handleDeleteCard(e, index),
+                    func: () => handleDeleteCard(index),
                     title: `Delete ${card.title}`,
                     body: `Are you sure you want to delete ${card.title}?`
-                  })}
+                  });
+                }}
               >
                 <Icon name="trash-fill" />
               </Button>
@@ -125,7 +116,7 @@
   }
 
   :global(.list-item-w-buttons) {
-    display: flex;
+    display: flex !important;
     justify-content: space-between;
     align-items: center;
   }

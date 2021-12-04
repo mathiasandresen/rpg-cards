@@ -25,12 +25,12 @@
   const onCurrentCardChanged = () => {
     if ($currentCard === -1) {
       card = undefined;
-      return 
+      return;
     }
 
     card = $deck[$currentCard];
     textFieldContent = getContentAsString(card.contents);
-  }
+  };
 
   const updateCardContents = (cardContentsString: string) => {
     try {
@@ -43,7 +43,11 @@
   let textFieldContent: string = getContentAsString(card?.contents);
 
   $: updateCardContents(textFieldContent);
-  $: onCurrentCardChanged($currentCard);
+  $: {
+    $currentCard;
+    $deck;
+    onCurrentCardChanged();
+  }
   $: updateDeck(card);
 </script>
 

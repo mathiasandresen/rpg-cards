@@ -3,6 +3,18 @@ import type Card from "../model/card";
 import type { CardContent } from "../model/card";
 import { SPLIT_REGEX } from "./constants";
 
+export function parseCards(json: string): Card[] {
+    const cards = JSON.parse(json, transformer) as Card[];
+
+    cards.forEach((card) => {
+        if (!card.layout) {
+            card.layout = {};
+        }
+    })
+
+    return cards;
+}
+
 export function parseCard(json: string): Card {
     const card = JSON.parse(json, transformer) as Card;
 
@@ -13,7 +25,7 @@ export function parseCard(json: string): Card {
     return card;
 }
 
-function transformer(key: string, value: any) {
+function transformer(key: string, value: never) {
     if (key === "contents") {
         return parseCardContents(value);
     }
