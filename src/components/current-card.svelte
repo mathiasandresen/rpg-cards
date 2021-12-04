@@ -10,7 +10,7 @@
 </script>
 
 <div>
-  <h4>Output</h4>
+  <h4>Preview</h4>
   {#if card}
     <div class="current-card">
       <CardComponent {card} />

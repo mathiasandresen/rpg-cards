@@ -8,7 +8,7 @@
   let cards: Card[];
   $: {
     cards = $deck;
-    if (cards.length === 0) {
+    if (cards && cards.length === 0) {
       currentCard.set(-1);
     }
   }

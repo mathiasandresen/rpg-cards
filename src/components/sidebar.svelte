@@ -1,19 +1,16 @@
 <script lang="ts">
-  import type { SvelteComponent } from 'svelte';
+  import { browser } from '$app/env';
+  import { onMount } from 'svelte';
 
   import {
     Accordion,
     AccordionItem,
     Badge,
     Button,
-    Col,
-    Container,
     Form,
     FormGroup,
-    Icon,
     Input,
     Label,
-    Row,
     Tooltip
   } from 'sveltestrap';
   import { parseCards } from '../lib/card-json-parser';
@@ -24,6 +21,10 @@
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
   let convertFirstSubtitle = false;
+
+  if (browser) {
+    convertFirstSubtitle = localStorage?.getItem('shouldConvertFirstSubtitle') === 'true' ?? false;
+  }
 
   const addCardsToDeck = (cards: Card[]) => {
     const i = deck.addCards(...cards);
@@ -47,6 +48,12 @@
     const cards = parseCards(jsonText, convertFirstSubtitle);
     addCardsToDeck(cards);
   };
+
+  $: {
+    if (browser) {
+      localStorage.setItem('shouldConvertFirstSubtitle', convertFirstSubtitle.toString());
+    }
+  }
 </script>
 
 <Accordion stayOpen>

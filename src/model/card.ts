@@ -6,6 +6,7 @@ export default interface Card {
     title: string;
     icon: string;
     icon_back: string;
+    text_back?: string;
     contents: CardContent[];
     tags: string[];
     layout?: CardLayout;

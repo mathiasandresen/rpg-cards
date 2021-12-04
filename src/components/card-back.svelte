@@ -11,7 +11,7 @@
     <div class="line">
       <div class="content-top">
         <div class="content">
-          <p>1</p>
+          <p>{card.text_back ?? ''}</p>
         </div>
       </div>
       <div class="icon-wrapper">
@@ -27,7 +27,7 @@
       </div>
       <div class="content-bottom">
         <div class="content">
-          <p>1</p>
+          <p>{card.text_back ?? ''}</p>
         </div>
       </div>
     </div>
@@ -95,13 +95,13 @@
   }
 
   .content {
-    width: 4em;
+    /* width: 4em; */
     height: 4em;
     display: flex;
     justify-content: center;
     align-items: center;
     p {
-      margin: 0;
+      margin: 0 0.75rem;
       padding: 0;
       font-size: 3em;
       font-weight: bold;

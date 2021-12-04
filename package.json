@@ -29,6 +29,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sveltejs/adapter-static": "^1.0.0-next.21",
     "bootstrap": "^5.1.3",
     "ress": "^4.0.0",
     "svelte-dnd-action": "^0.9.12",

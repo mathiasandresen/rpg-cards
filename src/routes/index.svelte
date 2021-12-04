@@ -1,7 +1,7 @@
 <script lang="ts">
   import 'ress/dist/ress.min.css';
   import { Icon, Nav, NavItem, NavLink, Styles } from 'sveltestrap';
-  import { Container, Row, Col, Navbar, NavbarBrand } from 'sveltestrap';
+  import { Navbar, NavbarBrand } from 'sveltestrap';
   import Sidebar from '../components/sidebar.svelte';
   import CardEditor from '../components/card-editor.svelte';
   import CurrentCard from '../components/current-card.svelte';

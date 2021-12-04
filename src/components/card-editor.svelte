@@ -20,7 +20,7 @@
     $deck[$currentCard] = card;
 
     if (contentEditorMode !== 'textfield') {
-      textFieldContent = getContentAsString(card.contents);
+      textFieldContent = getContentAsString(card?.contents);
     }
   };
 
@@ -31,7 +31,7 @@
     }
 
     card = $deck[$currentCard];
-    textFieldContent = getContentAsString(card.contents);
+    textFieldContent = getContentAsString(card?.contents);
   };
 
   const updateCardContents = (cardContentsString: string) => {
@@ -91,6 +91,18 @@
             id="icon_back"
             bind:value={card.icon_back}
             placeholder="Icon"
+          />
+        </div>
+      </FormGroup>
+      <FormGroup row>
+        <Label class="col-sm-3 col-form-label" for="icon_back">Text (Back)</Label>
+        <div class="col">
+          <Input
+            type="text"
+            name="text_back"
+            id="text_back"
+            bind:value={card.text_back}
+            placeholder="Text to show on back, such as spell lvl"
           />
         </div>
       </FormGroup>
