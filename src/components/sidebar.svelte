@@ -45,23 +45,14 @@
 
 <Accordion stayOpen>
   <AccordionItem active header="General">
-    <div class="hidden">
-      <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
+    <div class="button-grid">
+      <div class="hidden">
+        <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
+      </div>
+      <Button color="primary" on:click={() => importFileSelector.click()}>Import from file</Button>
+      <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
+      <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
     </div>
-    <Row cols={2} noGutters>
-      <Col>
-        <Row class="gap-2 me-1" noGutters>
-          <Button color="primary" on:click={() => importFileSelector.click()}>
-            Import from file
-          </Button>
-        </Row>
-      </Col>
-      <Col>
-        <Row class="gap-2 ms-1" noGutters>
-          <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
-        </Row>
-      </Col>
-    </Row>
   </AccordionItem>
   <AccordionItem active header="Card Defaults">
     <Form>
@@ -79,5 +70,11 @@
 <style lang="scss">
   .hidden {
     display: none !important;
+  }
+
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25em;
   }
 </style>

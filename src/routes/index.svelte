@@ -12,16 +12,24 @@
 <Navbar>
   <NavbarBrand href="/">RPG Card Generator</NavbarBrand>
 </Navbar>
-<Container fluid>
-  <Row cols="sm-3">
-    <Col sm={3}>
-      <Sidebar />
-    </Col>
-    <Col sm>
-      <CardEditor />
-    </Col>
-    <Col sm={3}>
-      <CurrentCard />
-    </Col>
-  </Row>
-</Container>
+<div class="grid">
+  <Sidebar />
+  <CardEditor />
+  <CurrentCard />
+</div>
+
+<style lang="scss">
+  .grid {
+    display: grid;
+    gap: 2em;
+    padding: 0 1em;
+
+    @media (min-width: 992px) {
+      grid-template-columns: 0.5fr 1fr;
+    }
+
+    @media (min-width: 1400px) {
+      grid-template-columns: 0.5fr 1fr 0.5fr;
+    }
+  }
+</style>

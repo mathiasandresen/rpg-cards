@@ -53,6 +53,7 @@
 
 {#if card}
   <Form>
+    <h4>Editor</h4>
     <FormGroup row>
       <Label class="col-sm-3 col-form-label" for="name">Name</Label>
       <div class="col">
