@@ -1,6 +1,7 @@
 <script lang="ts">
   import type Card from '../model/card';
   import { currentCard, deck } from '../stores';
+  import CardBack from './card-back.svelte';
   import CardComponent from './card.svelte';
 
   let card: Card;
@@ -11,6 +12,17 @@
 <div>
   <h4>Output</h4>
   {#if card}
-    <CardComponent {card} />
+    <div class="current-card">
+      <CardComponent {card} />
+      <CardBack {card} />
+    </div>
   {/if}
 </div>
+
+<style lang="scss">
+  .current-card {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+  }
+</style>
