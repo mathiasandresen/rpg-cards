@@ -2,6 +2,7 @@ import { isCardContentType } from "../model/card";
 import type Card from "../model/card";
 import type { CardContent } from "../model/card";
 import { SPLIT_REGEX } from "./constants";
+import { uuid4 } from "./uuid";
 
 export function parseCards(json: string): Card[] {
     const cards = JSON.parse(json, transformer) as Card[];
@@ -55,6 +56,7 @@ export function parseCardContents(value: string[]): CardContent[] {
         return {
             type: type,
             content: content.join(" | "),
+            id: uuid4(),
         } as CardContent;
     });
 

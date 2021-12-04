@@ -13,6 +13,10 @@
   const getBoxAmount = (content: CardContent): number => {
     return Number.parseInt(content.content.split(SPLIT_REGEX)[0], 10) || 1;
   };
+
+  const renderText = (input: string) => {
+    return input.replace('\\|', '|');
+  };
 </script>
 
 {#if content?.type === 'subtitle'}
@@ -28,33 +32,33 @@
     {/each}
   </div>
 {:else if content?.type === 'section'}
-  <h3 class="section">{@html content.content}</h3>
+  <h3 class="section">{@html renderText(content.content)}</h3>
 {:else if content?.type === 'property'}
   <span class="property">
-    {#each content.content.split(' | ') as element, index}
+    {#each content.content.split(SPLIT_REGEX) as element, index}
       {#if index === 0}
-        <h4>{@html element}</h4>
+        <h4>{@html renderText(element)}</h4>
       {:else}
-        <p>{@html element}</p>
+        <p>{@html renderText(element)}</p>
       {/if}
     {/each}
   </span>
 {:else if content?.type === 'description'}
   <span class="description">
-    {#each content.content.split(' | ') as element, index}
+    {#each content.content.split(SPLIT_REGEX) as element, index}
       {#if index === 0}
-        <h4>{@html element}</h4>
+        <h4>{@html renderText(element)}</h4>
       {:else}
-        <p>{@html element}</p>
+        <p>{@html renderText(element)}</p>
       {/if}
     {/each}
   </span>
 {:else if content?.type === 'dndstats'}
   <Dndstats {content} />
 {:else if content?.type === 'text'}
-  <p class="text">{@html content.content}</p>
+  <p class="text">{@html renderText(content.content)}</p>
 {:else}
-  <p>{@html content.content}</p>
+  <p>{@html renderText(content.content)}</p>
 {/if}
 
 <style lang="scss">

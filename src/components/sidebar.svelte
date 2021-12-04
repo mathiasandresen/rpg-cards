@@ -51,7 +51,6 @@
       </div>
       <Button color="primary" on:click={() => importFileSelector.click()}>Import from file</Button>
       <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
-      <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
     </div>
   </AccordionItem>
   <AccordionItem active header="Card Defaults">

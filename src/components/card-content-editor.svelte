@@ -1,57 +1,60 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
-  import type { CardContent } from '../model/card';
+  import type { CardContent, CardContentType } from '../model/card';
+  import { CardContentTypes } from '../model/card';
   import CardEditorContentInput from './card-editor-content-input.svelte';
+  import { dndzone } from 'svelte-dnd-action';
+  import { Button, Icon, Input, InputGroup } from 'sveltestrap';
+  import { uuid4 } from '../lib/uuid';
+  import { createNewCardContent } from '../lib/card-builder';
 
   export let contents: CardContent[];
+  const flipDurationMs = 200;
 
-  let hovering = -1;
-
-  type DragAndDropEvent = DragEvent & {
-    currentTarget: EventTarget & HTMLSpanElement;
+  const handleSort = (e: CustomEvent<any>): void => {
+    contents = e.detail.items;
   };
 
-  const dragstart = (event: DragAndDropEvent, i: number) => {
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.dropEffect = 'move';
-    const start = i.toString();
-    event.dataTransfer.setData('text/plain', start);
+  const handleDelete = (index: number): void => {
+    const newList = [...contents];
+    newList.splice(index, 1);
+    contents = newList;
   };
 
-  const drop = (event: DragAndDropEvent, target: number) => {
-    event.dataTransfer.dropEffect = 'move';
-    const start = parseInt(event.dataTransfer.getData('text/plain'));
-    const newTracklist = contents;
-
-    if (start < target) {
-      newTracklist.splice(target + 1, 0, newTracklist[start]);
-      newTracklist.splice(start, 1);
-    } else {
-      newTracklist.splice(target, 0, newTracklist[start]);
-      newTracklist.splice(start + 1, 1);
-    }
-    contents = newTracklist;
-    hovering = null;
+  let addType: CardContentType = 'text';
+  const handleAdd = (e: MouseEvent): void => {
+    e.preventDefault();
+    const newList = [...contents];
+    newList.push(createNewCardContent(addType));
+    contents = newList;
   };
 </script>
 
-{#each contents as content, index (`editor-content-${index}`)}
-  <span
-    class="content-list-item"
-    animate:flip
-    draggable={true}
-    on:drop|preventDefault={(event) => drop(event, index)}
-    on:dragover|preventDefault
-    on:dragenter={() => {
-      hovering = index;
-    }}
-    on:dragstart={(event) => dragstart(event, index)}
+<div>
+  <div
+    use:dndzone={{ items: contents, flipDurationMs, dropTargetStyle: {} }}
+    on:consider={handleSort}
+    on:finalize={handleSort}
   >
-    <div class="input-wrapper" class:is-active={hovering === index}>
-      <CardEditorContentInput bind:content />
-    </div>
-  </span>
-{/each}
+    {#each contents as content, index (content.id)}
+      <div animate:flip={{ duration: flipDurationMs }}>
+        <div class="input-wrapper">
+          <CardEditorContentInput bind:content on:delete={() => handleDelete(index)} />
+        </div>
+      </div>
+    {/each}
+  </div>
+  <InputGroup class="add-new-selector">
+    <Input type="select" bind:value={addType}>
+      {#each CardContentTypes as type}
+        <option>{type}</option>
+      {/each}
+    </Input>
+    <Button color="primary" on:click={handleAdd}>
+      <Icon name="plus" />
+    </Button>
+  </InputGroup>
+</div>
 
 <style lang="scss">
   .input-wrapper {
@@ -60,9 +63,8 @@
     gap: 0.5em;
     align-items: center;
   }
-  .is-active {
-    border: 4px solid #3273dc;
-    border-radius: 5px;
-    /* background-color: #3273dc; */
+
+  :global(.add-new-selector) {
+    /* max-width: 20em; */
   }
 </style>

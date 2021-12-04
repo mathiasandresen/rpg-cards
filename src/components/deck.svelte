@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button, Icon, ListGroup, ListGroupItem } from 'sveltestrap';
   import type Card from '../model/card';
-  import { createNewCard } from '../model/card';
+  import { createNewCard } from '../lib/card-builder';
   import { currentCard, deck } from '../stores';
   import ConfirmationDialog from './confirmation-dialog.svelte';
 

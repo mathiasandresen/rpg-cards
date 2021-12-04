@@ -16,7 +16,7 @@
       ?.join('\n');
   };
 
-  const updateDeck = (card: Card) => {
+  const updateDeck = () => {
     $deck[$currentCard] = card;
 
     if (contentEditorMode !== 'textfield') {
@@ -41,7 +41,7 @@
   };
 
   let card: Card = $deck[$currentCard];
-  let contentEditorMode: 'individual' | 'textfield' = 'textfield';
+  let contentEditorMode: 'individual' | 'textfield' = 'individual';
   let textFieldContent: string = getContentAsString(card?.contents);
 
   $: updateCardContents(textFieldContent);
@@ -50,7 +50,7 @@
     $deck;
     onCurrentCardChanged();
   }
-  $: updateDeck(card);
+  $: card && updateDeck();
 </script>
 
 <div>

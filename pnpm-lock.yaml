@@ -14,7 +14,10 @@ specifiers:
   ress: ^4.0.0
   svelte: ^3.42.6
   svelte-check: ^2.2.6
+  svelte-dnd-action: ^0.9.12
   svelte-preprocess: ^4.9.8
+  svelte-sortable: ^0.1.0
+  svelte-sortable-list: ^1.1.0
   sveltestrap: ^5.6.3
   tslib: ^2.3.1
   typescript: ^4.4.3
@@ -22,6 +25,9 @@ specifiers:
 dependencies:
   bootstrap: 5.1.3
   ress: 4.0.0
+  svelte-dnd-action: 0.9.12
+  svelte-sortable: 0.1.0_svelte@3.44.2
+  svelte-sortable-list: 1.1.0_svelte@3.44.2
   sveltestrap: 5.6.3_svelte@3.44.2
 
 devDependencies:
@@ -2198,6 +2204,10 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /sortablejs/1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
+    dev: false
+
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
     engines: {node: '>=0.10.0'}
@@ -2381,6 +2391,10 @@ packages:
       - sugarss
     dev: true
 
+  /svelte-dnd-action/0.9.12:
+    resolution: {integrity: sha512-GlXIB3/56IMR5A0+qUx+FX7Q7n8uCAIeuYdgSBmn9iOlxWc+mgM8P1kNwAKCMSTdQ4IQETVQILNgWVY1KIFzsg==}
+    dev: false
+
   /svelte-hmr/0.14.7_svelte@3.44.2:
     resolution: {integrity: sha512-pDrzgcWSoMaK6AJkBWkmgIsecW0GChxYZSZieIYfCP0v2oPyx2CYU/zm7TBIcjLVUPP714WxmViE9Thht4etog==}
     peerDependencies:
@@ -2440,6 +2454,23 @@ packages:
       svelte: 3.44.2
       typescript: 4.5.2
     dev: true
+
+  /svelte-sortable-list/1.1.0_svelte@3.44.2:
+    resolution: {integrity: sha512-K8axS2OEJhN8KI/aXx1LEJkMGZTkR13U191nVhvN0BImZpNmFJ10Zy8K9T0EAg6chB6/hz3/hOeFoe2RVZylSw==}
+    peerDependencies:
+      svelte: ^3.4.1
+    dependencies:
+      svelte: 3.44.2
+    dev: false
+
+  /svelte-sortable/0.1.0_svelte@3.44.2:
+    resolution: {integrity: sha512-6NFFPJFyaI/vZiA2ceaB5pPG91m3+TkIKx/2HSkucpFkFlFpYTWF3XooR/dPxai++k1Lj3c5VVMtXhfAG/OycA==}
+    peerDependencies:
+      svelte: ^3.0.0
+    dependencies:
+      sortablejs: 1.14.0
+      svelte: 3.44.2
+    dev: false
 
   /svelte/3.44.2:
     resolution: {integrity: sha512-jrZhZtmH3ZMweXg1Q15onb8QlWD+a5T5Oca4C1jYvSURp2oD35h4A5TV6t6MEa93K4LlX6BkafZPdQoFjw/ylA==}

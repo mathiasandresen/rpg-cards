@@ -1,13 +1,20 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
   import { Button, ButtonGroup, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
   import { SPLIT_REGEX } from '../lib/constants';
-
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
+  let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
 
-  let splitContent: string[];
-  $: splitContent = content.content.split(SPLIT_REGEX);
+  const dispatch = createEventDispatcher();
+
+  const updateContent = () => {
+    content.content = splitContent.map((c) => c.replace(/[^\\]\|/, '\\|')).join(' | ');
+  };
+
+  $: splitContent && updateContent();
 </script>
 
 {#if content.type === 'rule' || content.type === 'fill'}
@@ -17,7 +24,7 @@
     </InputGroupText>
     <Input disabled />
   </InputGroup>
-{:else if content.type === 'property'}
+{:else if content.type === 'property' || content.type === 'description'}
   <InputGroup>
     <InputGroupText>
       <span class="input-group-text-content">{content.type}</span>
@@ -46,14 +53,22 @@
   </InputGroup>
 {/if}
 <ButtonGroup>
-  <Button size="sm" color="link" class="link-danger">
+  <Button
+    size="sm"
+    color="link"
+    class="link-danger"
+    on:click={(e) => {
+      e.preventDefault();
+      dispatch('delete');
+    }}
+  >
     <Icon name="trash" />
   </Button>
 </ButtonGroup>
 
 <style lang="scss">
   .input-group-text-content {
-    min-width: 4em;
+    min-width: 5em;
     width: 100%;
     text-align: start;
   }
