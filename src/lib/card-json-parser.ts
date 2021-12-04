@@ -4,8 +4,8 @@ import type { CardContent } from "../model/card";
 import { SPLIT_REGEX } from "./constants";
 import { uuid4 } from "./uuid";
 
-export function parseCards(json: string): Card[] {
-    const cards = JSON.parse(json, transformer) as Card[];
+export function parseCards(json: string, convertTopSubtitleToSection = false): Card[] {
+    const cards = JSON.parse(json, (key, value: never) => transformer(key, value, convertTopSubtitleToSection)) as Card[];
 
     cards.forEach((card) => {
         if (!card.layout) {
@@ -16,8 +16,8 @@ export function parseCards(json: string): Card[] {
     return cards;
 }
 
-export function parseCard(json: string): Card {
-    const card = JSON.parse(json, transformer) as Card;
+export function parseCard(json: string, convertTopSubtitleToSection = false): Card {
+    const card = JSON.parse(json, (key, value: never) => transformer(key, value, convertTopSubtitleToSection)) as Card;
 
     if (!card.layout) {
         card.layout = {};
@@ -26,15 +26,15 @@ export function parseCard(json: string): Card {
     return card;
 }
 
-function transformer(key: string, value: never) {
+function transformer(key: string, value: never, convertTopSubtitleToSection = false) {
     if (key === "contents") {
-        return parseCardContents(value);
+        return parseCardContents(value, convertTopSubtitleToSection);
     }
 
     return value;
 }
 
-export function parseCardContents(value: string[]): CardContent[] {
+export function parseCardContents(value: string[], convertTopSubtitleToSection = false): CardContent[] {
     let subtitleIndex = -1;
     const subtitleToSectionList: number[] = [];
 
@@ -47,7 +47,7 @@ export function parseCardContents(value: string[]): CardContent[] {
             type = 'text';
         }
 
-        if (type === "subtitle") {
+        if (convertTopSubtitleToSection && type === "subtitle") {
             subtitleIndex = index
         } else if (type === "rule" && (subtitleIndex + 1) === index) {
             subtitleToSectionList.push(subtitleIndex)
@@ -60,10 +60,12 @@ export function parseCardContents(value: string[]): CardContent[] {
         } as CardContent;
     });
 
-    subtitleToSectionList.forEach((index) => {
-        mapped[index].type = "section";
-        mapped.splice(index+1, 1)
-    })
+    if (convertTopSubtitleToSection) {
+        subtitleToSectionList.forEach((index) => {
+            mapped[index].type = "section";
+            mapped.splice(index+1, 1)
+        })
+    }
 
     return mapped;
 }

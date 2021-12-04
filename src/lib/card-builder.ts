@@ -32,7 +32,7 @@ export function createNewCardContent(type: CardContentType): CardContent {
       content.content = " | "
       break;
     case "boxes":
-      content.content = "3 | 2"
+      content.content = "3 | "
       break;
   }
 

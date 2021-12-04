@@ -11,7 +11,14 @@
   const dispatch = createEventDispatcher();
 
   const updateContent = () => {
-    content.content = splitContent.map((c) => c.replace(/[^\\]\|/, '\\|')).join(' | ');
+    content.content = splitContent
+      .map((c) => {
+        if (typeof c !== 'string') {
+          c = '' + c;
+        }
+        return c.replace(/[^\\]\|/, '\\|');
+      })
+      .join(' | ');
   };
 
   $: splitContent && updateContent();
@@ -37,6 +44,47 @@
         placeholder=""
       />
     {/each}
+  </InputGroup>
+{:else if content.type === 'section' || content.type === 'subtitle'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input type="text" bind:value={splitContent[0]} />
+    <Input type="text" bind:value={splitContent[1]} />
+  </InputGroup>
+{:else if content.type === 'boxes'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input type="number" bind:value={splitContent[0]} placeholder="Number of boxes" />
+    <Input type="text" bind:value={splitContent[1]} placeholder="2em" />
+  </InputGroup>
+{:else if content.type === 'dndstats'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input type="number" bind:value={splitContent[0]} placeholder="Str" />
+    <Input type="number" bind:value={splitContent[1]} placeholder="Dex" />
+    <Input type="number" bind:value={splitContent[2]} placeholder="Con" />
+    <Input type="number" bind:value={splitContent[3]} placeholder="Int" />
+    <Input type="number" bind:value={splitContent[4]} placeholder="Wis" />
+    <Input type="number" bind:value={splitContent[5]} placeholder="Cha" />
+  </InputGroup>
+{:else if content.type === 'picture'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input type="text" bind:value={splitContent[0]} placeholder="URL of picture" />
+    <Input
+      class="small-input"
+      type="number"
+      bind:value={splitContent[1]}
+      placeholder="Height in pixels"
+    />
   </InputGroup>
 {:else}
   <InputGroup>
@@ -71,6 +119,10 @@
     min-width: 5em;
     width: 100%;
     text-align: start;
+  }
+
+  :global(.small-input) {
+    max-width: 10em;
   }
 
   :global.input-property-title {

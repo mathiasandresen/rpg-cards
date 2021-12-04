@@ -5,9 +5,11 @@
   import Dndstats from './dndstats.svelte';
 
   export let content: CardContent;
+  let splitContent: string[];
+  $: splitContent = content.content.split(SPLIT_REGEX);
 
   const getBoxSize = (content: CardContent): number => {
-    return Number.parseFloat(content.content.split(SPLIT_REGEX)[1]) || 1;
+    return Number.parseFloat(content.content.split(SPLIT_REGEX)[1]) || 2;
   };
 
   const getBoxAmount = (content: CardContent): number => {
@@ -20,7 +22,16 @@
 </script>
 
 {#if content?.type === 'subtitle'}
-  <h2>{@html content.content}</h2>
+  <h2 class="subtitle">
+    <div>
+      {@html renderText(splitContent[0])}
+    </div>
+    {#if splitContent[1]}
+      <div>
+        {@html renderText(splitContent[1])}
+      </div>
+    {/if}
+  </h2>
 {:else if content?.type === 'rule'}
   <div class="rule" />
 {:else if content?.type === 'fill'}
@@ -32,10 +43,21 @@
     {/each}
   </div>
 {:else if content?.type === 'section'}
-  <h3 class="section">{@html renderText(content.content)}</h3>
+  <h3 class="section" class:with-right={splitContent[1]}>
+    <div>
+      {@html renderText(splitContent[0])}
+    </div>
+    {#if splitContent[1]}
+      <div>
+        {@html renderText(splitContent[1])}
+      </div>
+    {/if}
+  </h3>
+{:else if content?.type === 'bullet'}
+  <ul class="bullet"><li>{@html renderText(content.content)}</li></ul>
 {:else if content?.type === 'property'}
   <span class="property">
-    {#each content.content.split(SPLIT_REGEX) as element, index}
+    {#each splitContent as element, index}
       {#if index === 0}
         <h4>{@html renderText(element)}</h4>
       {:else}
@@ -45,7 +67,7 @@
   </span>
 {:else if content?.type === 'description'}
   <span class="description">
-    {#each content.content.split(SPLIT_REGEX) as element, index}
+    {#each splitContent as element, index}
       {#if index === 0}
         <h4>{@html renderText(element)}</h4>
       {:else}
@@ -55,6 +77,14 @@
   </span>
 {:else if content?.type === 'dndstats'}
   <Dndstats {content} />
+{:else if content?.type === 'picture'}
+  <!-- svelte-ignore a11y-img-redundant-alt -->
+  <img
+    class="picture"
+    src={splitContent[0]}
+    height={`${splitContent[1]}px`}
+    alt="RPG Card picture"
+  />
 {:else if content?.type === 'text'}
   <p class="text">{@html renderText(content.content)}</p>
 {:else}
@@ -72,20 +102,48 @@
   }
 
   h2 {
+    padding: 0 0.5em;
     font-size: 1.2em;
+    font-style: italic;
+    color: var(--card-color);
+  }
+
+  .subtitle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2em;
   }
 
   .section {
+    display: grid;
+
+    > * {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
     background-color: var(--card-color);
-    display: flex;
-    place-content: center;
-    place-items: center;
     color: white;
     height: $section-height;
     font-size: 0.8em;
     margin-bottom: 0.2em;
     margin-left: -2px;
     margin-right: -2px;
+    padding: 0 0.5em;
+
+    :first-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.with-right {
+      :last-child {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+      }
+    }
   }
 
   .property {
@@ -161,9 +219,21 @@
     flex-wrap: wrap;
     padding: 0 0.5em;
     gap: 0.5em;
+    margin-bottom: 0.2em;
 
     .box {
       border: 0.35em solid var(--card-color);
     }
+  }
+
+  .bullet {
+    padding: 0;
+    margin: 0 0.5em;
+    list-style: inside;
+  }
+
+  .picture {
+    width: 100%;
+    object-fit: scale-down;
   }
 </style>

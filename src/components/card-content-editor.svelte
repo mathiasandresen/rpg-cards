@@ -5,7 +5,6 @@
   import CardEditorContentInput from './card-editor-content-input.svelte';
   import { dndzone } from 'svelte-dnd-action';
   import { Button, Icon, Input, InputGroup } from 'sveltestrap';
-  import { uuid4 } from '../lib/uuid';
   import { createNewCardContent } from '../lib/card-builder';
 
   export let contents: CardContent[];

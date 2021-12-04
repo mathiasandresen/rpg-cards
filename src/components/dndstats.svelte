@@ -52,6 +52,7 @@
 
 <style lang="scss">
   .card-stats {
+    font-size: 9px;
     margin: 0 0.5em;
     color: var(--card-color);
 
