@@ -6,7 +6,8 @@
 
   export let content: CardContent;
 
-  let splitContent = content.content.split(SPLIT_REGEX);
+  let splitContent: string[];
+  $: splitContent = content.content.split(SPLIT_REGEX);
 </script>
 
 {#if content.type === 'rule' || content.type === 'fill'}
@@ -45,7 +46,7 @@
   </InputGroup>
 {/if}
 <ButtonGroup>
-  <Button size="sm" color="danger">
+  <Button size="sm" color="link" class="link-danger">
     <Icon name="trash" />
   </Button>
 </ButtonGroup>
