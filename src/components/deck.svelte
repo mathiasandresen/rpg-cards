@@ -1,35 +1,128 @@
 <script lang="ts">
-  import { ListGroup, ListGroupItem } from 'sveltestrap';
+  import { Button, Icon, ListGroup, ListGroupItem } from 'sveltestrap';
   import type Card from '../model/card';
+  import { createNewCard } from '../lib/card-builder';
   import { currentCard, deck } from '../stores';
+  import ConfirmationDialog from './confirmation-dialog.svelte';
 
-  const cards: Card[] = $deck;
+  let cards: Card[];
+  $: {
+    cards = $deck;
+    if (cards && cards.length === 0) {
+      currentCard.set(-1);
+    }
+  }
 
   const handleClick = (index: number) => {
     currentCard.set(index);
   };
+
+  const handleAddCard = () => {
+    const index = deck.addCards(createNewCard());
+    currentCard.set(index);
+  };
+
+  const handleClearDeck = () => {
+    currentCard.set(-1);
+    deck.set([]);
+  };
+
+  const handleDeleteCard = (index: number) => {
+    deck.removeCard(index);
+    if ($currentCard > $deck.length - 1) {
+      currentCard.set($deck.length - 1);
+    }
+  };
 </script>
 
-<div class="deck-list">
-  {#if cards}
-    <ListGroup>
-      {#each cards as card, index}
-        <ListGroupItem
-          active={index === $currentCard}
-          tag="button"
-          action
-          on:click={() => handleClick(index)}>{card.title}</ListGroupItem
-        >
-      {/each}
-    </ListGroup>
-  {:else}
-    There are no cards in your deck!
-  {/if}
-</div>
+<ConfirmationDialog let:confirm={confirmThis} danger>
+  <div class="deck-wrapper">
+    <div class="deck-list-buttons">
+      <Button color="primary" on:click={handleAddCard}>
+        <Icon name="file-plus-fill" />
+        Add card
+      </Button>
+      <Button
+        color="danger"
+        disabled={!cards || cards.length === 0}
+        on:click={() =>
+          confirmThis({
+            func: () => handleClearDeck(),
+            title: 'Clear deck',
+            body: 'Are you sure you want to clear the deck?'
+          })}
+      >
+        <Icon name="trash-fill" />
+        Clear deck
+      </Button>
+    </div>
+    <div class="deck-list">
+      {#if cards && cards.length > 0}
+        <ListGroup>
+          {#each cards as card, index}
+            <ListGroupItem
+              active={index === $currentCard}
+              tag="button"
+              action
+              on:click={() => handleClick(index)}
+              class="list-item-w-buttons"
+              color="light"
+            >
+              {card.title}
+              <Button
+                color="link"
+                size="sm"
+                class="link-danger"
+                on:click={(e) => {
+                  e.stopPropagation();
+                  confirmThis({
+                    func: () => handleDeleteCard(index),
+                    title: `Delete ${card.title}`,
+                    body: `Are you sure you want to delete ${card.title}?`
+                  });
+                }}
+              >
+                <Icon name="trash-fill" />
+              </Button>
+            </ListGroupItem>
+          {/each}
+        </ListGroup>
+      {:else}
+        <div class="empty-deck">There are no cards in your deck!</div>
+      {/if}
+    </div>
+  </div>
+</ConfirmationDialog>
 
-<style>
+<style lang="scss">
   .deck-list {
     max-height: 20em;
     overflow-y: scroll;
+  }
+
+  .deck-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  :global(.deck-list-buttons) {
+    display: flex;
+    gap: 0.2em;
+    overflow: visible;
+    :global(button) {
+      flex: 1;
+    }
+  }
+
+  :global(.list-item-w-buttons) {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .empty-deck {
+    display: flex;
+    justify-content: center;
   }
 </style>

@@ -1,0 +1,1 @@
+export const SPLIT_REGEX = /\s*[^\\]\|\s*/;

@@ -1,30 +1,41 @@
 <script lang="ts">
-  import Card from '../components/card.svelte';
-  import exampleCards from '../../static/rpg-cards_many.json';
   import 'ress/dist/ress.min.css';
-  import 'bootstrap/dist/css/bootstrap.min.css';
-  import { parseCard } from '../lib/card-json-parser';
-  import { Container, Row, Col, Navbar, NavbarBrand } from 'sveltestrap';
+  import { Icon, Nav, NavItem, NavLink } from 'sveltestrap';
+  import { Navbar, NavbarBrand } from 'sveltestrap';
   import Sidebar from '../components/sidebar.svelte';
   import CardEditor from '../components/card-editor.svelte';
-  import { deck } from '../stores';
-
-  const cards = exampleCards.map((json) => parseCard(JSON.stringify(json)));
-
-  deck.set(cards);
+  import CurrentCard from '../components/current-card.svelte';
 </script>
 
-<Navbar>
+<Navbar color="light" light class="shadow-sm">
   <NavbarBrand href="/">RPG Card Generator</NavbarBrand>
+  <Nav navbar>
+    <NavItem>
+      <NavLink href="https://github.com/mathiasandresen/rpg-cards">
+        <Icon name="github" />
+      </NavLink>
+    </NavItem>
+  </Nav>
 </Navbar>
-<Container fluid>
-  <Row cols={3}>
-    <Col sm={3}>
-      <Sidebar />
-    </Col>
-    <Col>
-      <CardEditor />
-    </Col>
-    <Col>hello</Col>
-  </Row>
-</Container>
+<div class="grid">
+  <Sidebar />
+  <CardEditor />
+  <CurrentCard />
+</div>
+
+<style lang="scss">
+  .grid {
+    display: grid;
+    gap: 2em;
+    padding: 0 1em;
+    margin-top: 1em;
+
+    @media (min-width: 992px) {
+      grid-template-columns: 0.5fr 1fr;
+    }
+
+    @media (min-width: 1400px) {
+      grid-template-columns: 0.5fr 1fr 0.5fr;
+    }
+  }
+</style>
