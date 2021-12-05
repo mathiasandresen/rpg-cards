@@ -52,7 +52,8 @@ async function indexFiles(path: string, outputJson: string) {
     .map((file) => {
       return {
         path: Path.relative(path, file),
-        name: Path.basename(file, '.svg')
+        name: Path.basename(file, '.svg'),
+        svg: fs.readFileSync(file, 'utf-8')
       };
     });
 
