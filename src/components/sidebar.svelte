@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/env';
+  import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
 
   import {
@@ -62,6 +63,21 @@
       <div class="hidden">
         <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
       </div>
+      <div class="sidebar-element">
+        <Button block color="primary" on:click={() => importFileSelector.click()}>
+          Import from file
+        </Button>
+      </div>
+      <div class="sidebar-element">
+        <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
+      </div>
+      <div class="sidebar-element">
+        <Button block color="primary" on:click>Export to file</Button>
+      </div>
+      <div class="sidebar-element">
+        <Button block color="primary" href="/output">Print</Button>
+      </div>
+      <h2 class="sidebar-header">Options</h2>
       <div class="sidebar-element full">
         <Input
           type="checkbox"
@@ -75,17 +91,9 @@
           section.
         </Tooltip>
       </div>
-      <div class="sidebar-element">
-        <Button block color="primary" on:click={() => importFileSelector.click()}>
-          Import from file
-        </Button>
-      </div>
-      <div class="sidebar-element">
-        <Button color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
-      </div>
     </div>
   </AccordionItem>
-  <AccordionItem active header="Card Defaults">
+  <AccordionItem active header="Page">
     <Form>
       <FormGroup>
         <Input id="" placeholder="Paper" />
@@ -119,5 +127,15 @@
     &.full {
       grid-column: 1 / span 2;
     }
+  }
+
+  .sidebar-header {
+    font-size: large;
+    margin: 0;
+    grid-column: 1 / span 2;
+    margin-top: 1em;
+    /* height: 1.5em; */
+    display: flex;
+    align-items: center;
   }
 </style>

@@ -44,6 +44,7 @@
 
     border-radius: 0.1cm;
     background-color: white;
+    overflow: hidden;
 
     h1 {
       font-size: 1.3em;
