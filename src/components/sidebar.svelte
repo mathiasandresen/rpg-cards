@@ -1,8 +1,5 @@
 <script lang="ts">
   import { browser } from '$app/env';
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
-
   import {
     Accordion,
     AccordionItem,
@@ -11,12 +8,14 @@
     Form,
     FormGroup,
     Input,
+    InputGroup,
+    InputGroupText,
     Label,
     Tooltip
   } from 'sveltestrap';
   import { parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
-  import { currentCard, deck } from '../stores';
+  import { currentCard, deck, pageLayout } from '../stores';
   import Deck from './deck.svelte';
 
   let importFileSelector: HTMLInputElement;
@@ -96,8 +95,50 @@
   <AccordionItem active header="Page">
     <Form>
       <FormGroup>
-        <Input id="" placeholder="Paper" />
-        <Label for="exampleEmail">Hello</Label>
+        <span>
+          <Label for="paper-size">Paper size</Label>
+        </span>
+        <InputGroup id="paper-size">
+          <Input
+            id="paper-size-width"
+            placeholder="Width"
+            type="number"
+            bind:value={$pageLayout.paperSize.width}
+          />
+          <InputGroupText>mm</InputGroupText>
+          <Input
+            id="paper-size-height"
+            placeholder="Height"
+            type="number"
+            bind:value={$pageLayout.paperSize.height}
+          />
+          <InputGroupText>mm</InputGroupText>
+        </InputGroup>
+      </FormGroup>
+      <FormGroup>
+        <span>
+          <Label for="page-adjust">Print adjust</Label>
+          <Badge id="page-adjust-help" pill color="info">?</Badge>
+          <Tooltip target="page-adjust-help">
+            Use this to adjust the print in order to make up for difference in printers
+          </Tooltip>
+        </span>
+        <InputGroup id="page-adjust">
+          <Input
+            id="page-adjust-x"
+            placeholder="X"
+            type="number"
+            bind:value={$pageLayout.adjust.x}
+          />
+          <InputGroupText>mm</InputGroupText>
+          <Input
+            id="page-adjust-y"
+            placeholder="Y"
+            type="number"
+            bind:value={$pageLayout.adjust.y}
+          />
+          <InputGroupText>mm</InputGroupText>
+        </InputGroup>
       </FormGroup>
     </Form>
   </AccordionItem>
@@ -119,7 +160,7 @@
 
   .sidebar-element {
     width: 100%;
-    height: 2.5em;
+    min-height: 2.5em;
     display: flex;
     align-items: center;
     justify-content: space-between;
