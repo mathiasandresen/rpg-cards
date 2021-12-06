@@ -1,12 +1,23 @@
 <script lang="ts">
+  import IconInput from './game-icon-input.svelte';
   import { flip } from 'svelte/animate';
-  import { Form, FormGroup, Input, InputGroup, InputGroupText, Label } from 'sveltestrap';
+  import {
+    Form,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupText,
+    Label,
+    Icon,
+    Button
+  } from 'sveltestrap';
   import { parseCardContents } from '../lib/card-json-parser';
   import type { CardContent } from '../model/card';
   import type Card from '../model/card';
   import { currentCard, deck } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
   import CardEditorContentInput from './card-editor-content-input.svelte';
+  import GameIcon from './game-icon.svelte';
 
   const getContentAsString = (contents: CardContent[]): string => {
     return contents
@@ -76,22 +87,16 @@
           />
         </div>
       </FormGroup>
-      <FormGroup row>
+      <!-- <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="icon">Icon</Label>
         <div class="col">
-          <Input type="text" name="icon" id="icon" bind:value={card.icon} placeholder="Icon" />
+          <IconInput bind:icon={card.icon} id="icon" name="icon" />
         </div>
-      </FormGroup>
+      </FormGroup> -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="icon_back">Icon (Back)</Label>
         <div class="col">
-          <Input
-            type="text"
-            name="icon_back"
-            id="icon_back"
-            bind:value={card.icon_back}
-            placeholder="Icon"
-          />
+          <IconInput bind:icon={card.icon_back} id="icon_back" name="icon_back" />
         </div>
       </FormGroup>
       <FormGroup row>
