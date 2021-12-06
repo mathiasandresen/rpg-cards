@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="" />
+	<link rel="icon" href="/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" data-svelte="svelte-p6kbwv"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" data-svelte="svelte-p6kbwv">
+
+		
+
+		<link rel="modulepreload" href="/_app/start-da697de4.js">
+		<link rel="modulepreload" href="/_app/chunks/vendor-7395f0cc.js">
+		<link rel="modulepreload" href="/_app/pages/__layout.svelte-414ae12d.js">
+		<link rel="modulepreload" href="/_app/pages/index.svelte-d2bd64ee.js">
+		<link rel="modulepreload" href="/_app/chunks/card-4ca962fc.js">
+		<link rel="stylesheet" href="/_app/assets/start-61d1577b.css">
+		<link rel="stylesheet" href="/_app/assets/vendor-77b52ba5.css">
+		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-ce75e174.css">
+		<link rel="stylesheet" href="/_app/assets/card-cd93412a.css">
+
+		<script type="module">
+			import { start } from "/_app/start-da697de4.js";
+			start({
+				target: document.querySelector("#svelte"),
+				paths: {"base":"","assets":""},
+				session: {},
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/_app/pages/__layout.svelte-414ae12d.js"),
+						import("/_app/pages/index.svelte-d2bd64ee.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "\u002F",
+						query: new URLSearchParams(""),
+						params: {}
+					}
+				}
+			});
+		</script>
+</head>
+
+<body>
+	<div id="svelte">
+
+
+
+
+<nav class="shadow-sm navbar navbar-expand- navbar-light bg-light"><div class="container-fluid"><a class="navbar-brand" href="/">RPG Card Generator</a>
+  <ul class="navbar-nav"><li class="nav-item"><a href="https://github.com/mathiasandresen/rpg-cards" class="nav-link"><i class="bi-github"></i></a></li></ul></div></nav>
+<div class="grid svelte-dmfu34"><div class="accordion"><div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+    General</button></h2>
+  
+
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-1g3d3n6"><div class="hidden svelte-1g3d3n6"><input type="file" accept=".json"></div>
+      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
+        </button></div>
+      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
+      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
+      <div class="sidebar-element svelte-1g3d3n6"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
+      <h2 class="sidebar-header svelte-1g3d3n6">Options</h2>
+      <div class="sidebar-element full svelte-1g3d3n6"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="">
+  <label class="form-check-label" for="convert-first-subtitle">Convert first subtitle to section?</label></div>
+
+        <span id="convert-first-subtitle-help" class="badge bg-info rounded-pill">?</span>
+        </div></div></div></div></div>
+  <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+    Page</button></h2>
+  
+
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><form class=""><div class="mb-3"><span><label class="form-label" for="paper-size">Paper size</label></span>
+        <div id="paper-size" class="input-group"><input id="paper-size-width" class="form-control" type="number" name="" placeholder="Width" value="210">
+
+          <span class="input-group-text">mm</span>
+          <input id="paper-size-height" class="form-control" type="number" name="" placeholder="Height" value="297">
+
+          <span class="input-group-text">mm</span></div></div>
+      <div class="mb-3"><span><label class="form-label" for="page-adjust">Print adjust</label>
+          <span id="page-adjust-help" class="badge bg-info rounded-pill">?</span>
+          </span>
+        <div id="page-adjust" class="input-group"><input id="page-adjust-x" class="form-control" type="number" name="" placeholder="X" value="">
+
+          <span class="input-group-text">mm</span>
+          <input id="page-adjust-y" class="form-control" type="number" name="" placeholder="Y" value="">
+
+          <span class="input-group-text">mm</span></div></div></form></div></div></div>
+  <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+    Deck</button></h2>
+  
+
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="deck-wrapper svelte-21v2s"><div class="deck-list-buttons"><button class="btn btn-primary" value="" style=""><i class="bi-file-plus-fill"></i>
+        Add card
+      </button>
+      <button class="btn btn-danger" disabled value="" style=""><i class="bi-trash-fill"></i>
+        Clear deck
+      </button></div>
+    <div class="deck-list svelte-21v2s"><div class="empty-deck svelte-21v2s">There are no cards in your deck!</div></div></div>
+
+
+<div></div></div></div></div></div>
+  <div><h4>Editor</h4>
+
+  <div class="empty-editor svelte-o74mtl">No card is selected!</div>
+</div>
+  <div><h4>Preview</h4>
+  
+</div>
+</div>
+
+
+
+			
+		</div>
+</body>
+
+</html>
