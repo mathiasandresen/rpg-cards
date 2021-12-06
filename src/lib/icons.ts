@@ -24,6 +24,8 @@ export function getIcon(name: string): Icon {
   return iconMap.get(name);
 }
 
-export function getAllIcons(): Icon[] {
-  return Array.from(iconMap.values());
+export function getAllIconNames(query?: string): string[] {
+  return Array.from(iconMap.values())
+    .filter((icon) => (query ? icon.name.includes(query) : true))
+    .map((icon) => icon.name);
 }
