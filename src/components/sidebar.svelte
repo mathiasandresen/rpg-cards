@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/env';
+  import { goto } from '$app/navigation';
   import {
     Accordion,
     AccordionItem,
@@ -21,6 +22,9 @@
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
   let convertFirstSubtitle = false;
+  let hiddenDownloadLink: HTMLAnchorElement;
+  let downloadUrl = undefined;
+  let downloadName = 'cards.json';
 
   if (browser) {
     convertFirstSubtitle = localStorage?.getItem('shouldConvertFirstSubtitle') === 'true' ?? false;
@@ -49,6 +53,17 @@
     addCardsToDeck(cards);
   };
 
+  const handleExportToFile = () => {
+    const jsonExport = JSON.stringify($deck, undefined, 2);
+    const blob = new Blob([jsonExport], { type: 'application/json' });
+    downloadUrl = URL.createObjectURL(blob);
+
+    hiddenDownloadLink.href = downloadUrl;
+    hiddenDownloadLink.click();
+
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
+  };
+
   $: {
     if (browser) {
       localStorage.setItem('shouldConvertFirstSubtitle', convertFirstSubtitle.toString());
@@ -61,6 +76,9 @@
     <div class="button-grid">
       <div class="hidden">
         <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
+        <a href={downloadUrl} download={downloadName} bind:this={hiddenDownloadLink}>
+          Hidden download link
+        </a>
       </div>
       <div class="sidebar-element">
         <Button block color="primary" on:click={() => importFileSelector.click()}>
@@ -71,7 +89,7 @@
         <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
       </div>
       <div class="sidebar-element">
-        <Button block color="primary" on:click>Export to file</Button>
+        <Button block color="primary" on:click={handleExportToFile}>Export to file</Button>
       </div>
       <div class="sidebar-element">
         <Button block color="primary" href="/output">Print</Button>
