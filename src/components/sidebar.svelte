@@ -13,14 +13,18 @@
     Label,
     Tooltip
   } from 'sveltestrap';
-  import { parseCards } from '../lib/card-json-parser';
+  import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
+  import type { CardCollection } from '../model/card-collection';
   import { currentCard, deck, pageLayout } from '../stores';
   import Deck from './deck.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
   let convertFirstSubtitle = false;
+  let hiddenDownloadLink: HTMLAnchorElement;
+  let downloadUrl = undefined;
+  let downloadName = 'cards.json';
 
   if (browser) {
     convertFirstSubtitle = localStorage?.getItem('shouldConvertFirstSubtitle') === 'true' ?? false;
@@ -49,6 +53,17 @@
     addCardsToDeck(cards);
   };
 
+  const handleExportToFile = () => {
+    const jsonExport = JSON.stringify(generateExportObject($deck), undefined, 2);
+    const blob = new Blob([jsonExport], { type: 'application/json' });
+    downloadUrl = URL.createObjectURL(blob);
+
+    hiddenDownloadLink.href = downloadUrl;
+    hiddenDownloadLink.click();
+
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
+  };
+
   $: {
     if (browser) {
       localStorage.setItem('shouldConvertFirstSubtitle', convertFirstSubtitle.toString());
@@ -61,6 +76,9 @@
     <div class="button-grid">
       <div class="hidden">
         <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
+        <a href={downloadUrl} download={downloadName} bind:this={hiddenDownloadLink}>
+          Hidden download link
+        </a>
       </div>
       <div class="sidebar-element">
         <Button block color="primary" on:click={() => importFileSelector.click()}>
@@ -71,7 +89,7 @@
         <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
       </div>
       <div class="sidebar-element">
-        <Button block color="primary" on:click>Export to file</Button>
+        <Button block color="primary" on:click={handleExportToFile}>Export to file</Button>
       </div>
       <div class="sidebar-element">
         <Button block color="primary" href="/output">Print</Button>
@@ -80,14 +98,13 @@
       <div class="sidebar-element full">
         <Input
           type="checkbox"
-          label="Convert first subtitle to section?"
+          label="Convert subtitle + rule to sections?"
           id="convert-first-subtitle"
           bind:checked={convertFirstSubtitle}
         />
         <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
         <Tooltip target={'convert-first-subtitle-help'}>
-          This will convert the first subtitle followed by a rule of all imported cards to a
-          section.
+          This will convert subtitles followed by a rule into sections.
         </Tooltip>
       </div>
     </div>
