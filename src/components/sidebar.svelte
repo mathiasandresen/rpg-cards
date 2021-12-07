@@ -1,6 +1,5 @@
 <script lang="ts">
   import { browser } from '$app/env';
-  import { goto } from '$app/navigation';
   import {
     Accordion,
     AccordionItem,
@@ -14,8 +13,9 @@
     Label,
     Tooltip
   } from 'sveltestrap';
-  import { parseCards } from '../lib/card-json-parser';
+  import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
+  import type { CardCollection } from '../model/card-collection';
   import { currentCard, deck, pageLayout } from '../stores';
   import Deck from './deck.svelte';
 
@@ -54,7 +54,7 @@
   };
 
   const handleExportToFile = () => {
-    const jsonExport = JSON.stringify($deck, undefined, 2);
+    const jsonExport = JSON.stringify(generateExportObject($deck), undefined, 2);
     const blob = new Blob([jsonExport], { type: 'application/json' });
     downloadUrl = URL.createObjectURL(blob);
 
@@ -98,14 +98,13 @@
       <div class="sidebar-element full">
         <Input
           type="checkbox"
-          label="Convert first subtitle to section?"
+          label="Convert subtitle + rule to sections?"
           id="convert-first-subtitle"
           bind:checked={convertFirstSubtitle}
         />
         <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
         <Tooltip target={'convert-first-subtitle-help'}>
-          This will convert the first subtitle followed by a rule of all imported cards to a
-          section.
+          This will convert subtitles followed by a rule into sections.
         </Tooltip>
       </div>
     </div>

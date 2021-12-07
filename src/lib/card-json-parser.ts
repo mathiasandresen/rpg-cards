@@ -1,73 +1,92 @@
-import { isCardContentType } from "../model/card";
-import type Card from "../model/card";
-import type { CardContent } from "../model/card";
-import { SPLIT_REGEX } from "./constants";
-import { uuid4 } from "./uuid";
+import { isCardContentType } from '../model/card';
+import type Card from '../model/card';
+import type { CardContent } from '../model/card';
+import { SPLIT_REGEX } from './constants';
+import { uuid4 } from './uuid';
+import type { CardCollection } from '../model/card-collection';
+import { isCardCollection } from '../model/card-collection';
 
-export function parseCards(json: string, convertTopSubtitleToSection = false): Card[] {
-    const cards = JSON.parse(json, (key, value: never) => transformer(key, value, convertTopSubtitleToSection)) as Card[];
+export function parseCards(json: string, shouldConvertSubtitlePlusRuleToSection = false): Card[] {
+  const importObject = JSON.parse(json);
+  let cards: Card[];
 
-    cards.forEach((card) => {
-        if (!card.layout) {
-            card.layout = {};
-        }
-    })
+  if (isCardCollection(importObject)) {
+    cards = importObject.cards;
+  } else if (Array.isArray(importObject)) {
+    cards = JSON.parse(json, (key, value: never) => transformer(key, value)) as Card[];
+  } else {
+    console.warn('Uknown import format!');
+    return [];
+  }
 
-    return cards;
-}
-
-export function parseCard(json: string, convertTopSubtitleToSection = false): Card {
-    const card = JSON.parse(json, (key, value: never) => transformer(key, value, convertTopSubtitleToSection)) as Card;
-
+  cards.forEach((card) => {
     if (!card.layout) {
-        card.layout = {};
+      card.layout = {};
     }
 
-    return card;
+    if (shouldConvertSubtitlePlusRuleToSection) {
+      card.contents = convertSubtitlePlusRuleToSection(card.contents);
+    }
+  });
+
+  return cards;
 }
 
-function transformer(key: string, value: never, convertTopSubtitleToSection = false) {
-    if (key === "contents") {
-        return parseCardContents(value, convertTopSubtitleToSection);
-    }
+function convertSubtitlePlusRuleToSection(contents: CardContent[]): CardContent[] {
+  let subtitleIndex = -1;
+  const subtitleToSectionList: number[] = [];
 
-    return value;
+  const newContents = [...contents];
+
+  newContents.forEach((content, index) => {
+    if (content.type === 'subtitle') {
+      subtitleIndex = index;
+    } else if (content.type === 'rule' && subtitleIndex + 1 === index) {
+      subtitleToSectionList.push(subtitleIndex);
+    }
+  });
+
+  subtitleToSectionList.forEach((index) => {
+    newContents[index].type = 'section';
+    newContents.splice(index + 1, 1);
+  });
+
+  return newContents;
 }
 
-export function parseCardContents(value: string[], convertTopSubtitleToSection = false): CardContent[] {
-    let subtitleIndex = -1;
-    const subtitleToSectionList: number[] = [];
+function transformer(key: string, value: never) {
+  if (key === 'contents') {
+    return parseCardContents(value);
+  }
 
-    const mapped: CardContent[] = value?.map((element: string, index: number) => {
-        // eslint-disable-next-line prefer-const
-        let [type, ...content] = element.split(SPLIT_REGEX);
+  return value;
+}
 
-        if (!isCardContentType(type)) {
-            // throw new CardContentError(`'${type}' is not a valid content type`)
-            type = 'text';
-        }
+export function parseCardContents(value: string[]): CardContent[] {
+  const mapped: CardContent[] = value?.map((element: string) => {
+    // eslint-disable-next-line prefer-const
+    let [type, ...content] = element.split(SPLIT_REGEX);
 
-        if (convertTopSubtitleToSection && type === "subtitle") {
-            subtitleIndex = index
-        } else if (type === "rule" && (subtitleIndex + 1) === index) {
-            subtitleToSectionList.push(subtitleIndex)
-        }
-
-        return {
-            type: type,
-            content: content.join(" | "),
-            id: uuid4(),
-        } as CardContent;
-    });
-
-    if (convertTopSubtitleToSection) {
-        subtitleToSectionList.forEach((index) => {
-            mapped[index].type = "section";
-            mapped.splice(index+1, 1)
-        })
+    if (!isCardContentType(type)) {
+      // throw new CardContentError(`'${type}' is not a valid content type`)
+      type = 'text';
     }
 
-    return mapped;
+    return {
+      type: type,
+      content: content.join(' | '),
+      id: uuid4()
+    } as CardContent;
+  });
+
+  return mapped;
 }
 
 export class CardContentError extends Error {}
+
+export function generateExportObject(cards: Card[]): CardCollection {
+  return {
+    version: '1',
+    cards
+  };
+}
