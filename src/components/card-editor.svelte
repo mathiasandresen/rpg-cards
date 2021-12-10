@@ -1,23 +1,12 @@
 <script lang="ts">
   import IconInput from './game-icon-input.svelte';
-  import { flip } from 'svelte/animate';
-  import {
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupText,
-    Label,
-    Icon,
-    Button
-  } from 'sveltestrap';
+  import { Form, FormGroup, Input, InputGroup, InputGroupText, Label } from 'sveltestrap';
   import { parseCardContents } from '../lib/card-json-parser';
   import type { CardContent } from '../model/card';
   import type Card from '../model/card';
-  import { currentCard, deck } from '../stores';
+  import { currentCard, deck, multiSelect } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
-  import CardEditorContentInput from './card-editor-content-input.svelte';
-  import GameIcon from './game-icon.svelte';
+  import { createMultiCard } from '../lib/card-builder';
 
   const getContentAsString = (contents: CardContent[]): string => {
     return contents
@@ -28,6 +17,12 @@
   };
 
   const updateDeck = () => {
+    if (isMultiEditing) {
+      multiCard = {
+        ...card
+      };
+      return;
+    }
     $deck[$currentCard] = card;
 
     if (contentEditorMode !== 'textfield') {
@@ -62,6 +57,38 @@
     onCurrentCardChanged();
   }
   $: card && updateDeck();
+  $: layout = card?.layout ?? {};
+
+  /** Multi editor */
+  $: isMultiEditing = $multiSelect.size > 1;
+  let multiCard: Partial<Card>;
+
+  const handleMultiEditingChanging = (isMultiEditing: boolean) => {
+    if (isMultiEditing) {
+      multiCard = createMultiCard($deck.filter((_, index) => $multiSelect.has(index)));
+      card = multiCard as Card;
+    } else {
+      card = $deck[$currentCard];
+    }
+  };
+  $: $multiSelect && handleMultiEditingChanging(isMultiEditing);
+
+  const handleMulticardChanges = () => {
+    console.log('multicard', multiCard);
+
+    deck.set(
+      $deck.map((c, index) => {
+        if ($multiSelect.has(index)) {
+          return {
+            ...c,
+            ...multiCard
+          };
+        }
+        return c;
+      })
+    );
+  };
+  $: multiCard && handleMulticardChanges();
 </script>
 
 <div>
@@ -72,7 +99,13 @@
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="name">Name</Label>
         <div class="col">
-          <Input type="text" name="name" id="name" bind:value={card.title} placeholder="Name" />
+          <Input
+            type="text"
+            name="name"
+            id="name"
+            bind:value={card.title}
+            placeholder={isMultiEditing && card.title === undefined ? '*' : 'Name'}
+          />
         </div>
       </FormGroup>
       <FormGroup row>
@@ -83,7 +116,7 @@
             name="count"
             id="count"
             bind:value={card.count}
-            placeholder="Count"
+            placeholder={isMultiEditing && card.count === undefined ? '*' : 'Count'}
           />
         </div>
       </FormGroup>
@@ -96,7 +129,12 @@
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="icon_back">Icon (Back)</Label>
         <div class="col">
-          <IconInput bind:icon={card.icon_back} id="icon_back" name="icon_back" />
+          <IconInput
+            bind:icon={card.icon_back}
+            id="icon_back"
+            name="icon_back"
+            placeholder={isMultiEditing && card.icon_back === undefined ? '*' : 'Icon back'}
+          />
         </div>
       </FormGroup>
       <FormGroup row>
@@ -107,7 +145,9 @@
             name="text_back"
             id="text_back"
             bind:value={card.text_back}
-            placeholder="Text to show on back, such as spell lvl"
+            placeholder={isMultiEditing && card.text_back === undefined
+              ? '*'
+              : 'Text to show on back, such as spell lvl'}
           />
         </div>
       </FormGroup>
@@ -143,7 +183,7 @@
             type="text"
             name="text-font-size"
             id="text-font-size"
-            bind:value={card.layout.text_font_size}
+            bind:value={layout.text_font_size}
             placeholder="10px"
           />
         </div>
@@ -163,15 +203,21 @@
           </Input>
         </div>
       </FormGroup>
-      <FormGroup row>
-        {#if contentEditorMode === 'individual'}
-          <CardContentEditor bind:contents={card.contents} />
-        {:else}
-          <div>
-            <Input type="textarea" class="content-editor-textarea" bind:value={textFieldContent} />
-          </div>
-        {/if}
-      </FormGroup>
+      {#if !isMultiEditing && card.contents}
+        <FormGroup row>
+          {#if contentEditorMode === 'individual'}
+            <CardContentEditor bind:contents={card.contents} />
+          {:else}
+            <div>
+              <Input
+                type="textarea"
+                class="content-editor-textarea"
+                bind:value={textFieldContent}
+              />
+            </div>
+          {/if}
+        </FormGroup>
+      {/if}
     </Form>
   {:else}
     <div class="empty-editor">No card is selected!</div>
