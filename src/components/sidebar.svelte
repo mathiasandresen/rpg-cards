@@ -15,19 +15,20 @@
   } from 'sveltestrap';
   import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
-  import type { CardCollection } from '../model/card-collection';
   import { currentCard, deck, pageLayout } from '../stores';
+  import { defaultSettings } from '../stores/settings';
+  import type Settings from '../stores/settings';
   import Deck from './deck.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
-  let convertFirstSubtitle = false;
+  let settings: Settings = defaultSettings;
   let hiddenDownloadLink: HTMLAnchorElement;
   let downloadUrl = undefined;
   let downloadName = 'cards.json';
 
   if (browser) {
-    convertFirstSubtitle = localStorage?.getItem('shouldConvertFirstSubtitle') === 'true' ?? false;
+    settings = JSON.parse(localStorage?.getItem('settings')) ?? defaultSettings;
   }
 
   const addCardsToDeck = (cards: Card[]) => {
@@ -41,7 +42,11 @@
     }
     const file = importFiles[0];
     const jsonText = await file.text();
-    const cards = parseCards(jsonText, convertFirstSubtitle);
+    const cards = parseCards(
+      jsonText,
+      settings.convertFirstSubtitle,
+      settings.convertDndSpellblock
+    );
     addCardsToDeck(cards);
   };
 
@@ -49,7 +54,11 @@
 
   const handleImportSampleDeck = async () => {
     const jsonText = await fetch('rpg-cards-sample.json').then((res) => res.text());
-    const cards = parseCards(jsonText, convertFirstSubtitle);
+    const cards = parseCards(
+      jsonText,
+      settings.convertFirstSubtitle,
+      settings.convertDndSpellblock
+    );
     addCardsToDeck(cards);
   };
 
@@ -66,7 +75,7 @@
 
   $: {
     if (browser) {
-      localStorage.setItem('shouldConvertFirstSubtitle', convertFirstSubtitle.toString());
+      localStorage.setItem('settings', JSON.stringify(settings));
     }
   }
 </script>
@@ -95,16 +104,29 @@
         <Button block color="primary" href="/output">Print</Button>
       </div>
       <h2 class="sidebar-header">Options</h2>
-      <div class="sidebar-element full">
+      <div class="sidebar-element low full">
         <Input
           type="checkbox"
           label="Convert subtitle + rule to sections?"
           id="convert-first-subtitle"
-          bind:checked={convertFirstSubtitle}
+          bind:checked={settings.convertFirstSubtitle}
         />
         <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
         <Tooltip target={'convert-first-subtitle-help'}>
           This will convert subtitles followed by a rule into sections.
+        </Tooltip>
+      </div>
+      <div class="sidebar-element low full">
+        <Input
+          type="checkbox"
+          label="Convert D&D spell blocks?"
+          id="convert-dnd-spell-block"
+          bind:checked={settings.convertDndSpellblock}
+        />
+        <Badge id="convert-dnd-spell-block-help" pill color="info">?</Badge>
+        <Tooltip target={'convert-dnd-spell-block-help'}>
+          This will convert properties containing Casting Time, Range, Components, and Duration (in
+          that order) into a block.
         </Tooltip>
       </div>
     </div>
@@ -184,6 +206,10 @@
 
     &.full {
       grid-column: 1 / span 2;
+    }
+
+    &.low {
+      min-height: 1.5em;
     }
   }
 

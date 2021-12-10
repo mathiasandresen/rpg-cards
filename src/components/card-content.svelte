@@ -2,6 +2,7 @@
   import { SPLIT_REGEX } from '../lib/constants';
 
   import type { CardContent } from '../model/card';
+  import Dndspellblock from './dndspellblock.svelte';
   import Dndstats from './dndstats.svelte';
 
   export let content: CardContent;
@@ -77,6 +78,8 @@
   </span>
 {:else if content?.type === 'dndstats'}
   <Dndstats {content} />
+{:else if content?.type === 'dndspellblock'}
+  <Dndspellblock {content} />
 {:else if content?.type === 'picture'}
   <!-- svelte-ignore a11y-img-redundant-alt -->
   <img

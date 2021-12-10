@@ -73,6 +73,16 @@
     <Input type="number" bind:value={splitContent[4]} placeholder="Wis" />
     <Input type="number" bind:value={splitContent[5]} placeholder="Cha" />
   </InputGroup>
+{:else if content.type === 'dndspellblock'}
+  <InputGroup>
+    <InputGroupText>
+      <span class="input-group-text-content">{content.type}</span>
+    </InputGroupText>
+    <Input type="text" bind:value={splitContent[0]} placeholder="Casting time" />
+    <Input type="text" bind:value={splitContent[1]} placeholder="Range" />
+    <Input type="text" bind:value={splitContent[2]} placeholder="Components" />
+    <Input type="text" bind:value={splitContent[3]} placeholder="Duration" />
+  </InputGroup>
 {:else if content.type === 'picture'}
   <InputGroup>
     <InputGroupText>
@@ -116,7 +126,7 @@
 
 <style lang="scss">
   .input-group-text-content {
-    min-width: 5em;
+    min-width: 6.5em;
     width: 100%;
     text-align: start;
   }
