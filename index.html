@@ -10,18 +10,18 @@
 
 		
 
-		<link rel="modulepreload" href="/_app/start-eb9865d7.js">
+		<link rel="modulepreload" href="/_app/start-d8eeead9.js">
 		<link rel="modulepreload" href="/_app/chunks/vendor-1eec82a4.js">
 		<link rel="modulepreload" href="/_app/pages/__layout.svelte-d6b75f70.js">
-		<link rel="modulepreload" href="/_app/pages/index.svelte-629adc81.js">
-		<link rel="modulepreload" href="/_app/chunks/card-9e91f955.js">
+		<link rel="modulepreload" href="/_app/pages/index.svelte-521a6afd.js">
+		<link rel="modulepreload" href="/_app/chunks/card-ad179504.js">
 		<link rel="stylesheet" href="/_app/assets/start-61d1577b.css">
 		<link rel="stylesheet" href="/_app/assets/vendor-77b52ba5.css">
-		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-ce75e174.css">
-		<link rel="stylesheet" href="/_app/assets/card-cd93412a.css">
+		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-5d592f20.css">
+		<link rel="stylesheet" href="/_app/assets/card-9c023f86.css">
 
 		<script type="module">
-			import { start } from "/_app/start-eb9865d7.js";
+			import { start } from "/_app/start-d8eeead9.js";
 			start({
 				target: document.querySelector("#svelte"),
 				paths: {"base":"","assets":""},
@@ -35,7 +35,7 @@
 					error: null,
 					nodes: [
 						import("/_app/pages/__layout.svelte-d6b75f70.js"),
-						import("/_app/pages/index.svelte-629adc81.js")
+						import("/_app/pages/index.svelte-521a6afd.js")
 					],
 					page: {
 						host: location.host, // TODO this is redundant
@@ -60,19 +60,24 @@
     General</button></h2>
   
 
-<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-1g3d3n6"><div class="hidden svelte-1g3d3n6"><input type="file" accept=".json">
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-knd3uk"><div class="hidden svelte-knd3uk"><input type="file" accept=".json">
         <a download="cards.json">Hidden download link
         </a></div>
-      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
+      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
         </button></div>
-      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
-      <div class="sidebar-element svelte-1g3d3n6"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
-      <div class="sidebar-element svelte-1g3d3n6"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
-      <h2 class="sidebar-header svelte-1g3d3n6">Options</h2>
-      <div class="sidebar-element full svelte-1g3d3n6"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="">
+      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
+      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
+      <div class="sidebar-element svelte-knd3uk"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
+      <h2 class="sidebar-header svelte-knd3uk">Options</h2>
+      <div class="sidebar-element low full svelte-knd3uk"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="">
   <label class="form-check-label" for="convert-first-subtitle">Convert subtitle + rule to sections?</label></div>
 
         <span id="convert-first-subtitle-help" class="badge bg-info rounded-pill">?</span>
+        </div>
+      <div class="sidebar-element low full svelte-knd3uk"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-dnd-spell-block" type="checkbox" name="" value="">
+  <label class="form-check-label" for="convert-dnd-spell-block">Convert D&amp;D spell blocks?</label></div>
+
+        <span id="convert-dnd-spell-block-help" class="badge bg-info rounded-pill">?</span>
         </div></div></div></div></div>
   <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
     Page</button></h2>
