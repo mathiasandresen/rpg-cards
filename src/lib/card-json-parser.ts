@@ -6,7 +6,11 @@ import { uuid4 } from './uuid';
 import type { CardCollection } from '../model/card-collection';
 import { isCardCollection } from '../model/card-collection';
 
-export function parseCards(json: string, shouldConvertSubtitlePlusRuleToSection = false): Card[] {
+export function parseCards(
+  json: string,
+  shouldConvertSubtitlePlusRuleToSection = false,
+  shouldConvertDndSpellcardBlocks = false
+): Card[] {
   const importObject = JSON.parse(json);
   let cards: Card[];
 
@@ -26,6 +30,10 @@ export function parseCards(json: string, shouldConvertSubtitlePlusRuleToSection 
 
     if (shouldConvertSubtitlePlusRuleToSection) {
       card.contents = convertSubtitlePlusRuleToSection(card.contents);
+    }
+
+    if (shouldConvertDndSpellcardBlocks) {
+      card.contents = convertDndSpellBlock(card.contents);
     }
   });
 
@@ -49,6 +57,62 @@ function convertSubtitlePlusRuleToSection(contents: CardContent[]): CardContent[
   subtitleToSectionList.forEach((index) => {
     newContents[index].type = 'section';
     newContents.splice(index + 1, 1);
+  });
+
+  return newContents;
+}
+
+function convertDndSpellBlock(contents: CardContent[]): CardContent[] {
+  const newContents = [...contents];
+
+  type Spellblock = {
+    index: number;
+    castingTime: string;
+    range: string;
+    components: string;
+    duration: string;
+  };
+
+  const blocks: Spellblock[] = [];
+
+  newContents.forEach((content, index) => {
+    if (content.type === 'property') {
+      if (
+        newContents[index + 1].type === 'property' &&
+        newContents[index + 2].type === 'property' &&
+        newContents[index + 3].type === 'property'
+      ) {
+        if (
+          newContents[index].content.split(SPLIT_REGEX)[0] === 'Casting Time' &&
+          newContents[index + 1].content.split(SPLIT_REGEX)[0] === 'Range' &&
+          newContents[index + 2].content.split(SPLIT_REGEX)[0] === 'Components' &&
+          newContents[index + 3].content.split(SPLIT_REGEX)[0] === 'Duration'
+        ) {
+          const castingTime = newContents[index].content.split(SPLIT_REGEX)[1];
+          const range = newContents[index + 1].content.split(SPLIT_REGEX)[1];
+          const components = newContents[index + 2].content.split(SPLIT_REGEX)[1];
+          const duration = newContents[index + 3].content.split(SPLIT_REGEX)[1];
+
+          blocks.push({
+            index,
+            castingTime,
+            components,
+            duration,
+            range
+          });
+
+          newContents.splice(index, 4);
+        }
+      }
+    }
+  });
+
+  blocks.forEach((block, i) => {
+    newContents.splice(block.index + i * 4, 0, {
+      type: 'dndspellblock',
+      content: [block.castingTime, block.range, block.components, block.duration].join(' | '),
+      id: uuid4()
+    });
   });
 
   return newContents;
