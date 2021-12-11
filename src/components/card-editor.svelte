@@ -74,8 +74,6 @@
   $: $multiSelect && handleMultiEditingChanging(isMultiEditing);
 
   const handleMulticardChanges = () => {
-    console.log('multicard', multiCard);
-
     deck.set(
       $deck.map((c, index) => {
         if ($multiSelect.has(index)) {

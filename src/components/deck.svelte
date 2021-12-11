@@ -35,6 +35,18 @@
     }
   };
 
+  const handleSelectAll = () => {
+    if ($deck.every((_, index) => $multiSelect.has(index))) {
+      currentCard.set(-2); // Set to -2 in order to trigger change
+      return;
+    }
+
+    $deck.forEach((_, index) => {
+      currentCard.set(-1);
+      multiSelect.add(index);
+    });
+  };
+
   const handleCheckBox = (index: number, value: boolean): void => {
     if (value) {
       multiSelect.add(index);
@@ -65,7 +77,17 @@
         Clear deck
       </Button>
     </div>
-    <Button>Select all</Button>
+    {#if cards && cards.length > 0}
+      <Button on:click={handleSelectAll}>
+        {#if !$deck.every((_, index) => $multiSelect.has(index))}
+          <Icon name="check-square" />
+          Select all
+        {:else}
+          <Icon name="square" />
+          Deselect all
+        {/if}
+      </Button>
+    {/if}
     <div class="deck-list">
       {#if cards && cards.length > 0}
         <ListGroup>
