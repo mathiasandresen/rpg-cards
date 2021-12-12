@@ -1,7 +1,7 @@
 <script lang="ts">
   import IconInput from './game-icon-input.svelte';
   import { Form, FormGroup, Input, InputGroup, InputGroupText, Label } from 'sveltestrap';
-  import { parseCardContents } from '../lib/card-json-parser';
+  import { getContentAsString, parseCardContents } from '../lib/card-json-parser';
   import type { CardContent } from '../model/card';
   import type Card from '../model/card';
   import { currentCard, deck, multiSelect } from '../stores';
@@ -9,25 +9,26 @@
   import { createMultiCard } from '../lib/card-builder';
   import extend from 'just-extend';
 
+  let card: Card = $deck[$currentCard];
+  let contentEditorMode: 'individual' | 'textfield' = 'individual';
+  let textFieldContent: string = getContentAsString(card?.contents);
   $: isMultiEditing = $multiSelect.size > 1;
-  let multiEditReady = false;
-
-  const getContentAsString = (contents: CardContent[]): string => {
-    return contents
-      ?.map((content) =>
-        (content.content ? [content.type, content.content] : [content.type])?.join(' | ')
-      )
-      ?.join('\n');
-  };
 
   const updateDeck = () => {
+    debugger;
     if (isMultiEditing) {
-      multiCard = {
-        ...card
-      };
+      deck.set(
+        $deck.map((c, index) => {
+          if ($multiSelect.has(index)) {
+            return extend(true, c, card) as Card;
+          }
+          return c;
+        })
+      );
       return;
     }
-    $deck[$currentCard] = card;
+
+    deck.setCard($currentCard, card);
 
     if (contentEditorMode !== 'textfield') {
       textFieldContent = getContentAsString(card?.contents);
@@ -44,61 +45,26 @@
     textFieldContent = getContentAsString(card?.contents);
   };
 
-  const updateCardContents = (cardContentsString: string) => {
+  const updateCardContents = () => {
     try {
-      card.contents = parseCardContents(cardContentsString?.split('\n')) ?? card.contents;
+      card.contents = parseCardContents(textFieldContent?.split('\n')) ?? card.contents;
     } catch (error) {}
   };
 
-  let card: Card = $deck[$currentCard];
-  let contentEditorMode: 'individual' | 'textfield' = 'individual';
-  let textFieldContent: string = getContentAsString(card?.contents);
-
-  $: updateCardContents(textFieldContent);
+  $: void textFieldContent, updateCardContents();
   $: {
-    $currentCard;
-    $deck;
-    onCurrentCardChanged();
+    $currentCard, $deck, onCurrentCardChanged();
   }
   $: card && updateDeck();
 
-  /* 
-  Multi editor 
-  */
-  let multiCard: Partial<Card>;
-
-  const handleMultiEditingChanging = (isMultiEditing: boolean) => {
-    if ($multiSelect.size === 0) {
-      card = undefined;
-      multiCard = undefined;
-    }
-
+  const handleMultiEditingChanging = () => {
     if (isMultiEditing) {
-      multiEditReady = false;
-      multiCard = createMultiCard($deck.filter((_, index) => $multiSelect.has(index)));
-      card = multiCard as Card;
-      multiEditReady = true;
-    } else {
-      card = $deck[$currentCard];
-    }
-  };
-  $: $multiSelect && handleMultiEditingChanging(isMultiEditing);
-
-  const handleMulticardChanges = () => {
-    if (!multiEditReady) {
+      card = createMultiCard($deck.filter((_, index) => $multiSelect.has(index))) as Card;
       return;
     }
-
-    deck.set(
-      $deck.map((c, index) => {
-        if ($multiSelect.has(index)) {
-          return extend(true, c, multiCard) as Card;
-        }
-        return c;
-      })
-    );
+    card = $deck[$currentCard];
   };
-  $: multiCard && handleMulticardChanges();
+  $: $multiSelect && isMultiEditing !== undefined && handleMultiEditingChanging();
 </script>
 
 <div>

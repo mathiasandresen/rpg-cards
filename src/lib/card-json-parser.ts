@@ -146,6 +146,14 @@ export function parseCardContents(value: string[]): CardContent[] {
   return mapped;
 }
 
+export function getContentAsString(contents: CardContent[]): string {
+  return contents
+    ?.map((content) =>
+      (content.content ? [content.type, content.content] : [content.type])?.join(' | ')
+    )
+    ?.join('\n');
+}
+
 export class CardContentError extends Error {}
 
 export function generateExportObject(cards: Card[]): CardCollection {
