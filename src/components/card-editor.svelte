@@ -7,6 +7,10 @@
   import { currentCard, deck, multiSelect } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
   import { createMultiCard } from '../lib/card-builder';
+  import extend from 'just-extend';
+
+  $: isMultiEditing = $multiSelect.size > 1;
+  let multiEditReady = false;
 
   const getContentAsString = (contents: CardContent[]): string => {
     return contents
@@ -31,7 +35,7 @@
   };
 
   const onCurrentCardChanged = () => {
-    if ($currentCard === -1) {
+    if ($currentCard < 0) {
       card = undefined;
       return;
     }
@@ -57,16 +61,23 @@
     onCurrentCardChanged();
   }
   $: card && updateDeck();
-  $: layout = card?.layout ?? {};
 
-  /** Multi editor */
-  $: isMultiEditing = $multiSelect.size > 1;
+  /* 
+  Multi editor 
+  */
   let multiCard: Partial<Card>;
 
   const handleMultiEditingChanging = (isMultiEditing: boolean) => {
+    if ($multiSelect.size === 0) {
+      card = undefined;
+      multiCard = undefined;
+    }
+
     if (isMultiEditing) {
+      multiEditReady = false;
       multiCard = createMultiCard($deck.filter((_, index) => $multiSelect.has(index)));
       card = multiCard as Card;
+      multiEditReady = true;
     } else {
       card = $deck[$currentCard];
     }
@@ -74,13 +85,14 @@
   $: $multiSelect && handleMultiEditingChanging(isMultiEditing);
 
   const handleMulticardChanges = () => {
+    if (!multiEditReady) {
+      return;
+    }
+
     deck.set(
       $deck.map((c, index) => {
         if ($multiSelect.has(index)) {
-          return {
-            ...c,
-            ...multiCard
-          };
+          return extend(true, c, multiCard) as Card;
         }
         return c;
       })
@@ -94,6 +106,7 @@
 
   {#if card}
     <Form>
+      <!-- Name -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="name">Name</Label>
         <div class="col">
@@ -106,6 +119,7 @@
           />
         </div>
       </FormGroup>
+      <!-- Count -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="count">Count</Label>
         <div class="col">
@@ -118,12 +132,7 @@
           />
         </div>
       </FormGroup>
-      <!-- <FormGroup row>
-        <Label class="col-sm-3 col-form-label" for="icon">Icon</Label>
-        <div class="col">
-          <IconInput bind:icon={card.icon} id="icon" name="icon" />
-        </div>
-      </FormGroup> -->
+      <!-- Icon back -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="icon_back">Icon (Back)</Label>
         <div class="col">
@@ -135,6 +144,7 @@
           />
         </div>
       </FormGroup>
+      <!-- Text back -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="icon_back">Text (Back)</Label>
         <div class="col">
@@ -149,6 +159,7 @@
           />
         </div>
       </FormGroup>
+      <!-- Color -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="color">Color</Label>
         <div class="col">
@@ -160,7 +171,6 @@
                 name="color"
                 id="color"
                 bind:value={card.color}
-                placeholder="Color"
               />
             </InputGroupText>
             <Input
@@ -173,7 +183,7 @@
           </InputGroup>
         </div>
       </FormGroup>
-
+      <!-- Text font size -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="text-font-size">Text font size</Label>
         <div class="col">
@@ -181,12 +191,12 @@
             type="text"
             name="text-font-size"
             id="text-font-size"
-            bind:value={layout.text_font_size}
-            placeholder="10px"
+            bind:value={card.layout.text_font_size}
+            placeholder={isMultiEditing && card.layout.text_font_size === undefined ? '*' : '10px'}
           />
         </div>
       </FormGroup>
-
+      <!-- Contents -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="content-editor-type">Contents</Label>
         <div class="col">

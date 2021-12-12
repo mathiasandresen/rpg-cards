@@ -34,6 +34,8 @@ multiSelect.subscribe((set) => {
 });
 
 currentCard.subscribe((current) => {
-  multiSelect.clear();
-  multiSelect.add(current);
+  if (current > -1) {
+    multiSelect.clear();
+    multiSelect.add(current);
+  }
 });

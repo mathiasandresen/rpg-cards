@@ -14,6 +14,7 @@
   }
 
   const handleClick = (index: number) => {
+    currentCard.set(-1);
     currentCard.set(index);
   };
 
@@ -38,13 +39,15 @@
   const handleSelectAll = () => {
     if ($deck.every((_, index) => $multiSelect.has(index))) {
       currentCard.set(-2); // Set to -2 in order to trigger change
+      multiSelect.clear();
       return;
     }
 
     $deck.forEach((_, index) => {
-      currentCard.set(-1);
       multiSelect.add(index);
     });
+
+    currentCard.set(-1);
   };
 
   const handleCheckBox = (index: number, value: boolean): void => {
@@ -103,7 +106,6 @@
                 handleClick(index);
               }}
               class="list-item-w-buttons"
-              color="light"
             >
               <div class="list-item-content">
                 <input

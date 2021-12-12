@@ -32,25 +32,47 @@ export function createNewCardContent(type: CardContentType): CardContent {
       content.content = ' | ';
       break;
     case 'boxes':
-      content.content = '3 | ';
+      content.content = '3 | ';
       break;
   }
 
   return content;
 }
 
-export const createMultiCard = (cards: Card[]): Partial<Card> => {
-  const firstCard = cards[0];
+/**
+ * Create a multicard based on the cards passed.
+ * This creates a partial card, where all values that are equal in all cards
+ * are set to that value, and all values that are inequal are undefined.
+ *
+ * @param cards The cards to create a multicard from
+ * @returns The created multicard
+ */
+export function createMultiCard(cards: Card[]): Partial<Card> {
+  function setValues<T>(checkValues: T[], object: T): T {
+    const newObj: Partial<T> = {};
 
-  const card: Partial<Card> = {};
+    Object.entries(object).forEach(([key, value]) => {
+      if (key === 'contents') {
+        return;
+      }
 
-  if (cards.every((c) => c.count === firstCard.count)) card.count = firstCard.count;
-  if (cards.every((c) => c.color === firstCard.color)) card.color = firstCard.color;
-  if (cards.every((c) => c.icon === firstCard.icon)) card.icon = firstCard.icon;
-  if (cards.every((c) => c.icon_back === firstCard.icon_back)) card.icon_back = firstCard.icon_back;
-  if (cards.every((c) => c.layout === firstCard.layout)) card.layout = firstCard.layout;
-  if (cards.every((c) => c.title === firstCard.title)) card.title = firstCard.title;
-  if (cards.every((c) => c.text_back === firstCard.text_back)) card.text_back = firstCard.text_back;
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        newObj[key] = setValues(
+          checkValues.map((v) => v[key]),
+          object[key]
+        );
+        return;
+      }
+
+      if (checkValues.every((c) => c[key] === object[key])) {
+        newObj[key] = object[key];
+      }
+    });
+
+    return newObj as T;
+  }
+
+  const card = setValues<Partial<Card>>(cards, cards[0]);
 
   return card;
-};
+}
