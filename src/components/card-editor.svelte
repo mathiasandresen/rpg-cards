@@ -11,11 +11,10 @@
 
   let card: Card = $deck[$currentCard];
   let contentEditorMode: 'individual' | 'textfield' = 'individual';
-  let textFieldContent: string = getContentAsString(card?.contents);
+  let textFieldContent = getContentAsString(card?.contents);
   $: isMultiEditing = $multiSelect.size > 1;
 
   const updateDeck = () => {
-    debugger;
     if (isMultiEditing) {
       deck.set(
         $deck.map((c, index) => {
@@ -64,7 +63,7 @@
     }
     card = $deck[$currentCard];
   };
-  $: $multiSelect && isMultiEditing !== undefined && handleMultiEditingChanging();
+  $: $multiSelect, isMultiEditing !== undefined && handleMultiEditingChanging();
 </script>
 
 <div>
