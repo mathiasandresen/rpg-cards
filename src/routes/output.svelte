@@ -19,6 +19,7 @@
 </script>
 
 <div
+  id="output"
   class="wrapper"
   style="--page-width: {$pageLayout.paperSize.width}mm; --page-height: {$pageLayout.paperSize
     .height}mm"
@@ -33,7 +34,7 @@
     </div>
     <div
       class="paper backside"
-      style="--adjust-x: {$pageLayout.adjust.x ?? 0}mm; --adjust-y: {$pageLayout.adjust.y ?? 0}mm;"
+      style="--adjust-x: {$pageLayout.adjust.x || 0}mm; --adjust-y: {$pageLayout.adjust.y || 0}mm;"
     >
       {#each cardGroup as card}
         <div class="card-slot">

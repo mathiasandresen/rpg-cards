@@ -71,10 +71,6 @@
     border-radius: $border-radius;
   }
 
-  .icon {
-    height: 5rem;
-  }
-
   .content-top {
     display: flex;
     width: 100%;

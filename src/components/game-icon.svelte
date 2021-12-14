@@ -24,8 +24,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--icon-size);
-    height: var(--icon-size);
+
+    :global(svg) {
+      width: var(--icon-size);
+      height: var(--icon-size);
+    }
 
     :global(path) {
       fill: var(--icon-color);
