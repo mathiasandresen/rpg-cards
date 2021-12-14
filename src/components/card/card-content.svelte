@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { SPLIT_REGEX } from '../lib/constants';
-
-  import type { CardContent } from '../model/card';
+  import { SPLIT_REGEX } from '$lib/constants';
+  import type { CardContent } from '$model/card';
   import Dndspellblock from './dndspellblock.svelte';
   import Dndstats from './dndstats.svelte';
 
@@ -100,7 +99,7 @@
   p {
     padding: 0 0.5em;
     margin-bottom: 0.2em;
-    font-size: 1em;
+    font-size: var(--card-text-size);
     line-height: 1em;
   }
 
@@ -130,8 +129,8 @@
     height: $section-height;
     font-size: 0.8em;
     margin-bottom: 0.2em;
-    margin-left: -2px;
-    margin-right: -2px;
+    margin-left: -5px;
+    margin-right: -5px;
     padding: 0 0.5em;
 
     :first-child {
@@ -167,7 +166,7 @@
     h4 {
       font-weight: bold;
       display: inline;
-      font-size: 1em;
+      font-size: var(--card-text-size);
       margin: 0;
     }
 
@@ -193,7 +192,7 @@
       font-weight: bold;
       font-style: italic;
       display: inline;
-      font-size: 1em;
+      font-size: var(--card-text-size);
       margin: 0;
     }
     :global + .property,

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type Card from '../model/card';
-  import Icon from './game-icon.svelte';
+  import type Card from '$model/card';
+  import Icon from '../game-icon.svelte';
   export let card: Card;
 </script>
 
@@ -93,12 +93,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    overflow: hidden;
+
     p {
       margin: 0 0.75rem;
       padding: 0;
       font-size: 3em;
       font-weight: bold;
       color: var(--card-color);
+      max-lines: 1;
     }
   }
 </style>

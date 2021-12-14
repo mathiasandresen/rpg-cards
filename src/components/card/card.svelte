@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type Card from '../model/card';
+  import type Card from '$model/card';
   import CardContent from './card-content.svelte';
 
   export let card: Card;
