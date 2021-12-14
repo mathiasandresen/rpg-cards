@@ -2,9 +2,9 @@
   import 'ress/dist/ress.min.css';
   import { Icon, Nav, NavItem, NavLink } from 'sveltestrap';
   import { Navbar, NavbarBrand } from 'sveltestrap';
-  import Sidebar from '../components/sidebar.svelte';
-  import CardEditor from '../components/card-editor.svelte';
-  import CurrentCard from '../components/current-card.svelte';
+  import Sidebar from '$components/sidebar.svelte';
+  import CardEditor from '$components/card-editor.svelte';
+  import CurrentCard from '$components/card/current-card.svelte';
 </script>
 
 <Navbar color="light" light class="shadow-sm">

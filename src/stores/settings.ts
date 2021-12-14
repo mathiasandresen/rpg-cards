@@ -4,6 +4,6 @@ export default interface Settings {
 }
 
 export const defaultSettings: Settings = {
-  convertDndSpellblock: false,
-  convertFirstSubtitle: false
+  convertDndSpellblock: true,
+  convertFirstSubtitle: true
 };
