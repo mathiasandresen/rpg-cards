@@ -1,9 +1,14 @@
 <script lang="ts">
+  import { tick } from 'svelte';
   import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
   import type { ButtonColor } from 'sveltestrap/src/Button';
 
   export let open = false;
-  export const toggle = () => (open = !open);
+  export const toggle = async () => {
+    open = !open;
+    await tick();
+    document.getElementById('confirm-button')?.focus();
+  };
   export let modalConfirm: () => void = () => {};
   export let danger: boolean = false;
 
@@ -73,7 +78,7 @@
     </ModalBody>
   {/if}
   <ModalFooter>
-    <Button color={modalConfirmButtonColor} on:click={handleConfirm}>
+    <Button id="confirm-button" color={modalConfirmButtonColor} on:click={handleConfirm}>
       {modalConfirmButtonText}</Button
     >
     <Button color={modalCancelButtonColor} on:click={handleModalCancel}
