@@ -9,7 +9,7 @@ export default interface Card {
   text_back?: string;
   contents: CardContent[];
   tags: string[];
-  layout?: CardLayout;
+  layout: CardLayout;
 }
 
 export interface CardContent {
@@ -36,7 +36,7 @@ export const CardContentTypes = [
 export type CardContentType = typeof CardContentTypes[number];
 
 export function getCardContentType(content: string): CardContentType {
-  const [type] = content.split(' | ');
+  const [type] = content.split(' | ');
 
   if (isCardContentType(type)) {
     return type;

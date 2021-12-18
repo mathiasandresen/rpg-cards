@@ -7,6 +7,21 @@
   export let icon: string;
   export let name: string;
   export let id: string;
+  export let placeholder: string = undefined;
+
+  let text = icon;
+  let changed = false;
+
+  const handleTextChanges = () => {
+    if (!changed) {
+      return;
+    }
+    icon = text;
+  };
+  $: {
+    text;
+    handleTextChanges();
+  }
 
   const searchIcons = (query: string) => {
     return getAllIconNames(query);
@@ -15,7 +30,7 @@
 
 <InputGroup>
   <InputGroupText>
-    <GameIcon bind:name={icon} color="black" size="1.5em" />
+    <GameIcon name={icon} color="black" size="1.5em" />
   </InputGroupText>
 
   <!-- <Input type="text" {name} {id} bind:value={icon} autocomplete="off" placeholder="Icon" /> -->
@@ -23,10 +38,14 @@
     searchFunction={searchIcons}
     delay="200"
     hideArrow
+    {id}
+    {name}
     inputClassName="form-control autocomplete-input"
     bind:selectedItem={icon}
-    bind:text={icon}
+    bind:text
+    onChange={() => (changed = true)}
     class="autocomplete"
+    {placeholder}
   >
     <div class="autocomplete-result-item" slot="item" let:item let:label>
       <GameIcon name={item} color="black" size="1.5em" />
