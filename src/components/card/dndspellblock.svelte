@@ -50,6 +50,7 @@
       text-transform: uppercase;
       font-weight: bold;
       color: var(--card-color);
+      font-family: Draconis;
     }
   }
 </style>

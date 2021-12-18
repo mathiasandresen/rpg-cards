@@ -108,12 +108,14 @@
     font-size: 1.2em;
     font-style: italic;
     color: var(--card-color);
+    font-family: Draconis;
   }
 
   .subtitle {
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.2em;
+    font-family: Draconis;
   }
 
   .section {
@@ -167,6 +169,7 @@
       font-weight: bold;
       display: inline;
       font-size: var(--card-text-size);
+      font-family: Draconis;
       margin: 0;
     }
 
@@ -193,6 +196,7 @@
       font-style: italic;
       display: inline;
       font-size: var(--card-text-size);
+      font-family: Draconis;
       margin: 0;
     }
     :global + .property,

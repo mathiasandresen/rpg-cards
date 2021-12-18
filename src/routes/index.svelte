@@ -1,21 +1,40 @@
 <script lang="ts">
   import 'ress/dist/ress.min.css';
-  import { Icon, Nav, NavItem, NavLink } from 'sveltestrap';
+  import {
+    Accordion,
+    AccordionItem,
+    Icon,
+    Modal,
+    ModalBody,
+    Nav,
+    NavItem,
+    NavLink
+  } from 'sveltestrap';
   import { Navbar, NavbarBrand } from 'sveltestrap';
   import Sidebar from '$components/sidebar.svelte';
   import CardEditor from '$components/card-editor.svelte';
   import CurrentCard from '$components/card/current-card.svelte';
+
+  let infoModalOpen = false;
+  const toggleInfoModal = () => (infoModalOpen = !infoModalOpen);
 </script>
 
 <Navbar color="light" light class="shadow-sm">
   <NavbarBrand href="/">RPG Card Generator</NavbarBrand>
 
   <Nav navbar>
-    <NavItem>
-      <NavLink href="https://github.com/mathiasandresen/rpg-cards">
-        <Icon name="github" class="navbar-icon" />
-      </NavLink>
-    </NavItem>
+    <div class="nav-icons">
+      <NavItem>
+        <NavLink href="https://github.com/mathiasandresen/rpg-cards">
+          <Icon name="github" class="navbar-icon" />
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink on:click={toggleInfoModal}>
+          <Icon name="info-circle-fill" class="navbar-icon" />
+        </NavLink>
+      </NavItem>
+    </div>
   </Nav>
 </Navbar>
 <div class="grid">
@@ -23,6 +42,22 @@
   <CardEditor />
   <CurrentCard />
 </div>
+<Modal header="Info" isOpen={infoModalOpen} toggle={toggleInfoModal}>
+  <ModalBody class="p-0">
+    <div class="info-modal-text">
+      <b>Work in progress</b>
+
+      <p>
+        RPG Card generator was made by Mathias Andresen, and is inspired by the project
+        https://github.com/mephitrpg/rpg-cards which is a fork of
+        https://github.com/crobi/rpg-cards.
+      </p>
+    </div>
+    <Accordion flush>
+      <AccordionItem header="Thanks and licenses"><b>Work in progress</b></AccordionItem>
+    </Accordion>
+  </ModalBody>
+</Modal>
 
 <style lang="scss">
   .grid {
@@ -40,7 +75,16 @@
     }
   }
 
+  .nav-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
+  }
   :global(.navbar-icon) {
     font-size: 1.5em;
+  }
+
+  .info-modal-text {
+    padding: 1em;
   }
 </style>

@@ -95,10 +95,11 @@
     p {
       margin: 0 0.75rem;
       padding: 0;
-      font-size: 3em;
+      font-size: 4em;
       font-weight: bold;
       color: var(--card-color);
       max-lines: 1;
+      font-family: Draconis;
     }
   }
 </style>

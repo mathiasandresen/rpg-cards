@@ -45,12 +45,16 @@
     border-radius: 0.1cm;
     background-color: white;
     overflow: hidden;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
+      sans-serif;
 
     h1 {
       font-size: 1.3em;
       text-transform: uppercase;
       text-align: center;
       font-weight: bold;
+
+      font-family: Draconis;
     }
   }
 </style>
