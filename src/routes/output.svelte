@@ -74,6 +74,10 @@
       direction: rtl;
       padding-right: calc(0.5cm - var(--adjust-x));
       padding-top: calc(0.5cm - var(--adjust-y));
+
+      * {
+        direction: ltr;
+      }
     }
   }
 
