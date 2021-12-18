@@ -19,7 +19,8 @@ function createDeck() {
       });
       return index;
     },
-    removeCard: (index: number) => update((deck) => deck.filter((_, i) => i !== index)),
+    removeCards: (...indexes: number[]) =>
+      update((deck) => deck.filter((_, i) => !indexes.includes(i))),
     setCard: (index: number, card: Card) =>
       update((deck) => {
         deck.splice(index, 1, card);

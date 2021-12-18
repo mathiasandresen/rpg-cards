@@ -30,6 +30,8 @@ export const multiSelect = createMultiSelect();
 multiSelect.subscribe((set) => {
   if (set.size === 1) {
     currentCard.set(set.values().next().value);
+  } else if (set.size === 0) {
+    currentCard.set(-1);
   }
 });
 
