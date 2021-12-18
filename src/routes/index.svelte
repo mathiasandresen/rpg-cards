@@ -9,10 +9,11 @@
 
 <Navbar color="light" light class="shadow-sm">
   <NavbarBrand href="/">RPG Card Generator</NavbarBrand>
+
   <Nav navbar>
     <NavItem>
       <NavLink href="https://github.com/mathiasandresen/rpg-cards">
-        <Icon name="github" />
+        <Icon name="github" class="navbar-icon" />
       </NavLink>
     </NavItem>
   </Nav>
@@ -37,5 +38,9 @@
     @media (min-width: 1400px) {
       grid-template-columns: 0.5fr 1fr 0.5fr;
     }
+  }
+
+  :global(.navbar-icon) {
+    font-size: 1.5em;
   }
 </style>
