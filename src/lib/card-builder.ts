@@ -66,6 +66,8 @@ export function createMultiCard(cards: Card[]): Partial<Card> {
 
       if (checkValues.every((c) => c[key] === object[key])) {
         newObj[key] = object[key];
+      } else {
+        newObj[key] = null;
       }
     });
 
@@ -75,4 +77,12 @@ export function createMultiCard(cards: Card[]): Partial<Card> {
   const card = setValues<Partial<Card>>(cards, cards[0]);
 
   return card;
+}
+
+export function removeEmpty(obj: unknown): unknown {
+  return Object.fromEntries(
+    Object.entries(obj)
+      .filter(([, v]) => v != null)
+      .map(([k, v]) => [k, v === Object(v) ? removeEmpty(v) : v])
+  );
 }

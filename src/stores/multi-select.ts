@@ -6,9 +6,9 @@ function createMultiSelect() {
 
   return {
     subscribe,
-    add: (value: number) =>
+    add: (...values: number[]) =>
       update((set) => {
-        set.add(value);
+        values.forEach((v) => set.add(v));
         return set;
       }),
     remove: (value: number) =>

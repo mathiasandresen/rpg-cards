@@ -43,9 +43,7 @@
       return;
     }
 
-    $deck.forEach((_, index) => {
-      multiSelect.add(index);
-    });
+    multiSelect.add(...$deck.map((_, index) => index));
 
     currentCard.set(-1);
   };
