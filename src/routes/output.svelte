@@ -6,7 +6,9 @@
 
   // sizes in mm
   const cardWidth = 63.5; //  2.5 inches
+  const cardWidthWithBorder = cardWidth + ($pageLayout.cardBackBorder || 0) * 2;
   const cardHeight = 88.9; // 3.5 inches
+  const cardHeightWithBorder = cardHeight + ($pageLayout.cardBackBorder || 0) * 2;
 
   const calculateCardsPerPages = (): number => {
     const cols = Math.floor($pageLayout.paperSize.width / cardWidth);
@@ -21,13 +23,22 @@
 <div
   id="output"
   class="wrapper"
-  style="--page-width: {$pageLayout.paperSize.width}mm; --page-height: {$pageLayout.paperSize
-    .height}mm"
+  style="
+    --page-width: {$pageLayout.paperSize.width}mm; 
+    --page-height: {$pageLayout.paperSize.height}mm;
+    --back-border-width: {$pageLayout.cardBackBorder || 0}mm;
+    --card-width: {cardWidth}mm;
+    --card-height: {cardHeight}mm;
+  "
 >
   {#each cardGroups as cardGroup}
     <div class="paper">
       {#each cardGroup as card}
-        <div class="card-slot">
+        <div
+          style={`--card-color: ${card.color};`}
+          class="card-slot"
+          class:with-border={$pageLayout.cardBackBorder > 0}
+        >
           <Card {card} />
         </div>
       {/each}
@@ -37,7 +48,11 @@
       style="--adjust-x: {$pageLayout.adjust.x || 0}mm; --adjust-y: {$pageLayout.adjust.y || 0}mm;"
     >
       {#each cardGroup as card}
-        <div class="card-slot">
+        <div
+          style={`--card-color: ${card.color};`}
+          class="card-slot backside"
+          class:with-border={$pageLayout.cardBackBorder > 0}
+        >
           <CardBack {card} />
         </div>
       {/each}
@@ -56,10 +71,14 @@
 
   .paper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 2.5in);
-    grid-template-rows: repeat(auto-fill, 3.5in);
+    grid-template-columns: repeat(
+      auto-fill,
+      calc(var(--card-width) + var(--back-border-width) * 2)
+    );
+    grid-template-rows: repeat(auto-fill, calc(var(--card-height) + var(--back-border-width) * 2));
 
     gap: 2mm;
+
     padding: $paper-padding;
 
     width: var(--page-width);
@@ -82,10 +101,15 @@
   }
 
   .card-slot {
-    height: 100%;
-    width: 100%;
+    height: calc(var(--card-height) + (var(--back-border-width) * 2));
+    width: calc(var(--card-width) + (var(--back-border-width) * 2));
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.backside.with-border {
+      background-color: var(--card-color);
+    }
   }
 </style>

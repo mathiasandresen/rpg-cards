@@ -179,6 +179,25 @@
           <InputGroupText>mm</InputGroupText>
         </InputGroup>
       </FormGroup>
+      <FormGroup>
+        <span>
+          <Label for="card-back-border">Cardback border</Label>
+          <Badge id="card-back-border-help" pill color="info">?</Badge>
+          <Tooltip target="card-back-border-help">
+            Use this add a colored border around the back of the cards when printing to make up for
+            printing variances.
+          </Tooltip>
+        </span>
+        <InputGroup id="card-back-border">
+          <Input
+            id="card-back-border-input"
+            placeholder="Cardback border"
+            type="number"
+            bind:value={$pageLayout.cardBackBorder}
+          />
+          <InputGroupText>mm</InputGroupText>
+        </InputGroup>
+      </FormGroup>
     </Form>
   </AccordionItem>
   <AccordionItem active header="Deck">
