@@ -4,8 +4,9 @@
   import { CardContentTypes } from '../model/card';
   import CardEditorContentInput from './card-editor-content-input.svelte';
   import { dndzone } from 'svelte-dnd-action';
-  import { Button, Icon, Input, InputGroup } from 'sveltestrap';
+  import { Button, Icon, Input, InputGroup, Tooltip } from 'sveltestrap';
   import { createNewCardContent } from '../lib/card-builder';
+  import { CARD_CONTENT_TYPES } from '$lib/card-content-types.svelte';
 
   export let contents: CardContent[];
   const flipDurationMs = 200;
@@ -45,8 +46,8 @@
   </div>
   <InputGroup class="add-new-selector">
     <Input type="select" bind:value={addType}>
-      {#each CardContentTypes as type}
-        <option>{type}</option>
+      {#each CARD_CONTENT_TYPES as type}
+        <option id="select-{type.name}" value={type.name}>{type.name}</option>
       {/each}
     </Input>
     <Button color="primary" on:click={handleAdd}>

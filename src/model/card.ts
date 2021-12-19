@@ -1,3 +1,5 @@
+import type { CardContentTypeV2 } from '$lib/card-content-types.svelte';
+import type CardContentTypeDescriptor from './card-content-type';
 import type ColorResolvable from './color-resolvable';
 
 export default interface Card {
@@ -13,7 +15,7 @@ export default interface Card {
 }
 
 export interface CardContent {
-  type: CardContentType;
+  type: CardContentTypeV2;
   content: string;
   id?: string;
 }

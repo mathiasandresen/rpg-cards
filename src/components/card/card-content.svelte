@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { getContentTypeDescriptor } from '$lib/card-content-types.svelte';
   import { SPLIT_REGEX } from '$lib/constants';
   import type { CardContent } from '$model/card';
-  import Dndspellblock from './dndspellblock.svelte';
-  import Dndstats from './dndstats.svelte';
+  import Dndspellblock from './content-blocks/dndspellblock.svelte';
+  import Dndstats from './content-blocks/dndspellblock.svelte';
 
   export let content: CardContent;
+  $: typeDescriptor = getContentTypeDescriptor(content.type);
   let splitContent: string[];
   $: splitContent = content.content.split(SPLIT_REGEX);
 
@@ -15,13 +17,13 @@
   const getBoxAmount = (content: CardContent): number => {
     return Number.parseInt(content.content.split(SPLIT_REGEX)[0], 10) || 1;
   };
-
-  const renderText = (input: string) => {
-    return input.replace('\\|', '|');
-  };
 </script>
 
-{#if content?.type === 'subtitle'}
+<span class="card-content">
+  <svelte:component this={typeDescriptor.renderComponent} {content} />
+</span>
+
+<!-- {#if content?.type === 'subtitle'}
   <h2 class="subtitle">
     <div>
       {@html renderText(splitContent[0])}
@@ -79,8 +81,9 @@
   <Dndstats {content} />
 {:else if content?.type === 'dndspellblock'}
   <Dndspellblock {content} />
-{:else if content?.type === 'picture'}
-  <!-- svelte-ignore a11y-img-redundant-alt -->
+{:else if content?.type === 'picture'} -->
+
+<!-- svelte-ignore a11y-img-redundant-alt
   <img
     class="picture"
     src={splitContent[0]}
@@ -91,24 +94,23 @@
   <p class="text">{@html renderText(content.content)}</p>
 {:else}
   <p>{@html renderText(content.content)}</p>
-{/if}
-
+{/if} -->
 <style lang="scss">
-  $section-height: 0.3cm;
+  :global(.card-content) {
+    :global(p) {
+      padding: 0 0.5em;
+      margin-bottom: 0.2em;
+      font-size: var(--card-text-size);
+      line-height: 1em;
+    }
 
-  p {
-    padding: 0 0.5em;
-    margin-bottom: 0.2em;
-    font-size: var(--card-text-size);
-    line-height: 1em;
-  }
-
-  h2 {
-    padding: 0 0.5em;
-    font-size: 1.2em;
-    font-style: italic;
-    color: var(--card-color);
-    font-family: Draconis;
+    :global(h2) {
+      padding: 0 0.5em;
+      font-size: 1.2em;
+      font-style: italic;
+      color: var(--card-color);
+      font-family: Draconis;
+    }
   }
 
   .subtitle {
@@ -128,7 +130,7 @@
 
     background-color: var(--card-color);
     color: white;
-    height: $section-height;
+    height: 0.3cm;
     font-size: 0.8em;
     margin-bottom: 0.2em;
     margin-left: -5px;
@@ -210,10 +212,6 @@
     margin-bottom: 0.2em;
     margin-left: -2px;
     margin-right: -2px;
-  }
-
-  .text {
-    font-size: var(--card-text-size);
   }
 
   .fill {
