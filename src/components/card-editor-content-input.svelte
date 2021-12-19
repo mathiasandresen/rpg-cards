@@ -6,6 +6,8 @@
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
+  export let showDelete = true;
+
   let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
 
   const dispatch = createEventDispatcher();
@@ -110,19 +112,21 @@
     />
   </InputGroup>
 {/if}
-<ButtonGroup>
-  <Button
-    size="sm"
-    color="link"
-    class="link-danger"
-    on:click={(e) => {
-      e.preventDefault();
-      dispatch('delete');
-    }}
-  >
-    <Icon name="trash" />
-  </Button>
-</ButtonGroup>
+{#if showDelete}
+  <ButtonGroup>
+    <Button
+      size="sm"
+      color="link"
+      class="link-danger"
+      on:click={(e) => {
+        e.preventDefault();
+        dispatch('delete');
+      }}
+    >
+      <Icon name="trash" />
+    </Button>
+  </ButtonGroup>
+{/if}
 
 <style lang="scss">
   .input-group-text-content {

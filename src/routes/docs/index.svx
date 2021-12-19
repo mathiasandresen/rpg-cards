@@ -1,0 +1,110 @@
+# Documentation
+This is the documentation for RPG Cards Generator.
+
+## Export JSON data {#export-data}
+Export objects are json files containing a few fields:
+* `version` (string): Defining the version of the export object
+  * Possible values `"1"`
+* `cards` (array): The list of cards
+  * see [Card JSON Data](#card-data)
+
+Example:
+
+```json
+{
+  "version": "1",
+  "cards": [...]
+}
+```
+
+## Card JSON data {#card-data}
+Cards objects have the following fields:
+* `count` (number): Amount of the card to be printed
+* `color` (string): Color of the card
+* `title` (string): Title of the card
+* `icon_back`(string): Name of the icon used on the back of the card
+  * See [Icons](#icons)
+* `layout` (object): Information about the layout of the card such as text size
+* `text_back` (string): Text showed on the back of the card such as the spell level
+* `contents` (array): Array of contents of the card
+  * See [Contents](#contents)
+
+Example: 
+
+```json
+{
+  "count": 1,
+  "color": "#4a6898",
+  "title": "Hex",
+  "icon_back": "magic-swirl",
+  "contents": [
+    ...
+  ],
+  "layout": {
+    "text_font_size": ""
+  },
+  "text_back": ""
+}
+```
+
+## Contents JSON data {#contents}
+Content objects have the following fields:
+* `id` (string): A unique id used by the drag and drop mechanics
+* `type` (string): The type of the content, used by the renderer - One of
+  * `subtitle`: Sligtly larger italics text
+    * *param1*: The subtitle text
+    * *param2* (optional): Right aligned additional text
+  * `rule`: A horizontal line taking up full width
+  * `property`: A property with a bold name and normal description - if spanning more than one line, description is indented.
+    * *param1*: Property name (bolded)
+    * *param2*: Property description
+  * `description`: Same as `property` but with no indentation and name is italicized.
+    * *param1*: Description name (bolded, italicized)
+    * *param2*: Description description
+  * `text`: Simple paragraph
+  * `section`: Section header
+  * `boxes`: Empty boxes
+    * *param1*: Amount of boxes
+    * *param2*: Size of the boxes
+  * `fill`: Empty area taking up available space
+  * `bullet`: Bulleted text
+  * `picture`: A picture from an url
+    * *param1*: URL of picture
+    * *param2*: Height in pixels 
+  * `dndstats`: A Dungeons & Dragons stat block
+    * *param1*: Strength score
+    * *param2*: Dexterity score
+    * *param3*: Constitution score
+    * *param4*: Intelligence score
+    * *param5*: Wisdom score
+    * *param6*: Charisma score
+  * `dndspellbloc`: A Dungeons & Dragons spell card block
+    * *param1*: Casting Time
+    * *param2*: Range
+    * *param3*: Components
+    * *param4*: Duration
+
+Examples:
+
+```json
+...
+{
+  "type": "dndspellblock",
+  "content": "1 action | Self (15-foot radius) | V | Instantaneous",
+  "id": "17252d82-2ff1-44f0-9a3b-8e82406a1d90"
+},
+{
+  "type": "rule",
+  "content": "",
+  "id": "23e3310c-6e4f-4d9e-9849-93a9936fba71"
+},
+{
+  "type": "text",
+  "content": "You create a lash of lightning energy that strikes at one creature of your choice that you can see within 15 feet of you. The target must succeed on a Strength saving throw or be pulled up to 10 feet in a straight line toward you and then take 1d8 lightning damage if it is within 5 feet of you.",
+  "id": "04ea19f0-2655-44d4-9de5-595c9b554b75"
+},
+...
+```
+
+## Icons
+Icons available in RPG Card Generator are provided by [Game-icons.net](https://game-icons.net/) - please check them out!
