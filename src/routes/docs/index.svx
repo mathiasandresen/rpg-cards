@@ -78,7 +78,7 @@ Content objects have the following fields:
     * *param4*: Intelligence score
     * *param5*: Wisdom score
     * *param6*: Charisma score
-  * `dndspellbloc`: A Dungeons & Dragons spell card block
+  * `dndspellblock`: A Dungeons & Dragons spell card block
     * *param1*: Casting Time
     * *param2*: Range
     * *param3*: Components
