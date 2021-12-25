@@ -10,19 +10,21 @@
 
 		
 
-		<link rel="modulepreload" href="/_app/start-cd068836.js">
-		<link rel="modulepreload" href="/_app/chunks/vendor-b70b792d.js">
-		<link rel="modulepreload" href="/_app/pages/__layout.svelte-609939a2.js">
-		<link rel="modulepreload" href="/_app/pages/index.svelte-5e280557.js">
-		<link rel="modulepreload" href="/_app/chunks/card-59a8904a.js">
+		<link rel="modulepreload" href="/_app/start-72c1f7d7.js">
+		<link rel="modulepreload" href="/_app/chunks/vendor-7ed618dd.js">
+		<link rel="modulepreload" href="/_app/pages/__layout.svelte-63240bf0.js">
+		<link rel="modulepreload" href="/_app/pages/index.svelte-5c25a518.js">
+		<link rel="modulepreload" href="/_app/chunks/card-content-types-9608b315.js">
+		<link rel="modulepreload" href="/_app/chunks/card-e6fef1ec.js">
 		<link rel="stylesheet" href="/_app/assets/start-61d1577b.css">
 		<link rel="stylesheet" href="/_app/assets/vendor-77b52ba5.css">
 		<link rel="stylesheet" href="/_app/assets/pages/__layout.svelte-985c9809.css">
-		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-0cef19a2.css">
-		<link rel="stylesheet" href="/_app/assets/card-3270919b.css">
+		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-1a570013.css">
+		<link rel="stylesheet" href="/_app/assets/card-content-types-0a5a1bc1.css">
+		<link rel="stylesheet" href="/_app/assets/card-8d23dd85.css">
 
 		<script type="module">
-			import { start } from "/_app/start-cd068836.js";
+			import { start } from "/_app/start-72c1f7d7.js";
 			start({
 				target: document.querySelector("#svelte"),
 				paths: {"base":"","assets":""},
@@ -35,8 +37,8 @@
 					status: 200,
 					error: null,
 					nodes: [
-						import("/_app/pages/__layout.svelte-609939a2.js"),
-						import("/_app/pages/index.svelte-5e280557.js")
+						import("/_app/pages/__layout.svelte-63240bf0.js"),
+						import("/_app/pages/index.svelte-5c25a518.js")
 					],
 					page: {
 						host: location.host, // TODO this is redundant
@@ -57,27 +59,27 @@
 
 <nav class="shadow-sm navbar navbar-expand- navbar-light bg-light"><div class="container-fluid"><a class="navbar-brand" href="/">RPG Card Generator</a>
 
-  <ul class="navbar-nav"><div class="nav-icons svelte-fw402"><li class="nav-item"><a href="https://github.com/mathiasandresen/rpg-cards" class="nav-link"><i class="navbar-icon bi-github"></i></a></li>
+  <ul class="navbar-nav"><div class="nav-icons svelte-11ll9re"><li class="nav-item"><a href="https://github.com/mathiasandresen/rpg-cards" class="nav-link"><i class="navbar-icon bi-github"></i></a></li>
       <li class="nav-item"><a href="#" class="nav-link"><i class="navbar-icon bi-info-circle-fill"></i></a></li></div></ul></div></nav>
-<div class="grid svelte-fw402"><div class="accordion"><div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+<div class="grid svelte-11ll9re"><div class="accordion"><div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
     General</button></h2>
   
 
-<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-knd3uk"><div class="hidden svelte-knd3uk"><input type="file" accept=".json">
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-b6nokw"><div class="hidden svelte-b6nokw"><input type="file" accept=".json">
         <a download="cards.json">Hidden download link
         </a></div>
-      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
+      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
         </button></div>
-      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
-      <div class="sidebar-element svelte-knd3uk"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
-      <div class="sidebar-element svelte-knd3uk"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
-      <h2 class="sidebar-header svelte-knd3uk">Options</h2>
-      <div class="sidebar-element low full svelte-knd3uk"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="" checked>
+      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
+      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
+      <div class="sidebar-element svelte-b6nokw"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
+      <h2 class="sidebar-header svelte-b6nokw">Options</h2>
+      <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="" checked>
   <label class="form-check-label" for="convert-first-subtitle">Convert subtitle + rule to sections?</label></div>
 
         <span id="convert-first-subtitle-help" class="badge bg-info rounded-pill">?</span>
         </div>
-      <div class="sidebar-element low full svelte-knd3uk"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-dnd-spell-block" type="checkbox" name="" value="" checked>
+      <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-dnd-spell-block" type="checkbox" name="" value="" checked>
   <label class="form-check-label" for="convert-dnd-spell-block">Convert D&amp;D spell blocks?</label></div>
 
         <span id="convert-dnd-spell-block-help" class="badge bg-info rounded-pill">?</span>
@@ -112,20 +114,20 @@
     Deck</button></h2>
   
 
-<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="deck-wrapper svelte-1i9ruvd"><div class="deck-list-buttons"><button class="btn btn-primary" value="" style=""><i class="bi-file-plus-fill"></i>
+<div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="deck-wrapper svelte-yiv33b"><div class="deck-list-buttons"><button class="btn btn-primary" value="" style=""><i class="bi-file-plus-fill"></i>
         Add card
       </button>
       <button class="btn btn-danger" disabled value="" style=""><i class="bi-trash-fill"></i>
         Clear deck
       </button></div>
 
-    <div class="deck-list svelte-1i9ruvd"><div class="empty-deck svelte-1i9ruvd">There are no cards in your deck!</div></div></div>
+    <div class="deck-list svelte-yiv33b"><div class="empty-deck svelte-yiv33b">There are no cards in your deck!</div></div></div>
 
 
 <div></div></div></div></div></div>
   <div><h4>Editor</h4>
 
-  <div class="empty-editor svelte-o74mtl">No card is selected!</div>
+  <div class="empty-editor svelte-18c14cf">No card is selected!</div>
 </div>
   <div><h4>Preview</h4>
   
