@@ -6,7 +6,7 @@
   import type Card from '../model/card';
   import { currentCard, deck, multiSelect } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
-  import { createMultiCard } from '../lib/card-builder';
+  import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import extend from 'just-extend';
 
   let card: Card = $deck[$currentCard];
@@ -16,10 +16,12 @@
 
   const updateDeck = () => {
     if (isMultiEditing) {
+      const multi = removeEmpty(card);
+
       deck.set(
         $deck.map((c, index) => {
           if ($multiSelect.has(index)) {
-            return extend(true, c, card) as Card;
+            return extend(true, c, multi) as Card;
           }
           return c;
         })
@@ -80,7 +82,7 @@
             name="name"
             id="name"
             bind:value={card.title}
-            placeholder={isMultiEditing && card.title === undefined ? '*' : 'Name'}
+            placeholder={isMultiEditing && card.title === null ? '*' : 'Name'}
           />
         </div>
       </FormGroup>
@@ -93,7 +95,7 @@
             name="count"
             id="count"
             bind:value={card.count}
-            placeholder={isMultiEditing && card.count === undefined ? '*' : 'Count'}
+            placeholder={isMultiEditing && card.count === null ? '*' : 'Count'}
           />
         </div>
       </FormGroup>
@@ -105,7 +107,7 @@
             bind:icon={card.icon_back}
             id="icon_back"
             name="icon_back"
-            placeholder={isMultiEditing && card.icon_back === undefined ? '*' : 'Icon back'}
+            placeholder={isMultiEditing && card.icon_back === null ? '*' : 'Icon back'}
           />
         </div>
       </FormGroup>
@@ -118,7 +120,7 @@
             name="text_back"
             id="text_back"
             bind:value={card.text_back}
-            placeholder={isMultiEditing && card.text_back === undefined
+            placeholder={isMultiEditing && card.text_back === null
               ? '*'
               : 'Text to show on back, such as spell lvl'}
           />
@@ -157,7 +159,7 @@
             name="text-font-size"
             id="text-font-size"
             bind:value={card.layout.text_font_size}
-            placeholder={isMultiEditing && card.layout.text_font_size === undefined ? '*' : '10px'}
+            placeholder={isMultiEditing && card.layout.text_font_size === null ? '*' : '10px'}
           />
         </div>
       </FormGroup>

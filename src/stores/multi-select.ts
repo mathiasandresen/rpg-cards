@@ -6,9 +6,9 @@ function createMultiSelect() {
 
   return {
     subscribe,
-    add: (value: number) =>
+    add: (...values: number[]) =>
       update((set) => {
-        set.add(value);
+        values.forEach((v) => set.add(v));
         return set;
       }),
     remove: (value: number) =>
@@ -30,6 +30,8 @@ export const multiSelect = createMultiSelect();
 multiSelect.subscribe((set) => {
   if (set.size === 1) {
     currentCard.set(set.values().next().value);
+  } else if (set.size === 0) {
+    currentCard.set(-1);
   }
 });
 

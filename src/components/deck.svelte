@@ -24,16 +24,20 @@
   };
 
   const handleClearDeck = () => {
-    currentCard.set(-1);
     deck.set([]);
     $multiSelect.clear();
   };
 
   const handleDeleteCard = (index: number) => {
-    deck.removeCard(index);
+    deck.removeCards(index);
     if ($currentCard > $deck.length - 1) {
       currentCard.set($deck.length - 1);
     }
+  };
+
+  const handleDeleteSelected = () => {
+    deck.removeCards(...$multiSelect.values());
+    multiSelect.clear();
   };
 
   const handleSelectAll = () => {
@@ -43,9 +47,7 @@
       return;
     }
 
-    $deck.forEach((_, index) => {
-      multiSelect.add(index);
-    });
+    multiSelect.add(...$deck.map((_, index) => index));
 
     currentCard.set(-1);
   };
@@ -80,20 +82,40 @@
         Clear deck
       </Button>
     </div>
-    {#if cards && cards.length > 0}
-      <Button on:click={handleSelectAll}>
-        {#if !$deck.every((_, index) => $multiSelect.has(index))}
-          <Icon name="check-square" />
-          Select all
-        {:else}
-          <Icon name="square" />
-          Deselect all
-        {/if}
-      </Button>
-    {/if}
+
     <div class="deck-list">
       {#if cards && cards.length > 0}
         <ListGroup>
+          <ListGroupItem color="secondary" class="list-item-w-buttons">
+            <div class="list-item-content">
+              <input
+                on:click={(e) => e.stopPropagation()}
+                on:change={handleSelectAll}
+                checked={$multiSelect.size === $deck.length}
+                type="checkbox"
+                class="form-check-input"
+              />
+              Card
+              {#if $multiSelect.size > 1}
+                ({$multiSelect.size})
+              {/if}
+            </div>
+            {#if $multiSelect.size > 1}
+              <Button
+                color="link"
+                size="sm"
+                class="link-danger"
+                on:click={() =>
+                  confirmThis({
+                    func: handleDeleteSelected,
+                    title: `Delete ${$multiSelect.size} cards?`,
+                    body: `Are you sure you want to delete ${$multiSelect.size} cards?`
+                  })}
+              >
+                <Icon name="trash-fill" />
+              </Button>
+            {/if}
+          </ListGroupItem>
           {#each cards as card, index}
             <ListGroupItem
               active={($multiSelect.size === 0 && index === $currentCard) ||
@@ -144,10 +166,16 @@
 
 <style lang="scss">
   .deck-list {
-    max-height: 20em;
-    overflow-y: scroll;
-  }
+    :global(.list-group-item) {
+      height: 3.25em;
+      min-height: 3.25em;
+    }
 
+    :global(.list-group-item.active) {
+      margin: 0;
+      border-top-width: 0px;
+    }
+  }
   .deck-wrapper {
     display: flex;
     flex-direction: column;
@@ -177,10 +205,5 @@
   .empty-deck {
     display: flex;
     justify-content: center;
-  }
-
-  .select-all-wrapper {
-    margin-left: 1em;
-    margin-bottom: 0.5em;
   }
 </style>

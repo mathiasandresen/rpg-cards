@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { renderText } from '$lib/card-render-util';
+
   import { SPLIT_REGEX } from '$lib/constants';
   import type { CardContent } from '$model/card';
 
@@ -10,19 +12,19 @@
 <div class="wrapper">
   <div class="block">
     <h2>Casting time</h2>
-    <p>{castingTime}</p>
+    <p>{@html renderText(castingTime)}</p>
   </div>
   <div class="block">
     <h2>Range</h2>
-    <p>{range}</p>
+    <p>{@html renderText(range)}</p>
   </div>
   <div class="block">
     <h2>Components</h2>
-    <p>{components}</p>
+    <p>{@html renderText(components)}</p>
   </div>
   <div class="block">
     <h2>Duration</h2>
-    <p>{duration}</p>
+    <p>{@html renderText(duration)}</p>
   </div>
 </div>
 
@@ -50,6 +52,7 @@
       text-transform: uppercase;
       font-weight: bold;
       color: var(--card-color);
+      font-family: Draconis;
     }
   }
 </style>
