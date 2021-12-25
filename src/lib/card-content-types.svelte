@@ -3,6 +3,15 @@
   import Dndspellblock from '$components/card/content-blocks/dndspellblock.svelte';
   import Dndstats from '$components/card/content-blocks/dndstats.svelte';
   import Text from '$components/card/content-blocks/text.svelte';
+  import Rule from '$components/card/content-blocks/rule.svelte';
+  import Section from '$components/card/content-blocks/section.svelte';
+  import Subtitle from '$components/card/content-blocks/subtitle.svelte';
+  import Property from '$components/card/content-blocks/property.svelte';
+  import Description from '$components/card/content-blocks/description.svelte';
+  import Boxes from '$components/card/content-blocks/boxes.svelte';
+  import Fill from '$components/card/content-blocks/fill.svelte';
+  import Bullet from '$components/card/content-blocks/bullet.svelte';
+  import Picture from '$components/card/content-blocks/picture.svelte';
 
   const createCardContentTypes = <
     T extends readonly CardContentTypeDescriptor[] & Array<{ name: V }>,
@@ -24,12 +33,14 @@
       params: [
         { name: 'Subtitle', description: 'Subtitle text' },
         { name: 'Right-aligned', description: 'Additional right-aligned text', optional: true }
-      ]
+      ],
+      renderComponent: Subtitle
     },
     {
       name: 'rule',
       description: 'A horizontal line taking up full width',
-      params: []
+      params: [],
+      renderComponent: Rule
     },
     {
       name: 'property',
@@ -38,7 +49,8 @@
       params: [
         { name: 'Name', description: 'Propety name (bolded)' },
         { name: 'Description', description: 'Propety description' }
-      ]
+      ],
+      renderComponent: Property
     },
     {
       name: 'description',
@@ -46,7 +58,8 @@
       params: [
         { name: 'Name', description: 'Description name (bolded, italicized)' },
         { name: 'Description', description: 'Description description' }
-      ]
+      ],
+      renderComponent: Description
     },
     {
       name: 'section',
@@ -54,7 +67,8 @@
       params: [
         { name: 'Section name', description: 'Section name' },
         { name: 'Right-aligned', description: 'Additional right-aligned text', optional: true }
-      ]
+      ],
+      renderComponent: Section
     },
     {
       name: 'boxes',
@@ -62,17 +76,20 @@
       params: [
         { name: 'Amount', description: 'Amount of boxes', type: 'number' },
         { name: 'Size', description: 'Size of the boxes', optional: true }
-      ]
+      ],
+      renderComponent: Boxes
     },
     {
       name: 'fill',
       description: 'Empty area taking up available space',
-      params: []
+      params: [{ name: 'Height', description: 'Height in mm', type: 'number', optional: true }],
+      renderComponent: Fill
     },
     {
       name: 'bullet',
       description: 'Bulleted text',
-      params: [{ name: 'Text', description: 'Text' }]
+      params: [{ name: 'Text', description: 'Text' }],
+      renderComponent: Bullet
     },
     {
       name: 'picture',
@@ -80,7 +97,8 @@
       params: [
         { name: 'URL', description: 'URL of the picture' },
         { name: 'Height', description: 'Height of the picture in pixels' }
-      ]
+      ],
+      renderComponent: Picture
     },
     {
       name: 'dndstats',
@@ -118,5 +136,9 @@
 
   export function getContentTypeDescriptor(type: CardContentTypeV2): CardContentTypeDescriptor {
     return CARD_CONTENT_TYPE_DESCRIPTOR_MAP.get(type);
+  }
+
+  export function isCardContentType(x: string): x is CardContentTypeV2 {
+    return CARD_CONTENT_TYPES.some((t) => t.name === x);
   }
 </script>

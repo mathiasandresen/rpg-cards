@@ -15,14 +15,16 @@
   const dispatch = createEventDispatcher();
 
   const updateContent = () => {
-    content.content = splitContent
-      .map((c) => {
-        if (typeof c !== 'string') {
-          c = '' + c;
-        }
-        return c.replace(/[^\\]\|/, '\\|');
-      })
-      .join(' | ');
+    content.content =
+      splitContent
+        ?.map((c) => {
+          if (typeof c !== 'string') {
+            c = '' + c;
+          }
+          return c.replace(/[^\\]\|/, '\\|');
+        })
+        .filter((s) => s !== '')
+        .join(' | ') ?? '';
   };
 
   $: splitContent && updateContent();
