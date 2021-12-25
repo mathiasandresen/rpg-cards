@@ -1,3 +1,7 @@
+<script lang="ts">
+  import ContentTypeTable from "$components/docs/content-type-table.svelte";
+</script>
+
 # Documentation
 This is the documentation for RPG Cards Generator.
 
@@ -6,7 +10,7 @@ Export objects are json files containing a few fields:
 * `version` (string): Defining the version of the export object
   * Possible values `"1"`
 * `cards` (array): The list of cards
-  * see [Card JSON Data](#card-data)
+  * see [Card JSON data](#card-data)
 
 Example:
 
@@ -50,39 +54,12 @@ Example:
 ## Contents JSON data {#contents}
 Content objects have the following fields:
 * `id` (string): A unique id used by the drag and drop mechanics
-* `type` (string): The type of the content, used by the renderer - One of
-  * `subtitle`: Sligtly larger italics text
-    * *param1*: The subtitle text
-    * *param2* (optional): Right aligned additional text
-  * `rule`: A horizontal line taking up full width
-  * `property`: A property with a bold name and normal description - if spanning more than one line, description is indented.
-    * *param1*: Property name (bolded)
-    * *param2*: Property description
-  * `description`: Same as `property` but with no indentation and name is italicized.
-    * *param1*: Description name (bolded, italicized)
-    * *param2*: Description description
-  * `text`: Simple paragraph
-  * `section`: Section header
-  * `boxes`: Empty boxes
-    * *param1*: Amount of boxes
-    * *param2*: Size of the boxes
-  * `fill`: Empty area taking up available space
-  * `bullet`: Bulleted text
-  * `picture`: A picture from an url
-    * *param1*: URL of picture
-    * *param2*: Height in pixels 
-  * `dndstats`: A Dungeons & Dragons stat block
-    * *param1*: Strength score
-    * *param2*: Dexterity score
-    * *param3*: Constitution score
-    * *param4*: Intelligence score
-    * *param5*: Wisdom score
-    * *param6*: Charisma score
-  * `dndspellblock`: A Dungeons & Dragons spell card block
-    * *param1*: Casting Time
-    * *param2*: Range
-    * *param3*: Components
-    * *param4*: Duration
+* `type` (string): The type of the content, used by the renderer
+  * See [the table below](#content-types)
+* `content` (string): The actual content where parameters are divided by a pipe ` | `.
+
+### Content types
+<ContentTypeTable />
 
 Examples:
 
