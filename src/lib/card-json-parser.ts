@@ -1,10 +1,10 @@
-import { isCardContentType } from '../model/card';
 import type Card from '../model/card';
 import type { CardContent } from '../model/card';
 import { SPLIT_REGEX } from './constants';
 import { uuid4 } from './uuid';
 import type { CardCollection } from '../model/card-collection';
 import { isCardCollection } from '../model/card-collection';
+import { isCardContentType } from './card-content-types.svelte';
 
 export function parseCards(
   json: string,

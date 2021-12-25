@@ -1,5 +1,6 @@
-import type { CardContent, CardContentType } from '../model/card';
+import type { CardContent } from '../model/card';
 import type Card from '../model/card';
+import type { CardContentTypeV2 } from './card-content-types.svelte';
 import { uuid4 } from './uuid';
 
 export const createNewCard = (): Card => ({
@@ -13,28 +14,12 @@ export const createNewCard = (): Card => ({
   layout: {}
 });
 
-export function createNewCardContent(type: CardContentType): CardContent {
+export function createNewCardContent(type: CardContentTypeV2): CardContent {
   const content = {
     id: uuid4(),
     type,
-    content: undefined
+    content: ''
   } as CardContent;
-
-  switch (type) {
-    case 'subtitle':
-    case 'section':
-    case 'bullet':
-    case 'text':
-      content.content = '';
-      break;
-    case 'description':
-    case 'property':
-      content.content = ' | ';
-      break;
-    case 'boxes':
-      content.content = '3 | ';
-      break;
-  }
 
   return content;
 }

@@ -16,6 +16,7 @@
   "devDependencies": {
     "@sveltejs/kit": "next",
     "@types/fs-extra": "^9.0.13",
+    "@types/sanitize-html": "^2.6.1",
     "@types/yauzl": "^2.9.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
@@ -44,6 +45,7 @@
     "node-fetch": "^3.1.0",
     "request": "^2.88.2",
     "ress": "^4.0.0",
+    "sanitize-html": "^2.6.1",
     "svelte-dnd-action": "^0.9.12",
     "sveltestrap": "^5.6.3",
     "yauzl": "^2.10.0"

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { getContentTypeDescriptor } from '$lib/card-content-types.svelte';
+
   import { createEventDispatcher } from 'svelte';
 
   import { Button, ButtonGroup, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
@@ -6,25 +8,46 @@
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
+  $: typeDescriptor = getContentTypeDescriptor(content.type);
+
   let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
 
   const dispatch = createEventDispatcher();
 
   const updateContent = () => {
-    content.content = splitContent
-      .map((c) => {
-        if (typeof c !== 'string') {
-          c = '' + c;
-        }
-        return c.replace(/[^\\]\|/, '\\|');
-      })
-      .join(' | ');
+    content.content =
+      splitContent
+        ?.map((c) => {
+          if (typeof c !== 'string') {
+            c = '' + c;
+          }
+          return c.replace(/[^\\]\|/, '\\|');
+        })
+        .filter((s) => s !== '')
+        .join(' | ') ?? '';
   };
 
   $: splitContent && updateContent();
 </script>
 
-{#if content.type === 'rule' || content.type === 'fill'}
+<InputGroup>
+  <InputGroupText>
+    <span class="input-group-text-content">{typeDescriptor.name}</span>
+  </InputGroupText>
+  {#if typeDescriptor.params.length === 0}
+    <Input disabled />
+  {:else}
+    {#each typeDescriptor.params as param, index}
+      <Input
+        type={param.type ?? 'text'}
+        bind:value={splitContent[index]}
+        placeholder={param.name}
+      />
+    {/each}
+  {/if}
+</InputGroup>
+
+<!-- {#if content.type === 'rule' || content.type === 'fill'}
   <InputGroup>
     <InputGroupText>
       <span class="input-group-text-content">{content.type}</span>
@@ -109,7 +132,7 @@
       placeholder=""
     />
   </InputGroup>
-{/if}
+{/if} -->
 <ButtonGroup>
   <Button
     size="sm"
