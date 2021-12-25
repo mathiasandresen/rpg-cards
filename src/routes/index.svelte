@@ -14,6 +14,8 @@
   import Sidebar from '$components/sidebar.svelte';
   import CardEditor from '$components/card-editor.svelte';
   import CurrentCard from '$components/card/current-card.svelte';
+  import InfoContent from '../content/info.svx';
+  import ThanksAndLicensesContent from '../content/thanks-and-licenses.svx';
 
   let infoModalOpen = false;
   const toggleInfoModal = () => (infoModalOpen = !infoModalOpen);
@@ -45,16 +47,12 @@
 <Modal header="Info" isOpen={infoModalOpen} toggle={toggleInfoModal}>
   <ModalBody class="p-0">
     <div class="info-modal-text">
-      <b>Work in progress</b>
-
-      <p>
-        RPG Card generator was made by Mathias Andresen, and is inspired by the project
-        https://github.com/mephitrpg/rpg-cards which is a fork of
-        https://github.com/crobi/rpg-cards.
-      </p>
+      <InfoContent />
     </div>
     <Accordion flush>
-      <AccordionItem header="Thanks and licenses"><b>Work in progress</b></AccordionItem>
+      <AccordionItem header="Thanks and licenses">
+        <ThanksAndLicensesContent />
+      </AccordionItem>
     </Accordion>
   </ModalBody>
 </Modal>
