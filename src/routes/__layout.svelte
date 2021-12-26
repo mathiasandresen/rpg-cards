@@ -2,6 +2,11 @@
   import { Styles } from 'sveltestrap';
 </script>
 
+<svelte:head>
+  <title>RPG Card Generator</title>
+  <html lang="en" />
+</svelte:head>
+
 <Styles />
 
 <slot />
