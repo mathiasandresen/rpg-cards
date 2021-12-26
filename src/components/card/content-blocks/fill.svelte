@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { CardContent } from '$model/card';
-  import sanitize from 'sanitize-html';
 
   export let content: CardContent;
 

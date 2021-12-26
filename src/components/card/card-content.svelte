@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContentTypeDescriptor } from '$lib/card-content-types.svelte';
+  import { getContentTypeDescriptor } from '$lib/card-content-types';
   import type { CardContent } from '$model/card';
 
   export let content: CardContent;

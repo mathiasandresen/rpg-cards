@@ -5,7 +5,7 @@
   import { dndzone } from 'svelte-dnd-action';
   import { Button, Icon, Input, InputGroup, Tooltip } from 'sveltestrap';
   import { createNewCardContent } from '../lib/card-builder';
-  import { CardContentTypeV2, CARD_CONTENT_TYPES } from '$lib/card-content-types.svelte';
+  import { CardContentTypeV2, CARD_CONTENT_TYPES } from '$lib/card-content-types';
 
   export let contents: CardContent[];
   const flipDurationMs = 200;
