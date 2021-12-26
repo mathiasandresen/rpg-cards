@@ -11,6 +11,10 @@
     InputGroup,
     InputGroupText,
     Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
     Tooltip
   } from 'sveltestrap';
   import { generateExportObject, parseCards } from '../lib/card-json-parser';
@@ -19,6 +23,7 @@
   import { defaultSettings } from '../stores/settings';
   import type Settings from '../stores/settings';
   import Deck from './deck.svelte';
+  import JsonEditor from './json-editor.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
@@ -27,8 +32,17 @@
   let downloadUrl = undefined;
   let downloadName = 'cards.json';
 
+  let open = false;
+  const toggle = () => (open = !open);
+
   if (browser) {
     settings = JSON.parse(localStorage?.getItem('settings')) ?? defaultSettings;
+  }
+
+  $: {
+    if (browser) {
+      localStorage.setItem('settings', JSON.stringify(settings));
+    }
   }
 
   const addCardsToDeck = (cards: Card[]) => {
@@ -73,11 +87,9 @@
     setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
   };
 
-  $: {
-    if (browser) {
-      localStorage.setItem('settings', JSON.stringify(settings));
-    }
-  }
+  const handleEditJson = () => {
+    toggle();
+  };
 </script>
 
 <Accordion stayOpen>
@@ -102,6 +114,9 @@
       </div>
       <div class="sidebar-element">
         <Button block color="primary" href="/output">Print</Button>
+      </div>
+      <div class="sidebar-element">
+        <Button block color="primary" on:click={handleEditJson}>Edit JSON</Button>
       </div>
       <h2 class="sidebar-header">Options</h2>
       <div class="sidebar-element low full">
@@ -204,6 +219,16 @@
     <Deck />
   </AccordionItem>
 </Accordion>
+<Modal isOpen={open} {toggle} size="xl">
+  <ModalHeader {toggle}>Edit JSON</ModalHeader>
+  <ModalBody>
+    <JsonEditor object={$deck} />
+  </ModalBody>
+  <ModalFooter>
+    <Button color="primary">Do Something</Button>
+    <Button color="secondary" on:click={toggle}>Cancel</Button>
+  </ModalFooter>
+</Modal>
 
 <style lang="scss">
   .hidden {
