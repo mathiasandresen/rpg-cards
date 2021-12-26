@@ -4,7 +4,7 @@ import { SPLIT_REGEX } from './constants';
 import { uuid4 } from './uuid';
 import type { CardCollection } from '../model/card-collection';
 import { isCardCollection } from '../model/card-collection';
-import { isCardContentType } from './card-content-types.svelte';
+import { isCardContentType } from '$lib/card-content-types';
 
 export function parseCards(
   json: string,

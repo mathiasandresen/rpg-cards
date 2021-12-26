@@ -23,7 +23,7 @@
   import { defaultSettings } from '../stores/settings';
   import type Settings from '../stores/settings';
   import Deck from './deck.svelte';
-  import JsonEditor from './json-editor.svelte';
+  import JsonEditorModal from './json-editor-modal.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
@@ -32,8 +32,7 @@
   let downloadUrl = undefined;
   let downloadName = 'cards.json';
 
-  let open = false;
-  const toggle = () => (open = !open);
+  let toggleJsonEditor: () => void;
 
   if (browser) {
     settings = JSON.parse(localStorage?.getItem('settings')) ?? defaultSettings;
@@ -88,147 +87,146 @@
   };
 
   const handleEditJson = () => {
-    toggle();
+    toggleJsonEditor();
   };
 </script>
 
-<Accordion stayOpen>
-  <AccordionItem active header="General">
-    <div class="button-grid">
-      <div class="hidden">
-        <input type="file" accept=".json" bind:files={importFiles} bind:this={importFileSelector} />
-        <a href={downloadUrl} download={downloadName} bind:this={hiddenDownloadLink}>
-          Hidden download link
-        </a>
-      </div>
-      <div class="sidebar-element">
-        <Button block color="primary" on:click={() => importFileSelector.click()}>
-          Import from file
-        </Button>
-      </div>
-      <div class="sidebar-element">
-        <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button>
-      </div>
-      <div class="sidebar-element">
-        <Button block color="primary" on:click={handleExportToFile}>Export to file</Button>
-      </div>
-      <div class="sidebar-element">
-        <Button block color="primary" href="/output">Print</Button>
-      </div>
-      <div class="sidebar-element">
-        <Button block color="primary" on:click={handleEditJson}>Edit JSON</Button>
-      </div>
-      <h2 class="sidebar-header">Options</h2>
-      <div class="sidebar-element low full">
-        <Input
-          type="checkbox"
-          label="Convert subtitle + rule to sections?"
-          id="convert-first-subtitle"
-          bind:checked={settings.convertFirstSubtitle}
-        />
-        <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
-        <Tooltip target={'convert-first-subtitle-help'}>
-          This will convert subtitles followed by a rule into sections.
-        </Tooltip>
-      </div>
-      <div class="sidebar-element low full">
-        <Input
-          type="checkbox"
-          label="Convert D&D spell blocks?"
-          id="convert-dnd-spell-block"
-          bind:checked={settings.convertDndSpellblock}
-        />
-        <Badge id="convert-dnd-spell-block-help" pill color="info">?</Badge>
-        <Tooltip target={'convert-dnd-spell-block-help'}>
-          This will convert properties containing Casting Time, Range, Components, and Duration (in
-          that order) into a block.
-        </Tooltip>
-      </div>
-    </div>
-  </AccordionItem>
-  <AccordionItem active header="Page">
-    <Form>
-      <FormGroup>
-        <span>
-          <Label for="paper-size">Paper size</Label>
-        </span>
-        <InputGroup id="paper-size">
-          <Input
-            id="paper-size-width"
-            placeholder="Width"
-            type="number"
-            bind:value={$pageLayout.paperSize.width}
+<div>
+  <Accordion stayOpen>
+    <AccordionItem active header="General">
+      <div class="button-grid">
+        <div class="hidden">
+          <input
+            type="file"
+            accept=".json"
+            bind:files={importFiles}
+            bind:this={importFileSelector}
           />
-          <InputGroupText>mm</InputGroupText>
+          <a href={downloadUrl} download={downloadName} bind:this={hiddenDownloadLink}>
+            Hidden download link
+          </a>
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={() => importFileSelector.click()}>
+            Import from file
+          </Button>
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button
+          >
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={handleExportToFile}>Export to file</Button>
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" href="/output">Print</Button>
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={handleEditJson}>Edit JSON</Button>
+        </div>
+        <h2 class="sidebar-header">Options</h2>
+        <div class="sidebar-element low full">
           <Input
-            id="paper-size-height"
-            placeholder="Height"
-            type="number"
-            bind:value={$pageLayout.paperSize.height}
+            type="checkbox"
+            label="Convert subtitle + rule to sections?"
+            id="convert-first-subtitle"
+            bind:checked={settings.convertFirstSubtitle}
           />
-          <InputGroupText>mm</InputGroupText>
-        </InputGroup>
-      </FormGroup>
-      <FormGroup>
-        <span>
-          <Label for="page-adjust">Print adjust</Label>
-          <Badge id="page-adjust-help" pill color="info">?</Badge>
-          <Tooltip target="page-adjust-help">
-            Use this to adjust the print in order to make up for difference in printers
+          <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
+          <Tooltip target={'convert-first-subtitle-help'}>
+            This will convert subtitles followed by a rule into sections.
           </Tooltip>
-        </span>
-        <InputGroup id="page-adjust">
+        </div>
+        <div class="sidebar-element low full">
           <Input
-            id="page-adjust-x"
-            placeholder="X"
-            type="number"
-            bind:value={$pageLayout.adjust.x}
+            type="checkbox"
+            label="Convert D&D spell blocks?"
+            id="convert-dnd-spell-block"
+            bind:checked={settings.convertDndSpellblock}
           />
-          <InputGroupText>mm</InputGroupText>
-          <Input
-            id="page-adjust-y"
-            placeholder="Y"
-            type="number"
-            bind:value={$pageLayout.adjust.y}
-          />
-          <InputGroupText>mm</InputGroupText>
-        </InputGroup>
-      </FormGroup>
-      <FormGroup>
-        <span>
-          <Label for="card-back-border">Cardback border</Label>
-          <Badge id="card-back-border-help" pill color="info">?</Badge>
-          <Tooltip target="card-back-border-help">
-            Use this add a colored border around the back of the cards when printing to make up for
-            printing variances.
+          <Badge id="convert-dnd-spell-block-help" pill color="info">?</Badge>
+          <Tooltip target={'convert-dnd-spell-block-help'}>
+            This will convert properties containing Casting Time, Range, Components, and Duration
+            (in that order) into a block.
           </Tooltip>
-        </span>
-        <InputGroup id="card-back-border">
-          <Input
-            id="card-back-border-input"
-            placeholder="Cardback border"
-            type="number"
-            bind:value={$pageLayout.cardBackBorder}
-          />
-          <InputGroupText>mm</InputGroupText>
-        </InputGroup>
-      </FormGroup>
-    </Form>
-  </AccordionItem>
-  <AccordionItem active header="Deck">
-    <Deck />
-  </AccordionItem>
-</Accordion>
-<Modal isOpen={open} {toggle} size="xl">
-  <ModalHeader {toggle}>Edit JSON</ModalHeader>
-  <ModalBody>
-    <JsonEditor object={$deck} />
-  </ModalBody>
-  <ModalFooter>
-    <Button color="primary">Do Something</Button>
-    <Button color="secondary" on:click={toggle}>Cancel</Button>
-  </ModalFooter>
-</Modal>
+        </div>
+      </div>
+    </AccordionItem>
+    <AccordionItem active header="Page">
+      <Form>
+        <FormGroup>
+          <span>
+            <Label for="paper-size">Paper size</Label>
+          </span>
+          <InputGroup id="paper-size">
+            <Input
+              id="paper-size-width"
+              placeholder="Width"
+              type="number"
+              bind:value={$pageLayout.paperSize.width}
+            />
+            <InputGroupText>mm</InputGroupText>
+            <Input
+              id="paper-size-height"
+              placeholder="Height"
+              type="number"
+              bind:value={$pageLayout.paperSize.height}
+            />
+            <InputGroupText>mm</InputGroupText>
+          </InputGroup>
+        </FormGroup>
+        <FormGroup>
+          <span>
+            <Label for="page-adjust">Print adjust</Label>
+            <Badge id="page-adjust-help" pill color="info">?</Badge>
+            <Tooltip target="page-adjust-help">
+              Use this to adjust the print in order to make up for difference in printers
+            </Tooltip>
+          </span>
+          <InputGroup id="page-adjust">
+            <Input
+              id="page-adjust-x"
+              placeholder="X"
+              type="number"
+              bind:value={$pageLayout.adjust.x}
+            />
+            <InputGroupText>mm</InputGroupText>
+            <Input
+              id="page-adjust-y"
+              placeholder="Y"
+              type="number"
+              bind:value={$pageLayout.adjust.y}
+            />
+            <InputGroupText>mm</InputGroupText>
+          </InputGroup>
+        </FormGroup>
+        <FormGroup>
+          <span>
+            <Label for="card-back-border">Cardback border</Label>
+            <Badge id="card-back-border-help" pill color="info">?</Badge>
+            <Tooltip target="card-back-border-help">
+              Use this add a colored border around the back of the cards when printing to make up
+              for printing variances.
+            </Tooltip>
+          </span>
+          <InputGroup id="card-back-border">
+            <Input
+              id="card-back-border-input"
+              placeholder="Cardback border"
+              type="number"
+              bind:value={$pageLayout.cardBackBorder}
+            />
+            <InputGroupText>mm</InputGroupText>
+          </InputGroup>
+        </FormGroup>
+      </Form>
+    </AccordionItem>
+    <AccordionItem active header="Deck">
+      <Deck />
+    </AccordionItem>
+  </Accordion>
+  <JsonEditorModal bind:toggle={toggleJsonEditor} />
+</div>
 
 <style lang="scss">
   .hidden {

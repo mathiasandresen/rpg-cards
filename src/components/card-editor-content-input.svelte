@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContentTypeDescriptor } from '$lib/card-content-types.svelte';
+  import { getContentTypeDescriptor } from '$lib/card-content-types';
   import { createEventDispatcher } from 'svelte';
   import { Button, ButtonGroup, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
   import { SPLIT_REGEX } from '../lib/constants';

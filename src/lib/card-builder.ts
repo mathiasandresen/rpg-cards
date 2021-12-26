@@ -1,6 +1,6 @@
 import type { CardContent } from '../model/card';
 import type Card from '../model/card';
-import type { CardContentTypeV2 } from './card-content-types.svelte';
+import type { CardContentTypeV2 } from './card-content-types';
 import { uuid4 } from './uuid';
 
 export const createNewCard = (): Card => ({

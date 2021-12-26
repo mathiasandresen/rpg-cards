@@ -1,43 +1,87 @@
 <script lang="ts">
-  import { Input } from 'sveltestrap';
-  import { EditorState, EditorView, basicSetup } from '@codemirror/basic-setup';
-  import { json as jsonLanguageSupport } from '@codemirror/lang-json';
-  import { Text } from '@codemirror/text';
+  import { shortcut } from '$lib/shortcut';
+  import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';
+  import { json as jsonLanguageSupport, jsonParseLinter } from '@codemirror/lang-json';
+  import { closeLintPanel, linter, lintGutter, openLintPanel } from '@codemirror/lint';
+  import type { ViewUpdate } from '@codemirror/view';
   import { onMount } from 'svelte';
 
   type T = $$Generic;
 
   export let object: T;
+  $: object && (changed = false);
 
   let json = JSON.stringify(object, undefined, 2);
+  export let error: string = undefined;
+  export let changed = false;
 
-  $: {
-    const ny = JSON.parse(json) as T;
-    console.log(ny);
-  }
+  export const save = (onSuccess?: () => void) => {
+    closeLintPanel(editor);
+    error = undefined;
+
+    try {
+      const newJson = editor.state.doc.toJSON().join('\n');
+      object = JSON.parse(newJson) as T;
+
+      json = newJson;
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        error = e.message;
+        openLintPanel(editor);
+      }
+    }
+  };
+
+  const onEditorUpdate = (update: ViewUpdate) => {
+    if (update.docChanged) {
+      if (json !== update.state.doc.toJSON().join('\n')) {
+        changed = true;
+      } else {
+        changed = false;
+      }
+    }
+  };
 
   let parent: HTMLDivElement;
-
+  let editor: EditorView;
   onMount(() => {
-    let editor = new EditorView({
+    editor = new EditorView({
       state: EditorState.create({
-        extensions: [basicSetup, jsonLanguageSupport(), EditorView.lineWrapping],
+        extensions: [
+          basicSetup,
+          jsonLanguageSupport(),
+          EditorView.lineWrapping,
+          EditorView.updateListener.of(onEditorUpdate),
+          linter(jsonParseLinter()),
+          lintGutter()
+        ],
         doc: json
       }),
       parent: parent
     });
-
-    editor.state.toJSON();
   });
 </script>
 
-<!-- <Input class="json-text-input" type="textarea" bind:value={json} /> -->
-
-<div bind:this={parent} />
+<div class="wrapper">
+  <div
+    bind:this={parent}
+    use:shortcut={{
+      control: true,
+      code: 'KeyS',
+      callback: () => {
+        save();
+      }
+    }}
+  />
+</div>
 
 <style lang="scss">
-  :global(.json-text-input) {
-    height: 70vh;
-    font-size: 0.8em;
+  .wrapper {
+    display: flex;
+    flex-direction: column;
   }
 </style>

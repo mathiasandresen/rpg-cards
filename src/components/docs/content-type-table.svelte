@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CARD_CONTENT_TYPES } from '$lib/card-content-types.svelte';
+  import { CARD_CONTENT_TYPES } from '$lib/card-content-types';
 </script>
 
 <table class="table table-striped">
