@@ -10,21 +10,21 @@
 
 		
 
-		<link rel="modulepreload" href="/_app/start-d3580485.js">
-		<link rel="modulepreload" href="/_app/chunks/vendor-7ed618dd.js">
-		<link rel="modulepreload" href="/_app/pages/__layout.svelte-63240bf0.js">
-		<link rel="modulepreload" href="/_app/pages/index.svelte-e6a3e153.js">
-		<link rel="modulepreload" href="/_app/chunks/card-content-types-9608b315.js">
-		<link rel="modulepreload" href="/_app/chunks/card-58070ef5.js">
+		<link rel="modulepreload" href="/_app/start-8c9a671c.js">
+		<link rel="modulepreload" href="/_app/chunks/vendor-946bf883.js">
+		<link rel="modulepreload" href="/_app/pages/__layout.svelte-9e951b6a.js">
+		<link rel="modulepreload" href="/_app/pages/index.svelte-0f8b88ea.js">
+		<link rel="modulepreload" href="/_app/chunks/card-content-types-04b41192.js">
+		<link rel="modulepreload" href="/_app/chunks/card-fa669900.js">
 		<link rel="stylesheet" href="/_app/assets/start-61d1577b.css">
 		<link rel="stylesheet" href="/_app/assets/vendor-77b52ba5.css">
 		<link rel="stylesheet" href="/_app/assets/pages/__layout.svelte-985c9809.css">
-		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-1a570013.css">
-		<link rel="stylesheet" href="/_app/assets/card-content-types-0a5a1bc1.css">
+		<link rel="stylesheet" href="/_app/assets/pages/index.svelte-fdd59542.css">
+		<link rel="stylesheet" href="/_app/assets/card-content-types-accca2ce.css">
 		<link rel="stylesheet" href="/_app/assets/card-8d23dd85.css">
 
 		<script type="module">
-			import { start } from "/_app/start-d3580485.js";
+			import { start } from "/_app/start-8c9a671c.js";
 			start({
 				target: document.querySelector("#svelte"),
 				paths: {"base":"","assets":""},
@@ -37,8 +37,8 @@
 					status: 200,
 					error: null,
 					nodes: [
-						import("/_app/pages/__layout.svelte-63240bf0.js"),
-						import("/_app/pages/index.svelte-e6a3e153.js")
+						import("/_app/pages/__layout.svelte-9e951b6a.js"),
+						import("/_app/pages/index.svelte-0f8b88ea.js")
 					],
 					page: {
 						host: location.host, // TODO this is redundant
@@ -61,56 +61,57 @@
 
   <ul class="navbar-nav"><div class="nav-icons svelte-11ll9re"><li class="nav-item"><a href="https://github.com/mathiasandresen/rpg-cards" class="nav-link"><i class="navbar-icon bi-github"></i></a></li>
       <li class="nav-item"><a href="#" class="nav-link"><i class="navbar-icon bi-info-circle-fill"></i></a></li></div></ul></div></nav>
-<div class="grid svelte-11ll9re"><div class="accordion"><div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+<div class="grid svelte-11ll9re"><div><div class="accordion"><div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
     General</button></h2>
   
 
 <div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><div class="button-grid svelte-b6nokw"><div class="hidden svelte-b6nokw"><input type="file" accept=".json">
-        <a download="cards.json">Hidden download link
-        </a></div>
-      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
-        </button></div>
-      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
-      <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
-      <div class="sidebar-element svelte-b6nokw"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
-      <h2 class="sidebar-header svelte-b6nokw">Options</h2>
-      <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="" checked>
+          <a download="cards.json">Hidden download link
+          </a></div>
+        <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import from file
+          </button></div>
+        <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Import sample deck</button></div>
+        <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Export to file</button></div>
+        <div class="sidebar-element svelte-b6nokw"><a class="btn btn-primary d-block w-100" href="/output" style="">Print</a></div>
+        <div class="sidebar-element svelte-b6nokw"><button class="btn btn-primary d-block w-100" value="" style="">Edit JSON</button></div>
+        <h2 class="sidebar-header svelte-b6nokw">Options</h2>
+        <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-first-subtitle" type="checkbox" name="" value="" checked>
   <label class="form-check-label" for="convert-first-subtitle">Convert subtitle + rule to sections?</label></div>
 
-        <span id="convert-first-subtitle-help" class="badge bg-info rounded-pill">?</span>
-        </div>
-      <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-dnd-spell-block" type="checkbox" name="" value="" checked>
+          <span id="convert-first-subtitle-help" class="badge bg-info rounded-pill">?</span>
+          </div>
+        <div class="sidebar-element low full svelte-b6nokw"><div class="form-check"><input placeholder="" class="form-check-input" id="convert-dnd-spell-block" type="checkbox" name="" value="" checked>
   <label class="form-check-label" for="convert-dnd-spell-block">Convert D&amp;D spell blocks?</label></div>
 
-        <span id="convert-dnd-spell-block-help" class="badge bg-info rounded-pill">?</span>
-        </div></div></div></div></div>
-  <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+          <span id="convert-dnd-spell-block-help" class="badge bg-info rounded-pill">?</span>
+          </div></div></div></div></div>
+    <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
     Page</button></h2>
   
 
 <div style="overflow: hidden;" class="accordion-collapse"><div class="accordion-body"><form class=""><div class="mb-3"><span><label class="form-label" for="paper-size">Paper size</label></span>
-        <div id="paper-size" class="input-group"><input id="paper-size-width" class="form-control" type="number" name="" placeholder="Width" value="210">
+          <div id="paper-size" class="input-group"><input id="paper-size-width" class="form-control" type="number" name="" placeholder="Width" value="210">
 
-          <span class="input-group-text">mm</span>
-          <input id="paper-size-height" class="form-control" type="number" name="" placeholder="Height" value="297">
+            <span class="input-group-text">mm</span>
+            <input id="paper-size-height" class="form-control" type="number" name="" placeholder="Height" value="297">
 
-          <span class="input-group-text">mm</span></div></div>
-      <div class="mb-3"><span><label class="form-label" for="page-adjust">Print adjust</label>
-          <span id="page-adjust-help" class="badge bg-info rounded-pill">?</span>
-          </span>
-        <div id="page-adjust" class="input-group"><input id="page-adjust-x" class="form-control" type="number" name="" placeholder="X" value="">
+            <span class="input-group-text">mm</span></div></div>
+        <div class="mb-3"><span><label class="form-label" for="page-adjust">Print adjust</label>
+            <span id="page-adjust-help" class="badge bg-info rounded-pill">?</span>
+            </span>
+          <div id="page-adjust" class="input-group"><input id="page-adjust-x" class="form-control" type="number" name="" placeholder="X" value="">
 
-          <span class="input-group-text">mm</span>
-          <input id="page-adjust-y" class="form-control" type="number" name="" placeholder="Y" value="">
+            <span class="input-group-text">mm</span>
+            <input id="page-adjust-y" class="form-control" type="number" name="" placeholder="Y" value="">
 
-          <span class="input-group-text">mm</span></div></div>
-      <div class="mb-3"><span><label class="form-label" for="card-back-border">Cardback border</label>
-          <span id="card-back-border-help" class="badge bg-info rounded-pill">?</span>
-          </span>
-        <div id="card-back-border" class="input-group"><input id="card-back-border-input" class="form-control" type="number" name="" placeholder="Cardback border" value="0">
+            <span class="input-group-text">mm</span></div></div>
+        <div class="mb-3"><span><label class="form-label" for="card-back-border">Cardback border</label>
+            <span id="card-back-border-help" class="badge bg-info rounded-pill">?</span>
+            </span>
+          <div id="card-back-border" class="input-group"><input id="card-back-border-input" class="form-control" type="number" name="" placeholder="Cardback border" value="0">
 
-          <span class="input-group-text">mm</span></div></div></form></div></div></div>
-  <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
+            <span class="input-group-text">mm</span></div></div></form></div></div></div>
+    <div class="accordion-item"><h2 class="accordion-header"><button type="button" class="accordion-button">
     Deck</button></h2>
   
 
@@ -125,6 +126,9 @@
 
 
 <div></div></div></div></div></div>
+  
+<div></div>
+</div>
   <div><h4>Editor</h4>
 
   <div class="empty-editor svelte-18c14cf">No card is selected!</div>
@@ -135,10 +139,7 @@
 
 <div></div>
 
-
-
-			
-		</div>
+</div>
 </body>
 
 </html>
