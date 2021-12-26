@@ -1,3 +1,23 @@
+<script context="module" lang="ts">
+  import type { Load } from '@sveltejs/kit';
+  import { getCurrentCardFromLocalStorage, getDeckFromLocalStorage } from '../stores';
+  import type Card from '$model/card';
+
+  export const load: Load = async ({ page, fetch, session, stuff }) => {
+    const current = getCurrentCardFromLocalStorage();
+    const deck = getDeckFromLocalStorage();
+
+    const card = current > -1 ? deck[current] : undefined;
+
+    return {
+      status: 200,
+      props: {
+        card: card
+      }
+    };
+  };
+</script>
+
 <script lang="ts">
   import 'ress/dist/ress.min.css';
   import {
@@ -19,6 +39,8 @@
 
   let infoModalOpen = false;
   const toggleInfoModal = () => (infoModalOpen = !infoModalOpen);
+
+  export let card: Card;
 </script>
 
 <Navbar color="light" light class="shadow-sm">
@@ -41,8 +63,8 @@
 </Navbar>
 <div class="grid">
   <Sidebar />
-  <CardEditor />
-  <CurrentCard />
+  <CardEditor {card} />
+  <CurrentCard {card} />
 </div>
 <Modal header="Info" isOpen={infoModalOpen} toggle={toggleInfoModal}>
   <ModalBody class="p-0">

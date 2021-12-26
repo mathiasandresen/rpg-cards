@@ -9,7 +9,7 @@
   import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import extend from 'just-extend';
 
-  let card: Card = $deck[$currentCard];
+  export let card: Card = $deck[$currentCard];
   let contentEditorMode: 'individual' | 'textfield' = 'individual';
   let textFieldContent = getContentAsString(card?.contents);
   $: isMultiEditing = $multiSelect.size > 1;

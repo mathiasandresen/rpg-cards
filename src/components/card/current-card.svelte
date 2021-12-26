@@ -4,7 +4,7 @@
   import CardBack from './card-back.svelte';
   import CardComponent from './card.svelte';
 
-  let card: Card;
+  export let card: Card = $deck[$currentCard];
 
   $: card = $deck[$currentCard];
 </script>
