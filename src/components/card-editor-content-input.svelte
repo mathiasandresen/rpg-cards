@@ -1,122 +1,68 @@
 <script lang="ts">
+  import { getContentTypeDescriptor } from '$lib/card-content-types';
   import { createEventDispatcher } from 'svelte';
-
   import { Button, ButtonGroup, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
   import { SPLIT_REGEX } from '../lib/constants';
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
+  export let showDelete = true;
+  $: typeDescriptor = getContentTypeDescriptor(content.type);
+
   let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
 
   const dispatch = createEventDispatcher();
 
   const updateContent = () => {
-    content.content = splitContent
-      .map((c) => {
-        if (typeof c !== 'string') {
-          c = '' + c;
-        }
-        return c.replace(/[^\\]\|/, '\\|');
-      })
-      .join(' | ');
+    content.content =
+      splitContent
+        ?.map((c) => {
+          if (typeof c !== 'string') {
+            c = '' + c;
+          }
+          return c.replace(/[^\\]\|/, '\\|');
+        })
+        .filter((s) => s !== '')
+        .join(' | ') ?? '';
   };
 
   $: splitContent && updateContent();
 </script>
 
-{#if content.type === 'rule' || content.type === 'fill'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
+<InputGroup>
+  <InputGroupText>
+    <span class="input-group-text-content">{typeDescriptor.name}</span>
+  </InputGroupText>
+  {#if typeDescriptor.params.length === 0}
     <Input disabled />
-  </InputGroup>
-{:else if content.type === 'property' || content.type === 'description'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    {#each splitContent as c, index}
+  {:else}
+    {#each typeDescriptor.params as param, index}
       <Input
-        class={index === 0 ? 'input-property-title' : ''}
-        type="text"
-        bind:value={c}
-        placeholder=""
+        type={param.type ?? 'text'}
+        bind:value={splitContent[index]}
+        placeholder={param.name}
       />
     {/each}
-  </InputGroup>
-{:else if content.type === 'section' || content.type === 'subtitle'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    <Input type="text" bind:value={splitContent[0]} />
-    <Input type="text" bind:value={splitContent[1]} />
-  </InputGroup>
-{:else if content.type === 'boxes'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    <Input type="number" bind:value={splitContent[0]} placeholder="Number of boxes" />
-    <Input type="text" bind:value={splitContent[1]} placeholder="2em" />
-  </InputGroup>
-{:else if content.type === 'dndstats'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    <Input type="number" bind:value={splitContent[0]} placeholder="Str" />
-    <Input type="number" bind:value={splitContent[1]} placeholder="Dex" />
-    <Input type="number" bind:value={splitContent[2]} placeholder="Con" />
-    <Input type="number" bind:value={splitContent[3]} placeholder="Int" />
-    <Input type="number" bind:value={splitContent[4]} placeholder="Wis" />
-    <Input type="number" bind:value={splitContent[5]} placeholder="Cha" />
-  </InputGroup>
-{:else if content.type === 'picture'}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    <Input type="text" bind:value={splitContent[0]} placeholder="URL of picture" />
-    <Input
-      class="small-input"
-      type="number"
-      bind:value={splitContent[1]}
-      placeholder="Height in pixels"
-    />
-  </InputGroup>
-{:else}
-  <InputGroup>
-    <InputGroupText>
-      <span class="input-group-text-content">{content.type}</span>
-    </InputGroupText>
-    <Input
-      type={content.type === 'text' ? 'textarea' : 'text'}
-      name="contents"
-      id="contents"
-      bind:value={content.content}
-      placeholder=""
-    />
-  </InputGroup>
-{/if}
+  {/if}
+</InputGroup>
 <ButtonGroup>
-  <Button
-    size="sm"
-    color="link"
-    class="link-danger"
-    on:click={(e) => {
-      e.preventDefault();
-      dispatch('delete');
-    }}
-  >
-    <Icon name="trash" />
-  </Button>
+  {#if showDelete}
+    <Button
+      color="link"
+      class="link-danger"
+      on:click={(e) => {
+        e.preventDefault();
+        dispatch('delete');
+      }}
+    >
+      <Icon name="trash" />
+    </Button>
+  {/if}
 </ButtonGroup>
 
 <style lang="scss">
   .input-group-text-content {
-    min-width: 5em;
+    min-width: 6.5em;
     width: 100%;
     text-align: start;
   }

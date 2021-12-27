@@ -1,11 +1,11 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
-  import type { CardContent, CardContentType } from '../model/card';
-  import { CardContentTypes } from '../model/card';
+  import type { CardContent } from '../model/card';
   import CardEditorContentInput from './card-editor-content-input.svelte';
   import { dndzone } from 'svelte-dnd-action';
-  import { Button, Icon, Input, InputGroup } from 'sveltestrap';
+  import { Button, Icon, Input, InputGroup, Tooltip } from 'sveltestrap';
   import { createNewCardContent } from '../lib/card-builder';
+  import { CardContentTypeV2, CARD_CONTENT_TYPES } from '$lib/card-content-types';
 
   export let contents: CardContent[];
   const flipDurationMs = 200;
@@ -20,7 +20,7 @@
     contents = newList;
   };
 
-  let addType: CardContentType = 'text';
+  let addType: CardContentTypeV2 = 'text';
   const handleAdd = (e: MouseEvent): void => {
     e.preventDefault();
     const newList = [...contents];
@@ -45,8 +45,8 @@
   </div>
   <InputGroup class="add-new-selector">
     <Input type="select" bind:value={addType}>
-      {#each CardContentTypes as type}
-        <option>{type}</option>
+      {#each CARD_CONTENT_TYPES as type}
+        <option id="select-{type.name}" value={type.name}>{type.name}</option>
       {/each}
     </Input>
     <Button color="primary" on:click={handleAdd}>

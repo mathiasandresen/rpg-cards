@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type Card from '../model/card';
+  import type Card from '$model/card';
   import CardContent from './card-content.svelte';
 
   export let card: Card;
@@ -11,9 +11,11 @@
 >
   <div class="rpg-card">
     <h1>{card.title}</h1>
-    {#each card.contents as content}
-      <CardContent {content} />
-    {/each}
+    <div class="card-content">
+      {#each card.contents as content}
+        <CardContent {content} />
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -45,12 +47,37 @@
     border-radius: 0.1cm;
     background-color: white;
     overflow: hidden;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
+      sans-serif;
 
     h1 {
       font-size: 1.3em;
       text-transform: uppercase;
       text-align: center;
       font-weight: bold;
+
+      font-family: Draconis;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      :global(p) {
+        padding: 0 0.5em;
+        margin-bottom: 0.2em;
+        font-size: var(--card-text-size);
+        line-height: 1em;
+      }
+
+      > :global(h2) {
+        padding: 0 0.5em;
+        font-size: 1.2em;
+        font-style: italic;
+        color: var(--card-color);
+        font-family: Draconis;
+      }
     }
   }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type Card from '../model/card';
-  import { currentCard, deck } from '../stores';
+  import type Card from '$model/card';
+  import { currentCard, deck } from '../../stores';
   import CardBack from './card-back.svelte';
   import CardComponent from './card.svelte';
 

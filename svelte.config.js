@@ -1,16 +1,33 @@
 import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-static';
+import path from "path"
+import { mdsvex } from "mdsvex"
+import rehypeSlug from "rehype-slug";
+import remarkHeadingId from "remark-heading-id";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	preprocess: preprocess(),
-
+	extensions: ['.svelte', '.md', '.svelte.md', '.svx'],
+	preprocess: [
+		mdsvex({
+			extensions: ['.svelte.md', '.md', '.svx'], 
+			rehypePlugins: [rehypeSlug], 
+			remarkPlugins: [remarkHeadingId],
+		}),
+		preprocess({sass: {}})
+	],
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
 		adapter: adapter({}),
+		vite: {
+			resolve: {
+				alias: {
+					"$components": path.resolve('src/components'),
+					"$model": path.resolve('src/model'),
+				}
+			}
+		}
 	}
 };
 

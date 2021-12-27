@@ -1,0 +1,15 @@
+$code-bg-color: #f7f7f9;
+
+pre {
+  // background-color: $code-bg-color;
+  // padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100vw;
+}
+
+// :not(pre) > code {
+//   background-color: $code-bg-color;
+//   padding: 0.2em 0.4em;
+// }
