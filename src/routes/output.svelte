@@ -5,10 +5,8 @@
   import { deck, pageLayout } from '../stores';
 
   // sizes in mm
-  const cardWidth = 63.5; //  2.5 inches
-  const cardWidthWithBorder = cardWidth + ($pageLayout.cardBackBorder || 0) * 2;
-  const cardHeight = 88.9; // 3.5 inches
-  const cardHeightWithBorder = cardHeight + ($pageLayout.cardBackBorder || 0) * 2;
+  const cardWidth = $pageLayout.cardSize.width;
+  const cardHeight = $pageLayout.cardSize.height;
 
   const calculateCardsPerPages = (): number => {
     const cols = Math.floor($pageLayout.paperSize.width / cardWidth);

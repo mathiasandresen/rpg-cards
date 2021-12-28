@@ -1,12 +1,18 @@
 <script lang="ts">
   import type Card from '$model/card';
+  import { pageLayout } from '../../stores';
   import Icon from '../game-icon.svelte';
   export let card: Card;
 </script>
 
 <div
   class="rpg-card-wrapper"
-  style="--card-color: {card.color}; --card-text-size: {card.layout?.text_font_size ?? '10px'}"
+  style="
+    --card-color: {card.color};
+    --card-text-size: {card?.layout?.text_font_size ? card?.layout?.text_font_size : '10px'};
+    --card-width: {$pageLayout.cardSize.width}mm;
+    --card-height: {$pageLayout.cardSize.height}mm;
+  "
 >
   <div class="rpg-card">
     <div class="line">
@@ -32,8 +38,8 @@
   $border-radius: 0.25cm;
 
   .rpg-card-wrapper {
-    width: 2.5in;
-    height: 3.5in;
+    width: var(--card-width);
+    height: var(--card-height);
     background-color: var(--card-color);
 
     box-sizing: border-box;

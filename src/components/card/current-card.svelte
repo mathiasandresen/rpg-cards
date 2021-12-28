@@ -1,7 +1,7 @@
 <script lang="ts">
   import { settings } from '../../stores/settings';
   import { Button, Icon, Input, InputGroup, InputGroupText } from 'sveltestrap';
-  import { currentCard, deck } from '../../stores';
+  import { currentCard, deck, pageLayout } from '../../stores';
   import CardBack from './card-back.svelte';
   import CardComponent from './card.svelte';
 
@@ -30,11 +30,25 @@
     </div>
 
     <div class="current-card">
-      <div style="zoom: {$settings.previewZoom / 100}; transform-origin: top left;">
-        <CardComponent {card} />
+      <div
+        style="
+          width: {$pageLayout.cardSize.width * ($settings.previewZoom / 100)}mm;
+          height: {$pageLayout.cardSize.height * ($settings.previewZoom / 100)}mm;
+        "
+      >
+        <div style="transform: scale({$settings.previewZoom / 100}); transform-origin: top left;">
+          <CardComponent {card} />
+        </div>
       </div>
-      <div style="zoom: {$settings.previewZoom / 100}; transform-origin: top left;">
-        <CardBack {card} />
+      <div
+        style="
+          width: {$pageLayout.cardSize.width * ($settings.previewZoom / 100)}mm;
+          height: {$pageLayout.cardSize.height * ($settings.previewZoom / 100)}mm;
+        "
+      >
+        <div style="transform: scale({$settings.previewZoom / 100}); transform-origin: top left;">
+          <CardBack {card} />
+        </div>
       </div>
     </div>
   {/if}
@@ -43,7 +57,7 @@
 <style lang="scss">
   .zoom-input {
     margin-bottom: 1em;
-    width: 12em;
+    width: 13em;
     // :global(.input-group-text > button) {
     //   & {
     //     padding: 0;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type Card from '$model/card';
+  import { pageLayout } from '../../stores';
   import CardContent from './card-content.svelte';
 
   export let card: Card;
@@ -7,7 +8,12 @@
 
 <div
   class="rpg-card-wrapper"
-  style="--card-color: {card.color}; --card-text-size: {card.layout?.text_font_size ?? '10px'}"
+  style="
+    --card-color: {card.color};
+    --card-text-size: {card?.layout?.text_font_size ? card?.layout?.text_font_size : '10px'};
+    --card-width: {$pageLayout.cardSize.width}mm;
+    --card-height: {$pageLayout.cardSize.height}mm;
+  "
 >
   <div class="rpg-card">
     <h1>{card.title}</h1>
@@ -27,8 +33,8 @@
   }
 
   .rpg-card-wrapper {
-    width: 2.5in;
-    height: 3.5in;
+    width: var(--card-width);
+    height: var(--card-height);
 
     box-sizing: border-box;
     border: $border-width solid var(--card-color);

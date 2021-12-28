@@ -3,6 +3,10 @@ export default interface PageLayout {
     width: number;
     height: number;
   };
+  cardSize: {
+    width: number;
+    height: number;
+  };
   adjust: {
     x?: number;
     y?: number;

@@ -9,6 +9,10 @@ const defaultPageLayout: PageLayout = {
     width: 210,
     height: 297
   },
+  cardSize: {
+    height: 88.9,
+    width: 63.5
+  },
   adjust: {
     x: undefined,
     y: undefined
