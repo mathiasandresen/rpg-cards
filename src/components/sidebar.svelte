@@ -20,29 +20,18 @@
   import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
   import { currentCard, deck, pageLayout } from '../stores';
-  import { defaultSettings } from '../stores/settings';
+  import { defaultSettings, settings } from '../stores/settings';
   import type Settings from '../stores/settings';
   import Deck from './deck.svelte';
   import JsonEditorModal from './json-editor-modal.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
-  let settings: Settings = defaultSettings;
   let hiddenDownloadLink: HTMLAnchorElement;
   let downloadUrl = undefined;
   let downloadName = 'cards.json';
 
   let toggleJsonEditor: () => void;
-
-  if (browser) {
-    settings = JSON.parse(localStorage?.getItem('settings')) ?? defaultSettings;
-  }
-
-  $: {
-    if (browser) {
-      localStorage.setItem('settings', JSON.stringify(settings));
-    }
-  }
 
   const addCardsToDeck = (cards: Card[]) => {
     const i = deck.addCards(...cards);
@@ -57,8 +46,8 @@
     const jsonText = await file.text();
     const cards = parseCards(
       jsonText,
-      settings.convertFirstSubtitle,
-      settings.convertDndSpellblock
+      $settings.convertFirstSubtitle,
+      $settings.convertDndSpellblock
     );
     addCardsToDeck(cards);
   };
@@ -69,8 +58,8 @@
     const jsonText = await fetch('rpg-cards-sample.json').then((res) => res.text());
     const cards = parseCards(
       jsonText,
-      settings.convertFirstSubtitle,
-      settings.convertDndSpellblock
+      $settings.convertFirstSubtitle,
+      $settings.convertDndSpellblock
     );
     addCardsToDeck(cards);
   };
@@ -130,7 +119,7 @@
             type="checkbox"
             label="Convert subtitle + rule to sections?"
             id="convert-first-subtitle"
-            bind:checked={settings.convertFirstSubtitle}
+            bind:checked={$settings.convertFirstSubtitle}
           />
           <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
           <Tooltip target={'convert-first-subtitle-help'}>
@@ -142,7 +131,7 @@
             type="checkbox"
             label="Convert D&D spell blocks?"
             id="convert-dnd-spell-block"
-            bind:checked={settings.convertDndSpellblock}
+            bind:checked={$settings.convertDndSpellblock}
           />
           <Badge id="convert-dnd-spell-block-help" pill color="info">?</Badge>
           <Tooltip target={'convert-dnd-spell-block-help'}>
