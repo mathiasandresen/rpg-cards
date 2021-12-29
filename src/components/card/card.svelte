@@ -52,7 +52,8 @@
 
     border-radius: 0.1cm;
     background-color: white;
-    overflow: hidden;
+    overflow: show;
+
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
       sans-serif;
 
