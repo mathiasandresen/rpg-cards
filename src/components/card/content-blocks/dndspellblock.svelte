@@ -33,12 +33,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     background-color: var(--card-color);
-    grid-gap: 1px;
+    grid-gap: 0.5mm;
     margin-top: -0.2em;
   }
 
   .block {
     background-color: white;
+    padding-bottom: 0.15em;
 
     p,
     h2 {
@@ -50,9 +51,10 @@
     h2 {
       font-size: 1.1em;
       text-transform: uppercase;
-      font-weight: bold;
+      font-weight: normal;
       color: var(--card-color);
       font-family: Draconis;
+      transform: scaleX(1.4);
     }
   }
 </style>

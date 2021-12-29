@@ -4,13 +4,20 @@
   import Card from '../components/card/card.svelte';
   import { deck, pageLayout } from '../stores';
 
+  const GAP_BETWEEN = 2;
+  const PAGE_PADDING = 5;
+
   // sizes in mm
   const cardWidth = $pageLayout.cardSize.width;
+  const cardWidthWithBorder = cardWidth + ($pageLayout.cardBackBorder || 0) * 2 + GAP_BETWEEN / 2;
   const cardHeight = $pageLayout.cardSize.height;
+  const cardHeightWithBorder = cardHeight + ($pageLayout.cardBackBorder || 0) * 2 + GAP_BETWEEN / 2;
 
   const calculateCardsPerPages = (): number => {
-    const cols = Math.floor($pageLayout.paperSize.width / cardWidth);
-    const rows = Math.floor($pageLayout.paperSize.height / cardHeight);
+    const cols = Math.floor(($pageLayout.paperSize.width - PAGE_PADDING * 2) / cardWidthWithBorder);
+    const rows = Math.floor(
+      ($pageLayout.paperSize.height - PAGE_PADDING * 2) / cardHeightWithBorder
+    );
     return cols * rows;
   };
 
@@ -73,7 +80,10 @@
       auto-fill,
       calc(var(--card-width) + var(--back-border-width) * 2)
     );
-    grid-template-rows: repeat(auto-fill, calc(var(--card-height) + var(--back-border-width) * 2));
+    grid-template-rows: repeat(
+      auto-fill,
+      calc(var(--card-height) + (var(--back-border-width) * 2))
+    );
 
     gap: 2mm;
 

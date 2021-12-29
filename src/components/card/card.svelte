@@ -10,7 +10,7 @@
   class="rpg-card-wrapper"
   style="
     --card-color: {card.color};
-    --card-text-size: {card?.layout?.text_font_size ? card?.layout?.text_font_size : '10px'};
+    --card-text-size: {card.layout?.text_font_size ?? '10px'};
     --card-width: {$pageLayout.cardSize.width}mm;
     --card-height: {$pageLayout.cardSize.height}mm;
   "
@@ -57,12 +57,13 @@
       sans-serif;
 
     h1 {
-      font-size: 1.3em;
+      font-size: 1.4em;
       text-transform: uppercase;
       text-align: center;
-      font-weight: bold;
-
+      font-weight: normal;
       font-family: Draconis;
+
+      transform: scaleX(1.4);
     }
 
     .card-content {
@@ -73,7 +74,6 @@
       :global(p) {
         padding: 0 0.5em;
         margin-bottom: 0.2em;
-        font-size: var(--card-text-size);
         line-height: 1em;
       }
 

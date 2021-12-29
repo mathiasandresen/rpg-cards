@@ -28,14 +28,15 @@
       padding: unset;
       line-height: 2px;
       margin-left: 0.3em;
+      font-size: var(--card-text-size);
     }
 
     h4 {
       font-weight: bold;
       display: inline;
       font-size: var(--card-text-size);
-      font-family: Draconis;
       margin: 0;
+      line-height: 1em;
     }
 
     :global + .property,
