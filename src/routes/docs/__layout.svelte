@@ -9,11 +9,15 @@
 
 <style lang="scss">
   .content {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
+    $width: 800px;
 
-    width: 800px;
+    padding: 2rem 1rem;
+    margin: 0 auto;
+
+    width: $width;
     max-width: 100%;
+
+    @media (min-width: $width) {
+    }
   }
 </style>

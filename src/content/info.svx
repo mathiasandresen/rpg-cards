@@ -2,8 +2,6 @@
   import {Icon} from "sveltestrap"
 </script>
 
-**Under construction <Icon name="hammer" />**
-
 RPG Card generator was made by Mathias Andresen, and is inspired by the project <https://github.com/mephitrpg/rpg-cards> which is a fork of <https://github.com/crobi/rpg-cards>.
 
-See the [Documentation](/docs)
+See the [<Icon name="file-earmark-text" /> Documentation](/docs)

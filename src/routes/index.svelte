@@ -44,7 +44,7 @@
   <CardEditor />
   <CurrentCard />
 </div>
-<Modal header="Info" isOpen={infoModalOpen} toggle={toggleInfoModal}>
+<Modal header="Info" class="info-modal" isOpen={infoModalOpen} toggle={toggleInfoModal}>
   <ModalBody class="p-0">
     <div class="info-modal-text">
       <InfoContent />
@@ -84,5 +84,17 @@
 
   .info-modal-text {
     padding: 1em;
+  }
+
+  :global(.info-modal) {
+    $width: 700px;
+    margin: 0 auto;
+    @media (min-width: $width) {
+      min-width: $width;
+    }
+  }
+
+  :global(.modal) {
+    overflow-y: scroll;
   }
 </style>
