@@ -69,7 +69,7 @@
     }
 
     @media (min-width: 1400px) {
-      grid-template-columns: fit-content(400px) 1fr 0.5fr;
+      grid-template-columns: 400px 1fr 0.5fr;
     }
   }
 
