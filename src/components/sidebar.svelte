@@ -75,6 +75,15 @@
     setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
   };
 
+  const handleImportFromJSON = () => {
+    const cards = parseCards(
+      jsonText,
+      $settings.convertFirstSubtitle,
+      $settings.convertDndSpellblock
+    );
+    addCardsToDeck(cards);
+  };
+
   const handleEditJson = () => {
     toggleJsonEditor();
   };
@@ -103,6 +112,11 @@
         <div class="sidebar-element">
           <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button
           >
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={() => importFileSelector.click()}>
+            Import JSON
+          </Button>
         </div>
         <div class="sidebar-element">
           <Button block color="primary" on:click={handleExportToFile}>Export to file</Button>
