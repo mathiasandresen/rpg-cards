@@ -6,7 +6,6 @@
   import type { CardContent } from '../model/card';
 
   export let content: CardContent;
-  export let showDelete = true;
   $: typeDescriptor = getContentTypeDescriptor(content.type);
 
   let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
@@ -46,18 +45,26 @@
   {/if}
 </InputGroup>
 <ButtonGroup>
-  {#if showDelete}
-    <Button
-      color="link"
-      class="link-danger"
-      on:click={(e) => {
-        e.preventDefault();
-        dispatch('delete');
-      }}
-    >
-      <Icon name="trash" />
-    </Button>
-  {/if}
+  <Button
+    color="link"
+    class="link-info"
+    on:click={(e) => {
+      e.preventDefault();
+      dispatch('duplicate');
+    }}
+  >
+    <Icon name="files" />
+  </Button>
+  <Button
+    color="link"
+    class="link-danger"
+    on:click={(e) => {
+      e.preventDefault();
+      dispatch('delete');
+    }}
+  >
+    <Icon name="trash" />
+  </Button>
 </ButtonGroup>
 
 <style lang="scss">

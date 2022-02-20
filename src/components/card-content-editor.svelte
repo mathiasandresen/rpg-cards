@@ -6,6 +6,7 @@
   import { Button, Icon, Input, InputGroup, Tooltip } from 'sveltestrap';
   import { createNewCardContent } from '../lib/card-builder';
   import { CardContentTypeV2, CARD_CONTENT_TYPES } from '$lib/card-content-types';
+  import { uuid4 } from '$lib/uuid';
 
   export let contents: CardContent[];
   const flipDurationMs = 200;
@@ -17,6 +18,12 @@
   const handleDelete = (index: number): void => {
     const newList = [...contents];
     newList.splice(index, 1);
+    contents = newList;
+  };
+
+  const handleDuplicate = (index: number): void => {
+    const newList = [...contents];
+    newList.push({ ...contents[index], id: uuid4() });
     contents = newList;
   };
 
@@ -38,7 +45,11 @@
     {#each contents as content, index (content.id)}
       <div animate:flip={{ duration: flipDurationMs }}>
         <div class="input-wrapper">
-          <CardEditorContentInput bind:content on:delete={() => handleDelete(index)} />
+          <CardEditorContentInput
+            bind:content
+            on:delete={() => handleDelete(index)}
+            on:duplicate={() => handleDuplicate(index)}
+          />
         </div>
       </div>
     {/each}
