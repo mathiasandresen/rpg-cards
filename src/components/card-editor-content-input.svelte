@@ -8,7 +8,7 @@
   export let content: CardContent;
   $: typeDescriptor = getContentTypeDescriptor(content.type);
 
-  let splitContent = content.content?.split(SPLIT_REGEX) ?? [];
+  let splitContent = content.content?.split(SPLIT_REGEX) ?? typeDescriptor.params.map(() => '');
 
   const dispatch = createEventDispatcher();
 
@@ -21,7 +21,6 @@
           }
           return c.replace(/[^\\]\|/, '\\|');
         })
-        .filter((s) => s !== '')
         .join(' | ') ?? '';
   };
 
