@@ -4,14 +4,24 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/logo-512.png",
+      "src": "/logo_128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/logo_256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/logo_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "background_color": "#0d6efd",
   "display": "standalone",
-  "scope": ".",
+  "scope": "/",
   "theme_color": "#0d6efd",
   "shortcuts": [],
   "description": "Generate good looking RPG cards replicating the original Dungeons & Dragons spell cards"

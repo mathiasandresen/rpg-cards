@@ -1,23 +1,22 @@
-const timestamp = 1645649164032;
+const timestamp = 1645653105446;
 const build = [
-  "/_app/start-a75acaed.js",
-  "/_app/assets/start-61d1577b.css",
-  "/_app/pages/__layout.svelte-0207057b.js",
+  "/_app/start-09091eab.js",
+  "/_app/pages/__layout.svelte-d2ce9f09.js",
   "/_app/assets/pages/__layout.svelte-985c9809.css",
-  "/_app/error.svelte-c31aec01.js",
-  "/_app/pages/index.svelte-fffbba6a.js",
+  "/_app/error.svelte-6d518ca1.js",
+  "/_app/pages/index.svelte-d5222999.js",
   "/_app/assets/pages/index.svelte-d0b94d37.css",
-  "/_app/pages/output.svelte-1067c780.js",
+  "/_app/pages/output.svelte-6c619ec4.js",
   "/_app/assets/pages/output.svelte-b0b9be75.css",
-  "/_app/pages/docs/__layout.svelte-f5c3bd20.js",
+  "/_app/pages/docs/__layout.svelte-20256616.js",
   "/_app/assets/pages/docs/__layout.svelte-0cee0f61.css",
-  "/_app/pages/docs/index.svx-e6834ecb.js",
+  "/_app/pages/docs/index.svx-d3808154.js",
   "/_app/assets/pages/docs/index.svx-251e9b2c.css",
-  "/_app/chunks/vendor-304cc7f8.js",
+  "/_app/chunks/vendor-ce255ec3.js",
   "/_app/assets/vendor-77b52ba5.css",
-  "/_app/chunks/card-66cb7cdb.js",
+  "/_app/chunks/card-3a4b075c.js",
   "/_app/assets/card-572a68c4.css",
-  "/_app/chunks/card-content-types-f7cd8ed1.js",
+  "/_app/chunks/card-content-types-582b74e5.js",
   "/_app/assets/card-content-types-14dfaee9.css"
 ];
 const files = [
@@ -4128,7 +4127,9 @@ const files = [
   "/icons/zajkonur/violin.svg",
   "/icons/zeromancer/heart-minus.svg",
   "/icons/zeromancer/heart-plus.svg",
-  "/logo-512.png",
+  "/logo-128.png",
+  "/logo_256.png",
+  "/logo_512.png",
   "/manifest.json",
   "/rpg-cards-sample.json"
 ];
