@@ -86,6 +86,18 @@
           />
         </div>
       </FormGroup>
+      <FormGroup row>
+        <Label class="col-sm-3 col-form-label" for="title-size">Title size</Label>
+        <div class="col">
+          <Input
+            type="text"
+            name="title-size"
+            id="name"
+            bind:value={card.layout.title_font_size}
+            placeholder={isMultiEditing && card.title === null ? '*' : '14px'}
+          />
+        </div>
+      </FormGroup>
       <!-- Count -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="count">Count</Label>
