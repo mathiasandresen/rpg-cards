@@ -1,13 +1,23 @@
 <script lang="ts">
-  import IconInput from './game-icon-input.svelte';
-  import { Form, FormGroup, Input, InputGroup, InputGroupText, Label } from 'sveltestrap';
+  import { DEFAULT_LAYOUT } from '$lib/defaults';
+
+  import extend from 'just-extend';
+  import {
+    Accordion,
+    AccordionItem,
+    Form,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupText,
+    Label
+  } from 'sveltestrap';
+  import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import { getContentAsString, parseCardContents } from '../lib/card-json-parser';
-  import type { CardContent } from '../model/card';
   import type Card from '../model/card';
   import { currentCard, deck, multiSelect } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
-  import { createMultiCard, removeEmpty } from '../lib/card-builder';
-  import extend from 'just-extend';
+  import IconInput from './game-icon-input.svelte';
 
   let card: Card = $deck[$currentCard];
   let contentEditorMode: 'individual' | 'textfield' = 'individual';
@@ -86,18 +96,6 @@
           />
         </div>
       </FormGroup>
-      <FormGroup row>
-        <Label class="col-sm-3 col-form-label" for="title-size">Title size</Label>
-        <div class="col">
-          <Input
-            type="text"
-            name="title-size"
-            id="name"
-            bind:value={card.layout.title_font_size}
-            placeholder={isMultiEditing && card.title === null ? '*' : '14px'}
-          />
-        </div>
-      </FormGroup>
       <!-- Count -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="count">Count</Label>
@@ -162,19 +160,46 @@
           </InputGroup>
         </div>
       </FormGroup>
-      <!-- Text font size -->
+
       <FormGroup row>
-        <Label class="col-sm-3 col-form-label" for="text-font-size">Text font size</Label>
-        <div class="col">
-          <Input
-            type="text"
-            name="text-font-size"
-            id="text-font-size"
-            bind:value={card.layout.text_font_size}
-            placeholder={isMultiEditing && card.layout.text_font_size === null ? '*' : '10px'}
-          />
+        <div class="form-accordion">
+          <Accordion stayOpen>
+            <AccordionItem active header="Layout">
+              <!-- Title font size -->
+              <FormGroup row>
+                <Label class="col-sm-3 col-form-label" for="title-size">Title size</Label>
+                <div class="col">
+                  <Input
+                    type="text"
+                    name="title-size"
+                    id="title-size"
+                    bind:value={card.layout.title_font_size}
+                    placeholder={isMultiEditing && card.layout.title_font_size === null
+                      ? '*'
+                      : DEFAULT_LAYOUT.TITLE_FONT_SIZE}
+                  />
+                </div>
+              </FormGroup>
+              <!-- Text font size -->
+              <FormGroup row>
+                <Label class="col-sm-3 col-form-label" for="text-font-size">Text font size</Label>
+                <div class="col">
+                  <Input
+                    type="text"
+                    name="text-font-size"
+                    id="text-font-size"
+                    bind:value={card.layout.text_font_size}
+                    placeholder={isMultiEditing && card.layout.text_font_size === null
+                      ? '*'
+                      : DEFAULT_LAYOUT.TEXT_FONT_SIZE}
+                  />
+                </div>
+              </FormGroup>
+            </AccordionItem>
+          </Accordion>
         </div>
       </FormGroup>
+
       <!-- Contents -->
       <FormGroup row>
         <Label class="col-sm-3 col-form-label" for="content-editor-type">Contents</Label>
@@ -212,6 +237,11 @@
 </div>
 
 <style lang="scss">
+  .form-accordion {
+    :global(.accordion-body) {
+      padding-bottom: 0;
+    }
+  }
   .color-input {
     width: 1.5rem;
     height: 1.5rem;

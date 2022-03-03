@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { DEFAULT_LAYOUT } from '$lib/defaults';
+
   import type Card from '$model/card';
   import { pageLayout } from '../../stores';
   import CardContent from './card-content.svelte';
@@ -10,10 +12,10 @@
   class="rpg-card-wrapper"
   style="
     --card-color: {card.color};
-    --card-text-size: {card.layout?.text_font_size ?? '10px'};
+    --card-text-size: {card.layout?.text_font_size ?? DEFAULT_LAYOUT.TEXT_FONT_SIZE};
     --card-width: {$pageLayout.cardSize.width}mm;
     --card-height: {$pageLayout.cardSize.height}mm;
-    --card-title-size: {card.layout?.title_font_size || '14px'};
+    --card-title-size: {card.layout?.title_font_size || DEFAULT_LAYOUT.TITLE_FONT_SIZE};
   "
 >
   <div class="rpg-card">
