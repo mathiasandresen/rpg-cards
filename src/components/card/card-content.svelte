@@ -7,3 +7,14 @@
 </script>
 
 <svelte:component this={typeDescriptor.renderComponent} {content} />
+
+<style lang="scss">
+  :global(.rpg-card * p) {
+    font-weight: bold;
+  }
+
+  :global(.rpg-card * strong, b) {
+    font-weight: bolder;
+    color: var(--card-color);
+  }
+</style>

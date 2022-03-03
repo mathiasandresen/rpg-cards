@@ -11,11 +11,11 @@
 
 <h2 class="subtitle">
   <div>
-    {@html renderText(title)}
+    {@html renderText(title, { markdown: { inline: true } })}
   </div>
   {#if rightTitle}
     <div>
-      {@html renderText(rightTitle)}
+      {@html renderText(rightTitle, { markdown: { inline: true } })}
     </div>
   {/if}
 </h2>

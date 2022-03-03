@@ -3,8 +3,28 @@ import MarkdownIt from 'markdown-it';
 
 const md = new MarkdownIt({ html: true });
 
-export function renderText(input: string): string {
-  const html = md.render(input);
+type RenderTextMarkdownOptions = {
+  disabled?: boolean;
+  inline?: boolean;
+};
+
+export type RenderTextOptions = {
+  markdown?: RenderTextMarkdownOptions;
+};
+
+export function renderText(input: string, options?: RenderTextOptions): string {
+  let html: string;
+
+  if (!options?.markdown?.disabled) {
+    if (options?.markdown?.inline ?? true) {
+      html = md.renderInline(input);
+    } else {
+      html = md.render(input);
+    }
+  } else {
+    html = input;
+  }
+
   return sanitizeHtml(html?.replace('\\|', '|') ?? '');
 }
 
