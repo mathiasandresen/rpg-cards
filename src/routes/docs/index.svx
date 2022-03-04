@@ -4,6 +4,7 @@
 
 # Documentation
 This is the documentation for RPG Cards Generator.
+Click [here](/) to see the generator in action.
 
 ## Export JSON data {#export-data}
 Export objects are json files containing a few fields:

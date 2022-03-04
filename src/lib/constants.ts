@@ -1,1 +1,1 @@
-export const SPLIT_REGEX = /\s*[^\\]\|\s*/;
+export const SPLIT_REGEX = / *(?<!\\)(?:\\\\)*\| */;

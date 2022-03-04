@@ -22,4 +22,5 @@ export interface CardContent {
 export interface CardLayout {
   base_font_size?: string;
   text_font_size?: string;
+  title_font_size?: string;
 }

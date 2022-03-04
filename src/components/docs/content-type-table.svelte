@@ -2,7 +2,7 @@
   import { CARD_CONTENT_TYPES } from '$lib/card-content-types';
 </script>
 
-<table class="table table-striped">
+<table class="table table-striped content-type-table">
   <thead>
     <tr>
       <th scope="col" class="name">Name</th>

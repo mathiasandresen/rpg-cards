@@ -2,4 +2,29 @@
   import {Icon} from "sveltestrap"
 </script>
 
-**Under construction <Icon name="hammer" />**
+###### License
+RPG Card Generator is provided under the terms of the MIT License.
+
+
+###### SvelteKit
+This project is implemented using [SvelteKit](https://kit.svelte.dev/).
+
+###### game-icons.net
+Icons used in the project as well as the logo are created by various talented artists, and are provided under the terms of the CC BY 3.0 license. They can be found at <https://game-icons.net/>
+
+###### Sveltestrap
+UI is implemented using [Sveltestrap](https://github.com/bestguy/sveltestrap).
+
+###### CodeMirror
+The JSON editor is implemented using [CodeMirror](https://github.com/codemirror/codemirror.next/).
+
+
+###### just
+Thanks to [angus-c](https://github.com/angus-c) for providing ready to use utility functions with [just](https://github.com/angus-c/just)
+
+###### svelte-dnd-action
+Drag-and-drop functionality is implemented using [svelte-dnd-action](https://github.com/isaacHagoel/svelte-dnd-action)
+
+###### Others
+Big thanks to every dependency of this project!
+Not every dependency is listed above, but the whole list can be seen in the [package.json](https://github.com/mathiasandresen/rpg-cards/blob/main/package.json) file.

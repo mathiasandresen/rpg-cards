@@ -21,7 +21,6 @@
 
   const clearIsSavedToast = debounce(() => {
     isSavedToastOpen = false;
-    console.log('hello');
   }, 1000);
 
   export const save = (onSuccess?: () => void) => {

@@ -18,8 +18,11 @@ const config = {
 	],
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
 		adapter: adapter({}),
+		files: {
+			serviceWorker: "src/service-worker/index.ts"
+		},
+
 		vite: {
 			resolve: {
 				alias: {

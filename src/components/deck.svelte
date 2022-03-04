@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { Button, Icon, Input, ListGroup, ListGroupItem } from 'sveltestrap';
+  import { Button, Icon, Input, ListGroup, ListGroupItem, Tooltip } from 'sveltestrap';
   import type Card from '../model/card';
   import { createNewCard } from '../lib/card-builder';
   import { currentCard, deck, multiSelect } from '../stores';
   import ConfirmationDialog from './confirmation-dialog.svelte';
+  import { uuid4 } from '$lib/uuid';
 
   let cards: Card[];
   $: {
@@ -58,6 +59,16 @@
     } else {
       multiSelect.remove(index);
     }
+  };
+
+  const handleDuplicateCard = (card: Card): void => {
+    const newCard = {
+      ...card,
+      contents: card.contents.map((c) => ({ ...c, id: uuid4() }))
+    } as Card;
+
+    deck.addCards(newCard);
+    currentCard.set($deck.length - 1);
   };
 </script>
 
@@ -139,21 +150,39 @@
                 />
                 {card.title}
               </div>
-              <Button
-                color="link"
-                size="sm"
-                class="link-danger"
-                on:click={(e) => {
-                  e.stopPropagation();
-                  confirmThis({
-                    func: () => handleDeleteCard(index),
-                    title: `Delete ${card.title}`,
-                    body: `Are you sure you want to delete ${card.title}?`
-                  });
-                }}
-              >
-                <Icon name="trash-fill" />
-              </Button>
+              <div>
+                <Button
+                  id="duplicate-button-{index}"
+                  color="link"
+                  size="sm"
+                  class="link-info"
+                  on:click={(e) => {
+                    e.stopPropagation();
+                    handleDuplicateCard(card);
+                  }}
+                >
+                  <Icon name="files" />
+                </Button>
+                <Tooltip target={`duplicate-button-${index}`} placement="right">Duplicate</Tooltip>
+
+                <Button
+                  id="delete-button-{index}"
+                  color="link"
+                  size="sm"
+                  class="link-danger"
+                  on:click={(e) => {
+                    e.stopPropagation();
+                    confirmThis({
+                      func: () => handleDeleteCard(index),
+                      title: `Delete ${card.title}`,
+                      body: `Are you sure you want to delete ${card.title}?`
+                    });
+                  }}
+                >
+                  <Icon name="trash-fill" />
+                </Button>
+                <Tooltip target={`delete-button-${index}`} placement="right">Delete</Tooltip>
+              </div>
             </ListGroupItem>
           {/each}
         </ListGroup>
