@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { browser } from '$app/env';
   import {
     Accordion,
     AccordionItem,
@@ -11,19 +10,15 @@
     InputGroup,
     InputGroupText,
     Label,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
     Tooltip
   } from 'sveltestrap';
   import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
   import { currentCard, deck, pageLayout } from '../stores';
-  import { defaultSettings, settings } from '../stores/settings';
-  import type Settings from '../stores/settings';
+  import { settings } from '../stores/settings';
   import Deck from './deck.svelte';
   import JsonEditorModal from './json-editor-modal.svelte';
+  import JsonImportModal, { ImportEventPayload } from './json-import-modal.svelte';
 
   let importFileSelector: HTMLInputElement;
   let importFiles: FileList;
@@ -32,6 +27,7 @@
   let downloadName = 'cards.json';
 
   let toggleJsonEditor: () => void;
+  let toggleJsonImportModal: () => void;
 
   const addCardsToDeck = (cards: Card[]) => {
     const i = deck.addCards(...cards);
@@ -75,6 +71,14 @@
     setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
   };
 
+  const handleImportFromJSONClick = () => {
+    toggleJsonImportModal();
+  };
+
+  const handleImportFromJSON = (event: CustomEvent<ImportEventPayload>) => {
+    addCardsToDeck(event.detail.cards);
+  };
+
   const handleEditJson = () => {
     toggleJsonEditor();
   };
@@ -102,6 +106,11 @@
         </div>
         <div class="sidebar-element">
           <Button block color="primary" on:click={handleImportSampleDeck}>Import sample deck</Button
+          >
+        </div>
+        <div class="sidebar-element">
+          <Button block color="primary" on:click={() => handleImportFromJSONClick()}
+            >Import JSON</Button
           >
         </div>
         <div class="sidebar-element">
@@ -215,6 +224,7 @@
     </AccordionItem>
   </Accordion>
   <JsonEditorModal bind:toggle={toggleJsonEditor} />
+  <JsonImportModal bind:toggle={toggleJsonImportModal} on:import={handleImportFromJSON} />
 </div>
 
 <style lang="scss">

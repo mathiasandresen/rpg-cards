@@ -5,6 +5,7 @@ import { uuid4 } from './uuid';
 import type { CardCollection } from '../model/card-collection';
 import { isCardCollection } from '../model/card-collection';
 import { isCardContentType } from '$lib/card-content-types';
+import { isLegacyCard } from '$model/legacy-card';
 
 export function parseCards(
   json: string,
@@ -18,6 +19,8 @@ export function parseCards(
     cards = importObject.cards;
   } else if (Array.isArray(importObject)) {
     cards = JSON.parse(json, (key, value: never) => transformer(key, value)) as Card[];
+  } else if (typeof importObject === 'object' && isLegacyCard(importObject)) {
+    cards = [JSON.parse(json, (key, value: never) => transformer(key, value)) as Card];
   } else {
     console.warn('Uknown import format!');
     return [];
