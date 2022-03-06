@@ -5,7 +5,7 @@
   export let content: CardContent;
 </script>
 
-<p class="text">{@html renderText(content.content)}</p>
+<p class="text">{@html renderText(content.content, { markdown: { inline: false } })}</p>
 
 <style lang="scss">
   .text {

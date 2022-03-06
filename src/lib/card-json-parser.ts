@@ -141,7 +141,7 @@ export function parseCardContents(value: string[]): CardContent[] {
 
     return {
       type: type,
-      content: content.join(' | '),
+      content: content.join(' | ').replace(/(\\\\n)/g, '\n'),
       id: uuid4()
     } as CardContent;
   });
@@ -152,7 +152,10 @@ export function parseCardContents(value: string[]): CardContent[] {
 export function getContentAsString(contents: CardContent[]): string {
   return contents
     ?.map((content) =>
-      (content.content ? [content.type, content.content] : [content.type])?.join(' | ')
+      (content.content
+        ? [content.type, content.content.replace(/\n/g, '\\\\n')]
+        : [content.type]
+      )?.join(' | ')
     )
     ?.join('\n');
 }
