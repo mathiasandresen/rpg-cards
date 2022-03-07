@@ -38,7 +38,7 @@
     searchFunction={searchIcons}
     delay="200"
     hideArrow
-    {id}
+    inputId={id}
     {name}
     inputClassName="form-control autocomplete-input"
     bind:selectedItem={icon}

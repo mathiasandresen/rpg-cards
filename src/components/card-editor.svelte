@@ -1,6 +1,5 @@
 <script lang="ts">
   import { DEFAULT_LAYOUT } from '$lib/defaults';
-
   import extend from 'just-extend';
   import {
     Accordion,
@@ -15,8 +14,9 @@
   import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import { getContentAsString, parseCardContents } from '../lib/card-json-parser';
   import type Card from '../model/card';
-  import { currentCard, deck, multiSelect } from '../stores';
+  import { currentCard, deck, multiSelect, recentColors } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
+  import ColorSelecter from './color-selecter.svelte';
   import IconInput from './game-icon-input.svelte';
 
   let card: Card = $deck[$currentCard];
@@ -123,7 +123,7 @@
       </FormGroup>
       <!-- Text back -->
       <FormGroup row>
-        <Label class="col-sm-3 col-form-label" for="icon_back">Text (Back)</Label>
+        <Label class="col-sm-3 col-form-label" for="text_back">Text (Back)</Label>
         <div class="col">
           <Input
             type="text"
@@ -138,25 +138,30 @@
       </FormGroup>
       <!-- Color -->
       <FormGroup row>
-        <Label class="col-sm-3 col-form-label" for="color">Color</Label>
+        <Label class="col-sm-3 col-form-label" for="color-text" disabled>Color</Label>
         <div class="col">
           <InputGroup>
             <InputGroupText>
               <input
-                class="color-input"
+                class="color-input rounded"
                 type="color"
                 name="color"
-                id="color"
+                id="color-box"
                 bind:value={card.color}
+                on:change={() => recentColors.add(card.color)}
               />
             </InputGroupText>
             <Input
               type="text"
               name="color"
-              id="color"
+              id="color-text"
               bind:value={card.color}
               placeholder="Color"
+              on:change={() => recentColors.add(card.color)}
             />
+            <InputGroupText>
+              <ColorSelecter bind:value={card.color} />
+            </InputGroupText>
           </InputGroup>
         </div>
       </FormGroup>
@@ -246,6 +251,7 @@
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
+    overflow: hidden;
   }
   :global(.content-editor-textarea) {
     height: 20em;
@@ -254,5 +260,9 @@
   .empty-editor {
     display: flex;
     justify-content: center;
+  }
+
+  :global(.popover) {
+    min-width: fit-content;
   }
 </style>

@@ -1,0 +1,19 @@
+[
+  {
+    "set": "Beyond",
+    "colors": [
+      { "name": "Barbarian F.", "color": "#E7623E" },
+      { "name": "Paladin Gold", "color": "#b59e54" },
+      { "name": "Bard Rogue", "color": "#AB6DAC" },
+      { "name": "Ranger Emerald", "color": "#507f62" },
+      { "name": "Cleric Silver", "color": "#91A1B2" },
+      { "name": "Rogue Ash", "color": "#555752" },
+      { "name": "Druid Moss", "color": "#7A853B" },
+      { "name": "Sorcerer Blood", "color": "#992E2E" },
+      { "name": "Fighter Rust", "color": "#7f513e" },
+      { "name": "Warlock Iris", "color": "#7B469B" },
+      { "name": "Monk Sky", "color": "#51A5C5" },
+      { "name": "Wizard Cobalt", "color": "#2a50A1" }
+    ]
+  }
+]
