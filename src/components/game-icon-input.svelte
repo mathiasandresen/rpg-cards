@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Input, InputGroup, InputGroupText, Icon } from 'sveltestrap';
+  import { InputGroup, InputGroupText, Icon } from 'sveltestrap';
   import GameIcon from './game-icon.svelte';
   import AutoComplete from 'simple-svelte-autocomplete';
   import { getAllIconNames } from '../lib/icons';
@@ -8,14 +8,16 @@
   export let name: string;
   export let id: string;
   export let placeholder: string = undefined;
+  export let isMultiEditing: boolean;
 
-  let text = icon;
+  $: text = icon ?? null;
   let changed = false;
 
   const handleTextChanges = () => {
-    if (!changed) {
+    if (!changed || (isMultiEditing && text === '')) {
       return;
     }
+
     icon = text;
   };
   $: {
@@ -29,8 +31,12 @@
 </script>
 
 <InputGroup>
-  <InputGroupText>
-    <GameIcon name={icon} color="black" size="1.5em" />
+  <InputGroupText class="game-icon-input-icon-wrapper">
+    {#if (text === null && isMultiEditing) || (text === '' && isMultiEditing)}
+      <GameIcon name={'stack'} color="black" size="1.5em" />
+    {:else}
+      <GameIcon name={icon} color="black" size="1.5em" />
+    {/if}
   </InputGroupText>
 
   <!-- <Input type="text" {name} {id} bind:value={icon} autocomplete="off" placeholder="Icon" /> -->
@@ -80,5 +86,11 @@
     display: flex;
     align-items: center;
     gap: 1em;
+  }
+
+  :global(.game-icon-input-icon-wrapper) {
+    width: 3.25em;
+    display: flex;
+    justify-content: center;
   }
 </style>

@@ -9,8 +9,7 @@
     Input,
     InputGroup,
     InputGroupText,
-    Label,
-    Tooltip
+    Label
   } from 'sveltestrap';
   import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import { getContentAsString, parseCardContents } from '../lib/card-json-parser';
@@ -117,6 +116,7 @@
         <Label class="col-sm-3 col-form-label" for="icon_back">Icon (Back)</Label>
         <div class="col">
           <IconInput
+            bind:isMultiEditing
             bind:icon={card.icon_back}
             id="icon_back"
             name="icon_back"
