@@ -67,17 +67,25 @@ export async function pullIcons(): Promise<void> {
 
   await fs.emptyDir(tempDir);
   console.log('Downloading...');
-  await downloadFile(downloadUrl, zipFile);
-  console.log('Unzipping...');
-  await unzipIconFiles(zipFile, tempIconsPath);
-  console.log('Indexing...');
-  await indexFiles(tempIconsPath, tempJsonPath);
-  console.log('Removing old icons...');
-  await fs.remove(outputDir);
-  console.log('Moving...');
-  await fs.move(tempIconsPath, outputDir);
-  console.log('Removing temp...');
-  await fs.remove(tempDir);
+  try {
+    await downloadFile(downloadUrl, zipFile);
+    console.log('Unzipping...');
+    await unzipIconFiles(zipFile, tempIconsPath);
+    console.log('Indexing...');
+    await indexFiles(tempIconsPath, tempJsonPath);
+    console.log('Removing old icons...');
+    await fs.remove(outputDir);
+    console.log('Moving...');
+    await fs.move(tempIconsPath, outputDir);
+  } catch (error) {
+    console.warn(
+      'There was a problem downloading icons - falling back to currently downloaded icons'
+    );
+    console.warn(error);
+  } finally {
+    console.log('Removing temp...');
+    await fs.remove(tempDir);
+  }
 }
 
 pullIcons();
