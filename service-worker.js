@@ -1,23 +1,28 @@
-const timestamp = 1646668642258;
+const timestamp = {
+  toString: () => {
+    throw new Error("`timestamp` has been removed from $service-worker. Use `version` instead");
+  }
+};
 const build = [
-  "/_app/start-88106dbd.js",
-  "/_app/pages/__layout.svelte-c38bf521.js",
+  "/_app/start-b7260fc6.js",
+  "/_app/pages/__layout.svelte-4684fe0b.js",
   "/_app/assets/pages/__layout.svelte-985c9809.css",
-  "/_app/error.svelte-e6dd885b.js",
-  "/_app/pages/index.svelte-8d545b58.js",
-  "/_app/assets/pages/index.svelte-b0eb94a9.css",
-  "/_app/pages/output.svelte-fc975039.js",
+  "/_app/assets/Offcanvas.svelte_svelte_type_style_lang-82c1b07d.css",
+  "/_app/error.svelte-b8c58d3a.js",
+  "/_app/pages/index.svelte-ff861f12.js",
+  "/_app/assets/pages/index.svelte-a3c62a32.css",
+  "/_app/pages/output.svelte-3b9148ae.js",
   "/_app/assets/pages/output.svelte-b0b9be75.css",
-  "/_app/pages/docs/__layout.svelte-663eff99.js",
+  "/_app/pages/docs/__layout.svelte-bc4efb8d.js",
   "/_app/assets/pages/docs/__layout.svelte-0cee0f61.css",
-  "/_app/pages/docs/index.svx-9b6e6f6d.js",
+  "/_app/pages/docs/index.svx-d2d1122e.js",
   "/_app/assets/pages/docs/index.svx-251e9b2c.css",
-  "/_app/chunks/vendor-60ad93d8.js",
-  "/_app/assets/vendor-77b52ba5.css",
-  "/_app/chunks/card-29fd1c22.js",
-  "/_app/assets/card-977d5b44.css",
-  "/_app/chunks/card-content-types-ec54b007.js",
-  "/_app/assets/card-content-types-14dfaee9.css"
+  "/_app/chunks/index-f5ae0f2b.js",
+  "/_app/chunks/index-110dbbcd.js",
+  "/_app/chunks/card-d11a4468.js",
+  "/_app/assets/card-a79e2778.css",
+  "/_app/chunks/card-content-types-636390fa.js",
+  "/_app/assets/card-content-types-3cf0b1e9.css"
 ];
 const files = [
   "/.nojekyll",
