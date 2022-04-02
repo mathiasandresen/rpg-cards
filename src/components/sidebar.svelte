@@ -2,21 +2,20 @@
   import {
     Accordion,
     AccordionItem,
-    Badge,
     Button,
     Form,
     FormGroup,
     Input,
     InputGroup,
     InputGroupText,
-    Label,
-    Tooltip
+    Label
   } from 'sveltestrap';
   import { generateExportObject, parseCards } from '../lib/card-json-parser';
   import type Card from '../model/card';
   import { currentCard, deck, pageLayout } from '../stores';
   import { settings } from '../stores/settings';
   import Deck from './deck.svelte';
+  import Hint from './hint.svelte';
   import JsonEditorModal from './json-editor-modal.svelte';
   import JsonImportModal, { ImportEventPayload } from './json-import-modal.svelte';
 
@@ -130,10 +129,9 @@
             id="convert-first-subtitle"
             bind:checked={$settings.convertFirstSubtitle}
           />
-          <Badge id="convert-first-subtitle-help" pill color="info">?</Badge>
-          <Tooltip target={'convert-first-subtitle-help'}>
+          <Hint id={'convert-first-subtitle-help'}>
             This will convert subtitles followed by a rule into sections.
-          </Tooltip>
+          </Hint>
         </div>
         <div class="sidebar-element low full">
           <Input
@@ -142,11 +140,10 @@
             id="convert-dnd-spell-block"
             bind:checked={$settings.convertDndSpellblock}
           />
-          <Badge id="convert-dnd-spell-block-help" pill color="info">?</Badge>
-          <Tooltip target={'convert-dnd-spell-block-help'}>
+          <Hint id={'convert-dnd-spell-block-help'}>
             This will convert properties containing Casting Time, Range, Components, and Duration
             (in that order) into a block.
-          </Tooltip>
+          </Hint>
         </div>
       </div>
     </AccordionItem>
@@ -176,10 +173,9 @@
         <FormGroup>
           <span>
             <Label for="page-adjust">Print adjust</Label>
-            <Badge id="page-adjust-help" pill color="info">?</Badge>
-            <Tooltip target="page-adjust-help">
+            <Hint id="page-adjust-help">
               Use this to adjust the print in order to make up for difference in printers
-            </Tooltip>
+            </Hint>
           </span>
           <InputGroup id="page-adjust">
             <Input
@@ -201,11 +197,10 @@
         <FormGroup>
           <span>
             <Label for="card-back-border">Cardback border</Label>
-            <Badge id="card-back-border-help" pill color="info">?</Badge>
-            <Tooltip target="card-back-border-help">
+            <Hint id="card-back-border-hint">
               Use this add a colored border around the back of the cards when printing to make up
               for printing variances.
-            </Tooltip>
+            </Hint>
           </span>
           <InputGroup id="card-back-border">
             <Input
