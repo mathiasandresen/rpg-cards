@@ -6,7 +6,9 @@
 </script>
 
 <ul class="bullet">
-  <li>{@html renderText(content.content)}</li>
+  <li>
+    {@html renderText(content.content)}
+  </li>
 </ul>
 
 <style lang="scss">
@@ -14,5 +16,6 @@
     padding: 0;
     margin: 0 0.5em;
     list-style: inside;
+    font-size: var(--card-text-size);
   }
 </style>

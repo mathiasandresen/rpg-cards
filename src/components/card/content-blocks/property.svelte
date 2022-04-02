@@ -10,8 +10,8 @@
 </script>
 
 <span class="property">
-  <h4>{@html renderText(name)}</h4>
-  <p>{@html renderText(description)}</p>
+  <b class="property-name">{@html renderText(name)}</b>
+  <p class="property-description">{@html renderText(description)}</p>
 </span>
 
 <style lang="scss">
@@ -31,7 +31,7 @@
       font-size: var(--card-text-size);
     }
 
-    h4 {
+    b {
       font-weight: bold;
       display: inline;
       font-size: var(--card-text-size);
