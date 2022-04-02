@@ -30,6 +30,10 @@
   </div>
 </div>
 
+{#if card.layout.custom_css}
+  {@html `<${'style'}>${card.layout.custom_css}</style>`}
+{/if}
+
 <style lang="scss">
   $border-width: 0.3cm;
 

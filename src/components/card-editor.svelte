@@ -9,7 +9,8 @@
     Input,
     InputGroup,
     InputGroupText,
-    Label
+    Label,
+    Tooltip
   } from 'sveltestrap';
   import { createMultiCard, removeEmpty } from '../lib/card-builder';
   import { getContentAsString, parseCardContents } from '../lib/card-json-parser';
@@ -17,7 +18,9 @@
   import { currentCard, deck, multiSelect, recentColors } from '../stores';
   import CardContentEditor from './card-content-editor.svelte';
   import ColorSelecter from './color-selecter.svelte';
+  import CssEditor from './css-editor.svelte';
   import IconInput from './game-icon-input.svelte';
+  import Hint from './hint.svelte';
 
   let card: Card = $deck[$currentCard];
   let contentEditorMode: 'individual' | 'textfield' = 'individual';
@@ -200,6 +203,22 @@
                   />
                 </div>
               </FormGroup>
+              <!-- Custom CSS -->
+              {#if !isMultiEditing}
+                <FormGroup row>
+                  <Label class="col-sm-3 col-form-label" for="custom-css">
+                    Custom CSS
+                    <Hint id="custom-css-hint">
+                      <u>Experimental</u> Here you can inject custom CSS (may require
+                      <code>!important</code>
+                      on some properties)
+                    </Hint>
+                  </Label>
+                  <div class="col">
+                    <CssEditor id="custom-css" bind:css={card.layout.custom_css} />
+                  </div>
+                </FormGroup>
+              {/if}
             </AccordionItem>
           </Accordion>
         </div>
