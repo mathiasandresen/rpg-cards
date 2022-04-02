@@ -19,11 +19,13 @@ const config = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: adapter(),
-		trailingSlash: 'always',
+		// trailingSlash: 'always',
+		prerender: {
+			default: true,
+		},
 		files: {
 			serviceWorker: "src/service-worker/index.ts"
 		},
-
 		vite: {
 			resolve: {
 				alias: {
