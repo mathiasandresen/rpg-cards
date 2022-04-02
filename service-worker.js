@@ -4,7 +4,7 @@ const timestamp = {
   }
 };
 const build = [
-  "/_app/start-b7260fc6.js",
+  "/_app/start-ea66196c.js",
   "/_app/pages/__layout.svelte-4684fe0b.js",
   "/_app/assets/pages/__layout.svelte-985c9809.css",
   "/_app/assets/Offcanvas.svelte_svelte_type_style_lang-82c1b07d.css",
