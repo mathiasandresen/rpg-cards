@@ -12,7 +12,11 @@ export type RenderTextOptions = {
   markdown?: RenderTextMarkdownOptions;
 };
 
-export function renderText(input: string, options?: RenderTextOptions): string {
+export function renderText(input?: string, options?: RenderTextOptions): string {
+  if (!input) {
+    return '';
+  }
+
   let html: string;
 
   if (!options?.markdown?.disabled) {
