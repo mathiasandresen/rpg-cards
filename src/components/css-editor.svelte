@@ -22,7 +22,7 @@
     let doc = css ?? '';
 
     if (doc.split('\n').length < 2) {
-      doc = css + '\n';
+      doc = doc + '\n';
     }
 
     editor = new EditorView({
