@@ -4,6 +4,7 @@
     Accordion,
     AccordionItem,
     Icon,
+    Image,
     Modal,
     ModalBody,
     Nav,
@@ -21,8 +22,13 @@
   const toggleInfoModal = () => (infoModalOpen = !infoModalOpen);
 </script>
 
-<Navbar color="light" light class="shadow-sm">
-  <NavbarBrand href="/">RPG Card Generator</NavbarBrand>
+<Navbar id="navbar" color="light" light class="shadow-sm">
+  <NavbarBrand href="/">
+    <div class="navbar-logo">
+      <Image src="/logo-128.png" height="32" />
+      RPG Card Generator
+    </div>
+  </NavbarBrand>
 
   <Nav navbar>
     <div class="nav-icons">
@@ -73,13 +79,27 @@
     }
   }
 
+  :global(#navbar) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
   .nav-icons {
     display: flex;
     flex-direction: row;
     gap: 1.5em;
   }
+
+  .navbar-logo {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    color: var(--bs-primary);
+    font-weight: 500;
+  }
   :global(.navbar-icon) {
     font-size: 1.5em;
+    color: var(--bs-primary);
   }
 
   .info-modal-text {
